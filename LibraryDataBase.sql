@@ -53,7 +53,7 @@ CREATE TABLE members (
 
 -- 도서 정보 테이블
 CREATE TABLE books(
-     book_id        VARCHAR2(255)  CONSTRAINT b_b_id_pk  PRIMARY KEY,      -- 도서 등록번호 (PK)
+     book_id        NUMBER(11)  CONSTRAINT b_b_id_pk  PRIMARY KEY,      -- 도서 등록번호 (PK)
      book_title     VARCHAR2(255)  CONSTRAINT b_b_title_nn NOT NULL,       -- 도서 제목
      book_author    VARCHAR2(255)  CONSTRAINT b_b_author_nn NOT NULL,      -- 도서 저자
      book_publisher VARCHAR2(255)  CONSTRAINT b_b_publisher_nn NOT NULL,   -- 도서 출판사
@@ -83,7 +83,7 @@ CREATE TABLE locations(
 -- 대출 내역 테이블
 CREATE TABLE check_out_info(
      check_out_id   NUMBER(11) CONSTRAINT coi_coi_id_pk PRIMARY KEY,                 -- 대여 아이디 (PK)
-     book_id        VARCHAR2(255) CONSTRAINT coi_b_id_fk REFERENCES books(book_id),  -- 대여 도서   (FK)
+     book_id        NUMBER(11) CONSTRAINT coi_b_id_fk REFERENCES books(book_id),  -- 대여 도서   (FK)
      mem_num        NUMBER(11) CONSTRAINT coi_m_num_fk REFERENCES members(mem_num),  -- 회원 번호   (FK)
      check_out_date VARCHAR2(255)           DEFAULT sysdate,                         -- 대여 날짜
      expect_return_date VARCHAR2(255)       DEFAULT sysdate + (INTERVAL '7' DAY),    -- 반납 예정 날짜
@@ -94,7 +94,7 @@ CREATE TABLE check_out_info(
 CREATE TABLE readingroom(
      seat_num       NUMBER(11) CONSTRAINT r_s_num_pk PRIMARY KEY,     -- 좌석 번호  (PK)
      table_divider  CHAR(1),                                          -- 칸막이 여부
-     seat_sex       CHAR(1)                                           -- 좌석 성별
+     
 );
 
 -- 좌석 이용 정보 테이블
