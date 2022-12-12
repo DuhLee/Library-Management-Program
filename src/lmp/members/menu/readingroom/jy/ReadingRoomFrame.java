@@ -14,12 +14,13 @@ import javax.swing.JPanel;
 import 연습.Compulsory_CheckOut_Frame2;
 import 연습.fail.SeatList2;
 
-public class ReadingRoomMgmt2 {
+public class ReadingRoomFrame {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
-		ReadingRoomTable rrtable = new ReadingRoomTable();
+//		ReadingRoomTable rrtable = new ReadingRoomTable();
+		SeatList seatlist = new SeatList();
 
 		/*
          패널을 1~4까지 생성
@@ -45,13 +46,13 @@ public class ReadingRoomMgmt2 {
 
 
 		// 패널2
-		ReadingRoomTable rrt = new ReadingRoomTable();
+//		ReadingRoomTable rrt = new ReadingRoomTable();
 		JPanel p2 = new JPanel();
 		p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
 		p2.setBackground(Color.GRAY);
-		p2.setBounds(0, 0, 1200, 425);
+		p2.setBounds(40, 150, 1100, 275);
 		p2.setBackground(color);
-		p2.add(rrt); // JTable 삽입
+		p2.add(seatlist.scrollpane); // JTable 삽입
 
 
 		// 패널3
@@ -78,7 +79,7 @@ public class ReadingRoomMgmt2 {
 				addActionListener(new ActionListener() {	
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						Compulsory_CheckOut_Frame2 ccf = new Compulsory_CheckOut_Frame2(frame);
+						Compulsory_CheckOut_Frame ccf = new Compulsory_CheckOut_Frame(frame);
 						ccf.open();
 						ccf.toFront();
 					}
@@ -88,7 +89,6 @@ public class ReadingRoomMgmt2 {
 
 
 		frame.add(checkOutBtn); // 프레임내 '강제퇴실' 버튼 삽입
-
 		// 프레임에 패널을 추가
 		frame.add(p1);
 		frame.add(p2);
