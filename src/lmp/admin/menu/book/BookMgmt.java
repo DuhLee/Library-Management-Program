@@ -1,5 +1,6 @@
 package lmp.admin.menu.book;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -10,6 +11,8 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,6 +26,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import lmp.db.dao.BookDao;
+import lmp.db.vo.BookVO;
 
 public class BookMgmt extends JFrame {
 
@@ -43,12 +49,15 @@ public class BookMgmt extends JFrame {
 			{ "상실의 시대 : 무라카미 하루키 장편소설", "무라카미 하루키 ", "문학사상사", "9788970123691", "1", "1", "2009/01/02", "15000",
 					"토평종합자료실", " " }, };
 
-	static DefaultTableModel model = new DefaultTableModel(category, 7) {
+	static DefaultTableModel model = new DefaultTableModel(category, 10) {
 		public boolean isCellEditable(int row, int column) {
 			return false;
 		};
 	};
 
+	// 도서현황 검색 창 초기화면 테이블
+	JTable table = new JTable(new String[50][category.length], category);
+	
 	public static JButton getButton(String text) {
 		return new JButton() {
 			{
@@ -83,11 +92,11 @@ public class BookMgmt extends JFrame {
 	public static void main(String[] args) throws IOException {
 
 		// 전체 프로그램의 메인 프레임 선언(분홍색 JFrame)
-		JFrame frame = new BookMgmt();
-		frame.setTitle("Library - Mangement - Program");
-		// frame.setBackground(new Color(42,64,61));
-		frame.getContentPane().setBackground(new Color(42, 64, 61));
-		frame.setLayout(null);
+		BookMgmt bookMgmtframe = new BookMgmt();
+		bookMgmtframe.setTitle("Library - Mangement - Program");
+		// bookMgmtframe.setBackground(new Color(42,64,61));
+		bookMgmtframe.getContentPane().setBackground(new Color(42, 64, 61));
+		bookMgmtframe.setLayout(null);
 
 		// 도서관리 탭 클릭시 열리는 (강경호 파트) 패널 선언
 		JPanel bookMgmt = new JPanel();
@@ -95,9 +104,7 @@ public class BookMgmt extends JFrame {
 		bookMgmt.setBackground(new Color(87, 119, 119));
 		bookMgmt.setLayout(null);
 
-		// 도서현황 검색 창 초기화면 테이블
 		JTable table = new JTable(new String[50][category.length], category);
-
 		JScrollPane scroll = new JScrollPane(table);
 		scroll.setBounds(0, 156, 1152, 395);
 		scroll.setBackground(new Color(87, 119, 119));
@@ -119,15 +126,9 @@ public class BookMgmt extends JFrame {
 		textF.setBounds(390, 80, 400, 30);
 
 		// 텍스트필드 옆 검색 버튼 선언
-		JButton button = new JButton("검 색");
+		JButton button = new JButton("검색");
 		button.setBounds(840, 80, 100, 30);
-		button.setFont(new Font(null, Font.BOLD, 15));
-		
-		BufferedImage bfi_registration = ImageIO
-				.read(new File("src\\lmp\\admin\\menu\\book\\images\\santa.png"));
-		Image image_registration = bfi_registration.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
-		
-		
+		button.setFont(new Font(null, Font.BOLD, 18));
 		button.addActionListener(new ActionListener() {
 
 			@Override
@@ -154,7 +155,6 @@ public class BookMgmt extends JFrame {
 						model.setValueAt(valid[i][j], i, j);
 					}
 				}
-
 				table.setModel(model);
 
 				bookMgmt.add(scroll);
@@ -169,12 +169,7 @@ public class BookMgmt extends JFrame {
 				textF.setText("");
 			}
 		});
-		textF.addActionListener(new ActionListener() { // 텍스트필드 안에서 검색어 입력 후 Enter 치면 검색버튼 클릭효과와 동일하게 작동지시
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				button.doClick();
-			}
-		});
+
 		textF.addActionListener(new ActionListener() { // 검색버튼 클릭 시 작동기능
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -183,22 +178,18 @@ public class BookMgmt extends JFrame {
 		});
 
 		// 도서등록 버튼 선언
+		BufferedImage bfi_registration = ImageIO
+				.read(new File("src\\lmp\\admin\\menu\\book\\images\\bookregisterIconImage.png"));
+		Image image_registration = bfi_registration.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
+
 		JButton registration = getButton(" 등록");
 		registration.setIcon(new ImageIcon(image_registration));
 		registration.setBounds(1020, 10, 120, 40);
-		// registration.setFont(new Font(null, Font.BOLD, 18));
-		// registration.setVerticalTextPosition(JButton.CENTER);
-		// registration.setHorizontalTextPosition(JButton.RIGHT);
-		// registration.setContentAreaFilled(false);
-		// registration.setBorderPainted(false);
-		// registration.setFocusPainted(false);
-		// registration.setForeground(Color.WHITE);
-		// registration.setBackground(Color.cyan);
-		// registration.setForeground(Color.WHITE);
 		registration.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// JOptionPane.showMessageDialog(frame, "도서등록 화면으로 이동합니다.");
+				// JOptionPane.showMessageDialog(bookMgmtframe, "도서등록 화면으로 이동합니다.");
+				// new BookRegistration("화면등록");
 				new BookRegistration("화면등록");
 			}
 		});
@@ -206,7 +197,7 @@ public class BookMgmt extends JFrame {
 
 		// 내용삭제 버튼 선언
 		BufferedImage bfi_delete = ImageIO
-				.read(new File("src\\lmp\\admin\\menu\\book\\images\\tree.png"));
+				.read(new File("src\\lmp\\admin\\menu\\book\\images\\bookdeleteIconImage.png"));
 		Image image_delete = bfi_delete.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
 
 		JButton delete = getButton(" 삭제");
@@ -225,59 +216,64 @@ public class BookMgmt extends JFrame {
 		delete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int num = JOptionPane.showConfirmDialog(frame, "delete? really? please, think again.", "내용삭제",
-						JOptionPane.YES_NO_OPTION);
-				// Yes -> 0 No -> 1 을 반환함
-				switch (num) {
-				case 0:
-					model.removeRow(table.getSelectedRow());
-					bookMgmt.validate();
-					JOptionPane.showMessageDialog(frame, "선택한 도서의 정보를 삭제합니다. 다시 되돌릴 수 없습니다.");
-					// 데이터 삭제 메서드/클래스 추가
-					break;
-				case 1:
-					JOptionPane.showMessageDialog(frame, "취소합니다.");
-					break;
+				if (table.getSelectedRow() != -1) {
+					int num = JOptionPane.showConfirmDialog(bookMgmtframe, "선택한 도서정보\n정말로 삭제하시겠습니까?", "선택도서 삭제", JOptionPane.YES_NO_OPTION);
+					// Yes -> 0 No -> 1 을 반환함
+					switch (num) {
+					case 0:
+						model.removeRow(table.getSelectedRow()); //--> 데이터 삭제 메서드로 대체(230-238)					
+//						BookDao bookDao = new BookDao();
+//						ArrayList<BookVO> bookVO = new ArrayList<>();
+//						try {
+//							bookVO.clear();
+//							bookVO.addAll(bookDao.get(1, String.valueOf(table.getValueAt(table.getSelectedRow(), 0))));
+//							bookDao.delete(bookVO.get(0));
+//						} catch (SQLException e1) {
+//							e1.printStackTrace();
+//						}						
+						bookMgmt.validate();
+						JOptionPane.showMessageDialog(bookMgmtframe, "선택한 도서를 삭제했습니다. 다시 되돌릴 수 없습니다.");
+						break;
+					case 1:
+						JOptionPane.showMessageDialog(bookMgmtframe, "취소합니다.");
+						break;
+					}
 				}
 			}
 		});
 		bookMgmt.add(delete);
 
 		// 정보수정 버튼 선언
-		BufferedImage bfi_update = ImageIO
-				.read(new File("src\\lmp\\admin\\menu\\book\\images\\Rudolf.png"));
-		Image image_update = bfi_update.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
+		BufferedImage bfi_modification = ImageIO
+				.read(new File("src\\lmp\\admin\\menu\\book\\images\\bookModifyIconImage.png"));
+		Image image_modification = bfi_modification.getScaledInstance(40, 40, Image.SCALE_AREA_AVERAGING);
 
-		JButton update = getButton(" 수정");
-		update.setIcon(new ImageIcon(image_update));
-		update.setBounds(1020, 110, 120, 40);
-		// update.setFont(new Font(null, Font.BOLD, 18));
-		// update.setVerticalTextPosition(JButton.CENTER);
-		// update.setHorizontalTextPosition(JButton.RIGHT);
-		// update.setForeground(Color.WHITE);
-		// update.setBorderPainted(false);
-		// update.setFocusPainted(false);
-		// update.setContentAreaFilled(false);
-		// update.setBackground(Color.DARK_GRAY);
-		update.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				// 정보수정 새로운 화면 생성
-
-				JOptionPane.showMessageDialog(frame, "정보수정 완료.");
+		JButton modification = getButton(" 수정");
+		modification.setIcon(new ImageIcon(image_modification));
+		modification.setBounds(1020, 110, 120, 40);
+		modification.addActionListener(new ActionListener() {				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (table.getSelectedRow() != -1) {
+					BookModification bookmodification = new BookModification("정보수정");
+					for (int i = 0; i < model.getColumnCount(); i++) {
+						bookmodification.model.setValueAt(model.getValueAt(table.getSelectedRow(), i), 0, i);
+						bookmodification.comebackList[i] = String.valueOf(model.getValueAt(table.getSelectedRow(), i));
+					}
+					bookmodification.table.setModel(bookmodification.model);
+				}
 			}
 		});
-		bookMgmt.add(update);
+		bookMgmt.add(modification);
 
 		bookMgmt.add(label);
 		bookMgmt.add(cb);
 		bookMgmt.add(textF);
 		bookMgmt.add(button);
 
-		frame.add(bookMgmt);
-		frame.setBounds(300, 100, 1200, 800);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(true);
+		bookMgmtframe.add(bookMgmt);
+		bookMgmtframe.setBounds(300, 100, 1200, 800);
+		bookMgmtframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		bookMgmtframe.setVisible(true);
 	}
 }

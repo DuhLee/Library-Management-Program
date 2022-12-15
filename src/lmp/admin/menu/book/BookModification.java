@@ -16,6 +16,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.StreamCorruptedException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -31,29 +32,30 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultTreeCellEditor.DefaultTextField;
 
 import lmp.db.dao.BookDao;
 import lmp.db.vo.BookVO;
 
-public class BookRegistration extends JFrame implements MouseListener, KeyListener {
+public class BookModification extends JFrame implements MouseListener, KeyListener {
 
 	static final String[] labels = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
 	private JTextField[] fields = new JTextField[10];
 	private JScrollPane scrolledTable;
-	JTable table;
+	static JTable table;
+	DefaultTableModel model = new DefaultTableModel(labels, 1); // column추가, 행은 1개 지정
+	private JButton overwriteBtn;
+	private JButton comebackBtn;
+	private JButton saveBtn_Modify;
+	String[] comebackList = new String[labels.length];
 
-	private JButton addBtn;
-	private JButton delBtn;
-	private JButton saveBtn_Regist;
+	public BookModification(String title) {
 
-	public BookRegistration(String title) {
-
-		this.setTitle("신규 도서등록 페이지");
+		this.setTitle("선택도서 내용수정 페이지");
 		this.setLayout(new BorderLayout(10, 10));
 
-		// 상단 패널(도서등록 시 텍스트필드 영역)
+		// 상단 패널(정보수정할 내용을 입력하는 텍스트필드 영역)
 		JPanel topPanel = new JPanel(new GridLayout(5, 2, 100, 5));
 		for (int i = 0; i < labels.length; i++) {
 			JLabel label = new JLabel(labels[i]);
@@ -66,9 +68,9 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		this.add("North", topPanel); // 가장 위쪽 Panel 설정
 		topPanel.setBackground(Color.DARK_GRAY);
 
-		// 중앙 스크롤테이블(도서정보 입력시 그 내용이 출력되는 영역)
+		// 중앙 스크롤테이블(도서검색 후 그 정보를 가져와 보여주는 영역)
 		String header[] = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
-		DefaultTableModel model = new DefaultTableModel(header, 0); // header추가, 행은 1개 지정
+		DefaultTableModel model = new DefaultTableModel(header, 0);
 
 		table = new JTable(model);
 		// table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -76,61 +78,59 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		scrolledTable.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // 너무 붙어있어서 가장자리 띄움(padding)
 		this.add("Center", scrolledTable); // 가운데에 JTable 추가
 
-		// 하단 패널(추가/제외/저장 버튼이 위치하는 영역)
+		// 하단 패널(덮어쓰기/원래대로/저장하기 버튼이 위치하는 영역)
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-		//bottomPanel.setLayout(null);
-		bottomPanel.setBorder(new LineBorder(Color.BLACK));
-		
-		addBtn = new JButton("추가");
-		delBtn = new JButton("제외");
-		saveBtn_Regist = new JButton("저장");
 
-		// 추가,제외,저장 각 버튼 이미지 삽입
-		// 추가버튼 이미지
-		BufferedImage bfi_add = null;
+		overwriteBtn = new JButton("추가");
+		comebackBtn = new JButton("제외");
+		saveBtn_Modify = new JButton("저장");
+
+		// 덮어쓰기,원래대로,저장 각 버튼 이미지 삽입
+		// 덮어쓰기 버튼 이미지
+		BufferedImage bfi_overwrite = null;
 		try {
-			bfi_add = ImageIO.read(new File("src\\lmp\\admin\\menu\\book\\images\\plusBtnIcon.png"));
+			bfi_overwrite = ImageIO.read(new File("src\\lmp\\admin\\menu\\book\\images\\overwriteBtnIcon.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Image image_add = bfi_add.getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING);
+		Image image_overwrite = bfi_overwrite.getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING);
 
-		addBtn = BookMgmt.getButton(" 추가");
-		addBtn.setIcon(new ImageIcon(image_add));
-		addBtn.setBounds(420, 5, 120, 40);
-		addBtn.setForeground(Color.BLACK);
+		overwriteBtn = BookMgmt.getButton(" 덮어쓰기");
+		overwriteBtn.setIcon(new ImageIcon(image_overwrite));
+		overwriteBtn.setBounds(1020, 110, 120, 40);
+		overwriteBtn.setForeground(Color.BLACK);
 
-		// 제외버튼 이미지
-		BufferedImage bfi_del = null;
+		// 원래대로 버튼 이미지
+		BufferedImage bfi_comeback = null;
 		try {
-			bfi_del = ImageIO.read(new File("src\\lmp\\admin\\menu\\book\\images\\minusBtnIcon.png"));
+			bfi_comeback = ImageIO.read(new File("src\\lmp\\admin\\menu\\book\\images\\comebackBtnIcon.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		Image del = bfi_del.getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING);
+		Image comeback = bfi_comeback.getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING);
 
-		delBtn = BookMgmt.getButton(" 제외");
-		delBtn.setIcon(new ImageIcon(del));
-		delBtn.setBounds(720, 0, 120, 40);
-		delBtn.setForeground(Color.BLACK);
+		comebackBtn = BookMgmt.getButton(" 원래대로");
+		comebackBtn.setIcon(new ImageIcon(comeback));
+		comebackBtn.setBounds(1020, 110, 120, 40);
+		comebackBtn.setForeground(Color.BLACK);
 
 		// 저장버튼 이미지
 		BufferedImage bfi_save = null;
 		try {
-			bfi_save = ImageIO.read(new File("src\\lmp\\admin\\menu\\book\\images\\saveIconImage_regist.png"));
+			bfi_save = ImageIO.read(new File("src\\lmp\\admin\\menu\\book\\images\\saveIconImage_modify.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		Image save = bfi_save.getScaledInstance(60, 60, Image.SCALE_AREA_AVERAGING);
 
-		saveBtn_Regist = BookMgmt.getButton(" 저장");
-		saveBtn_Regist.setIcon(new ImageIcon(save));
-		saveBtn_Regist.setBounds(1020, 0, 120, 40);
-		saveBtn_Regist.setForeground(Color.BLACK);
+		saveBtn_Modify = BookMgmt.getButton(" 저장하기");
+		saveBtn_Modify.setIcon(new ImageIcon(save));
+		saveBtn_Modify.setBounds(1020, 110, 120, 40);
+		saveBtn_Modify.setForeground(Color.BLACK);
 
-		bottomPanel.add(addBtn);
-		bottomPanel.add(delBtn);
-		bottomPanel.add(saveBtn_Regist);
+		bottomPanel.add(overwriteBtn);
+		bottomPanel.add(comebackBtn);
+		bottomPanel.add(saveBtn_Modify);
 		bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.add("South", bottomPanel); // 오른쪽에 버튼들 추가
 
@@ -140,8 +140,8 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		this.setVisible(true);
 
 		// 이벤트 추가
-		addBtn.addMouseListener(this); // 추가 처리
-		delBtn.addMouseListener(this); // 삭제 처리
+		overwriteBtn.addMouseListener(this); // 추가 처리
+		comebackBtn.addMouseListener(this); // 삭제 처리
 		for (int i = 0; i < header.length; i++)
 			fields[i].addKeyListener(this); // 엔터 처리
 		table.addMouseListener(this); // 셀 읽기 처리
@@ -151,7 +151,7 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		return input == null || input.length() == 0;
 	}
 
-	public void removeRecord(int index) {
+	public void comebackRecord(int index) {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		if (index < 0) {
 			if (table.getRowCount() == 0)// 비어있는 테이블이면
@@ -161,23 +161,24 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		model.removeRow(index);
 	}
 
-	public void addRecord() {
+	public void overwriteRecord() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		String[] record = new String[10];
 		for (int i = 0; i < labels.length; i++) {
-			if (i < 9) {
-				if (isInvalidInput(fields[i].getText())) {
-					JOptionPane.showMessageDialog(this, "입력하지 않은 정보가 있습니다.");
-					return;
-				}
+
+			// 아무것도 없으면 아래 코드 패스
+			if (fields[i].getText().trim().equals("")) {
+				continue;
+				// fields에 무언가 있을 때 테이블에 있는 정보와 비교해서 다르면 정보 수정
+			} else if (!fields[i].getText().equals(model.getValueAt(0, i))) { // && fields[i] == null
+				model.setValueAt(fields[i].getText(), 0, i);
 			}
-			record[i] = fields[i].getText();
 		}
-		model.addRow(record);
 
 		// 모든 TextField 비우기
-		for (int i = 0; i < labels.length; i++)
+		for (int i = 0; i < labels.length; i++) {
 			fields[i].setText("");
+		}
 		fields[0].requestFocus();
 	}
 
@@ -190,16 +191,18 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		Object src = e.getSource();
-		if (src == addBtn)
-			addRecord();
+		if (src == overwriteBtn)
+			overwriteRecord();
 
-		if (src == delBtn) {
-			int selected = table.getSelectedRow();
-			removeRecord(selected);
+		if (src == comebackBtn) {
+			for (int i = 0; i < model.getColumnCount(); i++) {
+				model.setValueAt(comebackList[i], 0, i);
+			}
+			table.setModel(model);
 		}
-		
-		// 저장버튼 클릭 시 작동기능 명령(196-216)
-//		if (src == saveBtn_Regist) {
+
+		// 저장버튼 클릭 시 작동기능 명령(203-223)
+//		if (src == saveBtn_Modify) {
 //			int num = JOptionPane.showConfirmDialog(table, "정말로 저장합니까?", "DB에 저장하기", JOptionPane.YES_NO_OPTION);
 //			switch (num) {
 //			case 0:
@@ -208,17 +211,17 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 //				try {
 //					bookVO.clear();
 //					bookVO.addAll(bookDao.get(1, String.valueOf(table.getValueAt(table.getSelectedRow(), 0))));
-//					bookDao.add(bookVO.get(0));
+//					bookDao.update(bookVO.get(0));
 //				} catch (SQLException e1) {
 //					e1.printStackTrace();
 //				}
 //				table.validate();
-//				JOptionPane.showMessageDialog(table, "입력하신 도서의 정보가 DB에 저장되었습니다.");
+//				JOptionPane.showMessageDialog(table, "변경된 내용이 DB에 저장되었습니다.");
 //				break;
 //			case 1:
 //				JOptionPane.showMessageDialog(table, "취소합니다.");
 //				break;
-//			}				
+//			}
 //		}
 
 		// 테이블 안에 해당 위치 마우스로 클릭 시 해당 값 출력
@@ -227,7 +230,7 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 //			int col = table.getSelectedColumn();
 //			printCell(row, col);
 //		}
-		
+
 	}
 
 	@Override
@@ -259,7 +262,7 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		if (keyCode == KeyEvent.VK_ENTER) {
-			addRecord();
+			overwriteRecord();
 		}
 	}
 
