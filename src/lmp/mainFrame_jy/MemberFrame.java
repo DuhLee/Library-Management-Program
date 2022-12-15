@@ -1,9 +1,14 @@
-package lmp.members.menu.mainview.jy;
+package lmp.mainFrame_jy;
 
 import java.awt.Color;
+
+
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Panel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -12,30 +17,27 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+
 public class MemberFrame {
 
-
 	public void MemberFrame() {
-		JFrame frame = new JFrame();
+		JFrame frame = new JFrame("회원전용");
 		JPanel panel1 = new JPanel();
 		JPanel panel2 = new JPanel();
 
-		// panel1, panel2 배경색
-		Color bgColor = new Color(49, 82, 91);
-
 		panel1.setLayout(new BoxLayout(panel1, BoxLayout.X_AXIS));
-		panel1.setBackground(bgColor);
-		panel1.setBounds(0, 0, 1200, 100);
+		panel1.setBackground(new Color(42, 64, 61));
+		panel1.setBounds(0, 0, 1200, 800);
 
 		panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
-		panel2.setBackground(bgColor);
-		panel2.setBounds(0, 100, 1200, 700);
+		panel2.setBackground(new Color(126, 151, 148));
+		panel2.setBounds(18, 110, 1150, 635);
 
 		// 이미지 아이콘 만들기
 		ImageIcon bookImg = new ImageIcon("./images/도서.png");
 		ImageIcon roomImg = new ImageIcon("./images/열람실.png");
 		ImageIcon memImg = new ImageIcon("./images/회원관리.png");
-
+		ImageIcon mainImg = new ImageIcon("./images/메인창.jpg");
 
 		// 이미지 사이즈 변경
 		Image bookimg = bookImg.getImage();
@@ -50,14 +52,13 @@ public class MemberFrame {
 		Image memimgs = memimg.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
 		ImageIcon changemem = new ImageIcon(memimgs);
 
-		// 버튼에 이미지아이콘 넣기
+		Image mainimg = mainImg.getImage();
+		Image mainimgs = mainimg.getScaledInstance(1150, 635, mainimg.SCALE_SMOOTH);
+		ImageIcon changeMain = new ImageIcon(mainimgs);
+
 		JButton bookBtn = new JButton(changebook);
 		JButton roomBtn = new JButton(changeroom);
 		JButton memberBtn = new JButton(changemem);
-
-
-
-
 
 		// 버튼 외곽선 가리기
 		bookBtn.setBorderPainted(false);
@@ -69,6 +70,33 @@ public class MemberFrame {
 		roomBtn.setContentAreaFilled(false);
 		memberBtn.setContentAreaFilled(false);
 
+		// 버튼 선택시 외곽선 없애기 
+		bookBtn.setFocusPainted(false); 
+		roomBtn.setFocusPainted(false);
+		memberBtn.setFocusPainted(false);
+
+
+		// 열람실 이벤트 설정 --> 바로 로그인 창으로 이동시키기
+		roomBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MemberLoginFrame memberloginframe = new MemberLoginFrame();
+				memberloginframe.open();
+			}
+		});
+
+		// 회원정보 이벤트 설정 --> 바로 로그인 창으로 이동시키기
+		memberBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MemberLoginFrame memberloginframe = new MemberLoginFrame();
+				memberloginframe.open();
+			}
+		});
+
+
+
+
 
 		JLabel bookLb = new JLabel("도서");
 		JLabel roomLb = new JLabel("열람실");
@@ -78,9 +106,9 @@ public class MemberFrame {
 		roomBtn.setBounds(350, 0, 100, 100);
 		memberBtn.setBounds(550, 0, 100, 100);
 
-		bookLb.setBounds(185, 50, 100, 100);
-		roomLb.setBounds(380, 50, 100, 100);
-		memberLb.setBounds(576, 50, 100, 100);
+		bookLb.setBounds(185, 40, 100, 100);
+		roomLb.setBounds(380, 40, 100, 100);
+		memberLb.setBounds(576, 40, 100, 100);
 
 
 		// 버튼 및 라벨 폰트설정
@@ -108,23 +136,28 @@ public class MemberFrame {
 		frame.add(roomLb);
 		frame.add(memberLb);
 
+		// Main창 Panel2 이미지
+		JLabel mainLb = new JLabel();
+		mainLb.setIcon(changeMain);
+		mainLb.setBounds(18, 110, 1150, 635);
+		mainLb.setHorizontalAlignment(JLabel.CENTER);
+		frame.getContentPane().add(mainLb);
 
-		// 프레임에 패널을 추가
-		frame.add(panel1);
+
+		// 프레임에 패널을 추가	
 		frame.add(panel2);
+		frame.add(panel1);
 
-
-
+		frame.setTitle("회원전용");
 		frame.setBounds(0, 0, 1200, 800);
-		frame.setBackground(Color.WHITE);
 		frame.setLayout(null);
 		frame.setVisible(true);
 		frame.setResizable(false);// 창 크기 고정
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+
 	public void open() {
 		this.MemberFrame();
 	}
-
 }

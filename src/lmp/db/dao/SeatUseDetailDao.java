@@ -53,26 +53,25 @@ public class SeatUseDetailDao extends MenuDao{
 	 * @throws SQLException
 	 */
 	@Override
-	public void update(SeatUseDetailVO sudVO) throws SQLException {
+	public void update(Object seat_num) throws SQLException {
 		Connection conn = getConnection();
 		
-		String sql =  "UPDATE"
-					+ " seat_use_details"
-					+ "SET "
-					+ " end_time = sysdate,"
-					+ "WHERE"
-					+ " use_id = ?";
+		String sql =  "UPDATE seat_use_details SET end_time = to_char(sysdate, 'yyyy.mm.dd hh24:mi') WHERE seat_num = ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
-		pstmt.setInt(1,sudVO.getUse_id());
-		
+		pstmt.setInt(1,(int) seat_num);
+		System.out.println("업데이트");
 		pstmt.executeUpdate();
+		System.out.println("완료");
+		
 		
 		pstmt.close();
 		conn.close();
 		
 	}
+	
+	
 	
 	/**
 	 * 열람실 이용중인 좌석 가져오기
@@ -120,12 +119,12 @@ public class SeatUseDetailDao extends MenuDao{
 		return sudList;
 	}
 	
-	
+
 	/**
 	 * 열람실 좌석 조건 검색
 	 * 
 	 * header
-	 * seatNum - 좌석 번호
+	 * 1 - seatNum - 좌석 번호
 	 * 
 	 * searchStr
 	 * header에 해당하는 값
@@ -206,5 +205,7 @@ public class SeatUseDetailDao extends MenuDao{
 		pstmt.close();
 		conn.close();
 	}
+	
+
 
 }

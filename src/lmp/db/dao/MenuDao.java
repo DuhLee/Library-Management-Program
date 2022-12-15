@@ -36,7 +36,7 @@ public abstract class MenuDao {
 
 	public void update(CheckOutVO checkOutVO) throws SQLException {}
 
-	public void update(SeatUseDetailVO sudVO) throws SQLException {}
+	public void update(int seat_num) throws SQLException {}
 
 	
 	public ArrayList get() throws SQLException {
@@ -72,6 +72,20 @@ public abstract class MenuDao {
 			System.out.println("DB 접속 실패");
 		}
 		return null;
+	}
+
+	/**
+	 * 열람실 이용내역 업데이트
+	 * 
+	 * 퇴실 , 강제퇴실 할경우
+	 * end_time 현재시간으로 수정.
+	 * 
+	 * @param sudVO
+	 * @throws SQLException
+	 */
+	public void update(Object seat_num) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 
