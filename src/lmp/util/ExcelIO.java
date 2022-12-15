@@ -13,7 +13,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-public class FileIOStream {
+public class ExcelIO {
 	public static void main(String[] args) {
 		String path = "C:\\javaFullStack_LDH\\repos\\Library_Management_Program\\examplefiles\\"; // 파일 경로 설정
 		String filename = "BookList1.xls"; // 파일명 설정
