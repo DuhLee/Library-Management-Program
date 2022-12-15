@@ -14,8 +14,8 @@ import lmp.db.vo.SeatUseDetailVO;
 
 public abstract class MenuDao {
 
-	private static String url = "jdbc:oracle:thin:@localhost:1521:XE";
-	private static String user = "mydb";
+	private static String url = "jdbc:oracle:thin:@192.168.0.100:1521:XE";
+	private static String user = "library";
 	private static String pw = "1234";
 	
 	public void add(AdminVO adminVO) throws SQLException {}
@@ -72,6 +72,17 @@ public abstract class MenuDao {
 			System.out.println("DB 접속 실패");
 		}
 		return null;
+	}
+
+	/**
+	 * 도서 삭제
+	 * 
+	 * @param bookVO
+	 * @throws SQLException
+	 */
+	public void delete(int book_id) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 

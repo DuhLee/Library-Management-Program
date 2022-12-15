@@ -101,7 +101,7 @@ public class BookDao extends MenuDao{
 		pstmt.setInt(7, bookVO.getPrice());
 		pstmt.setString(8, bookVO.getLocation().getLocID());
 		pstmt.setString(9, bookVO.getNote());
-		pstmt.setString(10, bookVO.getId());
+		pstmt.setInt(10, bookVO.getId());
 		
 		
 		pstmt.executeUpdate();
@@ -133,7 +133,6 @@ public class BookDao extends MenuDao{
 		StringBuilder sql = new StringBuilder(selectSql(header));
 
 		Connection conn = getConnection();
-		System.out.println(conn);
 		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		pstmt.setString(1, "%"+searchStr+"%");
 		
@@ -141,14 +140,14 @@ public class BookDao extends MenuDao{
 		ArrayList<BookVO> bookList = new ArrayList<>();
 		while (rs.next()) {
 			bookList.add(new BookVO(
-								rs.getString("book_id"),
+								rs.getInt("book_id"),
 								rs.getString("book_title"),
 								rs.getString("book_author"),
 								rs.getString("book_publisher"),
 								rs.getString("book_isbn"),
 								rs.getInt("book_bias"),
 								rs.getInt("book_duplicates"),
-								rs.getString("book_registration_date"),
+								rs.getString("book_registrationdate"),
 								rs.getInt("book_price"),
 								new LocationVO(rs.getString("location_id"), rs.getString("location_name")),
 								rs.getString("book_note")));
@@ -195,11 +194,11 @@ public class BookDao extends MenuDao{
 	 */
 
 	@Override
-	public void delete(BookVO bookVO) throws SQLException {
+	public void delete(int book_id) throws SQLException {
 		String sql = "DELETE FROM books WHERE book_id = ?";
 		Connection conn = getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, bookVO.getId());
+		pstmt.setInt(1, book_id);
 		
 		pstmt.executeUpdate();
 		

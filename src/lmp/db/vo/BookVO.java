@@ -8,7 +8,7 @@ public class BookVO {
 	 * 도서 정보
 	 */
 	
-	private String	   id;
+	private Integer	   id;
 	private String	   title;
 	private String	   author;
 	private String	   publisher;
@@ -19,6 +19,7 @@ public class BookVO {
 	private Integer	   price;
 	private LocationVO location;	
 	private String	   note;
+	private Object[]	   list;
 	
 	/**
 	 * 도서 등록 / 검색 생성자.
@@ -36,7 +37,7 @@ public class BookVO {
 	 * @param book_note
 	 */
 	public BookVO(
-				  String  book_id,
+				  Integer  book_id,
 				  String  book_title,
 				  String  book_author,
 				  String  book_publisher,
@@ -61,9 +62,21 @@ public class BookVO {
 		this.location	=	new LocationVO(location);
 		this.note		=	book_note;
 		
+		this.list      =   new Object[]{book_id,
+                book_title,
+                book_author,
+                book_publisher,
+                book_isbn,
+                book_bias,
+                book_duplicates,
+                book_registrationdate,
+                book_price,
+                location,
+                book_note};
+		
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -105,6 +118,10 @@ public class BookVO {
 
 	public String getNote() {
 		return note;
+	}
+	
+	public Object[] getList() {      
+		   return this.list;
 	}
 
 	@Override

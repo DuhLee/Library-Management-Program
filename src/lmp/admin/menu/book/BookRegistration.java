@@ -38,9 +38,9 @@ import lmp.db.dao.BookDao;
 import lmp.db.vo.BookVO;
 
 public class BookRegistration extends JFrame implements MouseListener, KeyListener {
-
-	static final String[] labels = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
-	private JTextField[] fields = new JTextField[10];
+	
+	static final String[] labels_regist = {"제목", "저자", "출판사", "ISBN", "편권수", "가격", "위치", "비고"};
+	private JTextField[] fields = new JTextField[8];
 	private JScrollPane scrolledTable;
 	JTable table;
 
@@ -54,9 +54,9 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		this.setLayout(new BorderLayout(10, 10));
 
 		// 상단 패널(도서등록 시 텍스트필드 영역)
-		JPanel topPanel = new JPanel(new GridLayout(5, 2, 100, 5));
-		for (int i = 0; i < labels.length; i++) {
-			JLabel label = new JLabel(labels[i]);
+		JPanel topPanel = new JPanel(new GridLayout(4, 2, 100, 5));
+		for (int i = 0; i < labels_regist.length; i++) {
+			JLabel label = new JLabel(labels_regist[i]);
 			label.setForeground(Color.WHITE);
 			topPanel.add(label);
 			fields[i] = new JTextField(100);
@@ -67,8 +67,8 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		topPanel.setBackground(Color.DARK_GRAY);
 
 		// 중앙 스크롤테이블(도서정보 입력시 그 내용이 출력되는 영역)
-		String header[] = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
-		DefaultTableModel model = new DefaultTableModel(header, 0); // header추가, 행은 1개 지정
+		//String header[] = {"등록번호", "제목", "저자", "출판사", "ISBN", "편권수", "복권수" , "등록일", "가격", "위치", "비고"};
+		DefaultTableModel model = new DefaultTableModel(labels_regist, 0); // header추가, 행은 1개 지정
 
 		table = new JTable(model);
 		// table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -142,7 +142,7 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		// 이벤트 추가
 		addBtn.addMouseListener(this); // 추가 처리
 		delBtn.addMouseListener(this); // 삭제 처리
-		for (int i = 0; i < header.length; i++)
+		for (int i = 0; i < labels_regist.length; i++)
 			fields[i].addKeyListener(this); // 엔터 처리
 		table.addMouseListener(this); // 셀 읽기 처리
 	}
@@ -164,8 +164,8 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 	public void addRecord() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		String[] record = new String[10];
-		for (int i = 0; i < labels.length; i++) {
-			if (i < 9) {
+		for (int i = 0; i < labels_regist.length; i++) {
+			if (i < labels_regist.length-1) {
 				if (isInvalidInput(fields[i].getText())) {
 					JOptionPane.showMessageDialog(this, "입력하지 않은 정보가 있습니다.");
 					return;
@@ -176,7 +176,7 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		model.addRow(record);
 
 		// 모든 TextField 비우기
-		for (int i = 0; i < labels.length; i++)
+		for (int i = 0; i < labels_regist.length; i++)
 			fields[i].setText("");
 		fields[0].requestFocus();
 	}

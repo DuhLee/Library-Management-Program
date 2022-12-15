@@ -40,15 +40,16 @@ import lmp.db.vo.BookVO;
 
 public class BookModification extends JFrame implements MouseListener, KeyListener {
 
-	static final String[] labels = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
+	//static final String[] labels_top = {"등록번호o", "제목", "저자", "출판사", "ISBN", "편권수", "복권수o" , "등록일o", "가격", "위치", "비고"};
+	static final String[] labels_modify = {"제목", "저자", "출판사", "ISBN", "편권수", "복권수" , "등록일", "가격", "위치", "비고"};
 	private JTextField[] fields = new JTextField[10];
 	private JScrollPane scrolledTable;
 	static JTable table;
-	DefaultTableModel model = new DefaultTableModel(labels, 1); // column추가, 행은 1개 지정
+	DefaultTableModel model = new DefaultTableModel(labels_modify, 1); // column추가, 행은 1개 지정
 	private JButton overwriteBtn;
 	private JButton comebackBtn;
 	private JButton saveBtn_Modify;
-	String[] comebackList = new String[labels.length];
+	String[] comebackList = new String[labels_modify.length];
 
 	public BookModification(String title) {
 
@@ -56,9 +57,9 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 		this.setLayout(new BorderLayout(10, 10));
 
 		// 상단 패널(정보수정할 내용을 입력하는 텍스트필드 영역)
-		JPanel topPanel = new JPanel(new GridLayout(5, 2, 100, 5));
-		for (int i = 0; i < labels.length; i++) {
-			JLabel label = new JLabel(labels[i]);
+		JPanel topPanel = new JPanel(new GridLayout(6, 2, 100, 5));
+		for (int i = 0; i < labels_modify.length; i++) {
+			JLabel label = new JLabel(labels_modify[i]);
 			label.setForeground(Color.WHITE);
 			topPanel.add(label);
 			fields[i] = new JTextField(100);
@@ -69,8 +70,8 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 		topPanel.setBackground(Color.DARK_GRAY);
 
 		// 중앙 스크롤테이블(도서검색 후 그 정보를 가져와 보여주는 영역)
-		String header[] = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
-		DefaultTableModel model = new DefaultTableModel(header, 0);
+		//String header[] = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
+//		DefaultTableModel model = new DefaultTableModel(labels, 0);
 
 		table = new JTable(model);
 		// table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
@@ -142,7 +143,7 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 		// 이벤트 추가
 		overwriteBtn.addMouseListener(this); // 추가 처리
 		comebackBtn.addMouseListener(this); // 삭제 처리
-		for (int i = 0; i < header.length; i++)
+		for (int i = 0; i < labels_modify.length; i++)
 			fields[i].addKeyListener(this); // 엔터 처리
 		table.addMouseListener(this); // 셀 읽기 처리
 	}
@@ -163,8 +164,7 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 
 	public void overwriteRecord() {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		String[] record = new String[10];
-		for (int i = 0; i < labels.length; i++) {
+		for (int i = 0; i < labels_modify.length; i++) {
 
 			// 아무것도 없으면 아래 코드 패스
 			if (fields[i].getText().trim().equals("")) {
@@ -176,7 +176,7 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 		}
 
 		// 모든 TextField 비우기
-		for (int i = 0; i < labels.length; i++) {
+		for (int i = 0; i < labels_modify.length; i++) {
 			fields[i].setText("");
 		}
 		fields[0].requestFocus();
@@ -197,6 +197,9 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 		if (src == comebackBtn) {
 			for (int i = 0; i < model.getColumnCount(); i++) {
 				model.setValueAt(comebackList[i], 0, i);
+				if(comebackList[i-1]==null) {
+					model.setValueAt("", 0, i-1);
+				}
 			}
 			table.setModel(model);
 		}
@@ -261,9 +264,9 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		if (keyCode == KeyEvent.VK_ENTER) {
-			overwriteRecord();
-		}
+//		if (keyCode == KeyEvent.VK_ENTER) {
+//			overwriteRecord();
+//		}
 	}
 
 }
