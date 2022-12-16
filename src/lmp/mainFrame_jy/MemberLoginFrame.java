@@ -21,7 +21,7 @@ public class MemberLoginFrame {
 
 
 	public void ManagerLoginFrame() {
-		JFrame frame = new JFrame("관리자 로그인");
+		JFrame frame = new JFrame("회원 로그인");
 		JPanel panel = new JPanel();
 
 		Font font = new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14);
