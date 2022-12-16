@@ -31,16 +31,16 @@ import javax.swing.table.DefaultTableModel;
 
 public class BookModification extends JFrame implements MouseListener, KeyListener {
 
-	static final String[] labels_Modify = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
+	static final String[] labels_Modify = {"제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
 	private JTextField[] fields_Modify = new JTextField[10];
-	static String[] comboBox_BookLocations = { "E.기술과학", "제목", "저자", "출판사", "ISBN", "편권수", "복권수o", "등록일o", "가격", "위치",
-			"비고" };
+	String[] comboBox_BookLocations = {"A.철학", "B.종교", "C.사회과학", "D.자연과학", "E.기술과학", "F.예술", "G.언어", "H.문학", "I.역사"};
 	private JScrollPane scrolledTable_Modify;
 	static JTable table_Modify;
 	DefaultTableModel model_Modify = new DefaultTableModel(labels_Modify, 1); // column추가, 행은 1개 지정
 	private JButton overwriteBtn;
 	private JButton comebackBtn;
 	private JButton saveBtn_Modify;
+	JComboBox cb_Modify = new JComboBox(comboBox_BookLocations);
 
 	public BookModification(String title) {
 
@@ -54,7 +54,11 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 			label.setForeground(Color.WHITE);
 			topPanel.add(label);
 			fields_Modify[i] = new JTextField(100);
-			topPanel.add(fields_Modify[i]);
+			if (i == 8) {
+				topPanel.add(cb_Modify);
+			} else {
+				topPanel.add(fields_Modify[i]);
+			}
 		}
 		topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.add("North", topPanel); // 가장 위쪽 Panel 설정
@@ -66,21 +70,16 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 		fields_Modify[6].setText(
 				String.valueOf(BookMgmt.model_BookMgmt.getValueAt(BookMgmt.table_BookMgmt.getSelectedRow(), 7)));
 		fields_Modify[6].setEditable(false);
-//		fields_Modify[8].setText(String.valueOf(BookMgmt.model_BookMgmt.getValueAt(BookMgmt.table_BookMgmt.getSelectedRow(), 9)));
-		fields_Modify[8].setText("저장할 위치를 선택하세요.");
-		fields_Modify[8].setEditable(false);
 
 		// 위치정보
-		JComboBox cb_Modify = new JComboBox(comboBox_BookLocations);
-		topPanel.add(cb_Modify);
-		cb_Modify.addItemListener(new ItemListener() {
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				if (e.getStateChange() == ItemEvent.SELECTED) {
-					fields_Modify[8].setText((String) e.getItem());
-				}
-			}
-		});
+//		cb_Modify.addItemListener(new ItemListener() {
+//			@Override
+//			public void itemStateChanged(ItemEvent e) {
+//				if (e.getStateChange() == ItemEvent.SELECTED) {
+//					fields_Modify[8].setText((String) e.getItem());
+//				}
+//			}
+//		});
 
 		// 중앙 스크롤테이블(도서검색 후 그 정보를 가져와 보여주는 영역)
 		table_Modify = new JTable(model_Modify);
@@ -174,15 +173,17 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 	}
 
 	public void overwriteRecord() {
-		DefaultTableModel model = (DefaultTableModel) table_Modify.getModel();
+		DefaultTableModel model_Modify = (DefaultTableModel) table_Modify.getModel();
 		for (int i = 0; i < labels_Modify.length; i++) {
 
 			// 아무것도 없으면 아래 코드 패스
-			if (fields_Modify[i].getText().trim().equals("")) {
+			if (i == 8) {
+				model_Modify.setValueAt(cb_Modify.getSelectedItem(), 0, i);
+			} else if (fields_Modify[i].getText().trim().equals("")) {
 				continue;
-				// fields에 무언가 있을 때 테이블에 있는 정보와 비교해서 다르면 정보 수정
-			} else if (!fields_Modify[i].getText().equals(model.getValueAt(0, i))) { // && fields[i] == null
-				model.setValueAt(fields_Modify[i].getText(), 0, i);
+			// fields에 무언가 있을 때 테이블에 있는 정보와 비교해서 다르면 정보 수정
+			} else if (!fields_Modify[i].getText().equals(model_Modify.getValueAt(0, i)) && (i != 8)) { // && fields[i] == null
+				model_Modify.setValueAt(fields_Modify[i].getText(), 0, i);
 			}
 		}
 
@@ -237,13 +238,6 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 //			}
 //		}
 
-		// 테이블 안에 해당 위치 마우스로 클릭 시 해당 값 출력
-//		if (src == table) {
-//			int row = table.getSelectedRow();
-//			int col = table.getSelectedColumn();
-//			printCell(row, col);
-//		}
-
 	}
 
 	@Override
@@ -274,9 +268,6 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-//		if (keyCode == KeyEvent.VK_ENTER) {
-//			overwriteRecord();
-//		}
 	}
 
 }

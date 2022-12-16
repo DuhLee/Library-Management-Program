@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,15 +39,18 @@ import lmp.db.dao.BookDao;
 import lmp.db.vo.BookVO;
 
 public class BookRegistration extends JFrame implements MouseListener, KeyListener {
-	
-	static final String[] labels_Regist = {"제목", "저자", "출판사", "ISBN", "편권수", "가격", "위치", "비고"};
+
+	static final String[] labels_Regist = { "제목", "저자", "출판사", "ISBN", "편권수", "가격", "위치", "비고" };
 	private JTextField[] fields_Regist = new JTextField[8];
+	String[] comboBox_BookLocations = { "A.철학", "B.종교", "C.사회과학", "D.자연과학", "E.기술과학", "F.예술", "G.언어", "H.문학", "I.역사" };
 	private JScrollPane scrolledTable_Regist;
 	JTable table_Regist;
-
+	private int rowCount;
+	DefaultTableModel model_Regist = new DefaultTableModel(labels_Regist, rowCount);
 	private JButton addBtn;
 	private JButton delBtn;
 	private JButton saveBtn_Regist;
+	JComboBox cb_Regist = new JComboBox(comboBox_BookLocations);
 
 	public BookRegistration(String title) {
 
@@ -60,17 +64,18 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 			label.setForeground(Color.WHITE);
 			topPanel.add(label);
 			fields_Regist[i] = new JTextField(100);
-			topPanel.add(fields_Regist[i]);
+			if (i == 6) {
+				topPanel.add(cb_Regist);
+			} else {
+				topPanel.add(fields_Regist[i]);
+			}
 		}
 		topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.add("North", topPanel); // 가장 위쪽 Panel 설정
 		topPanel.setBackground(Color.DARK_GRAY);
 
 		// 중앙 스크롤테이블(도서정보 입력시 그 내용이 출력되는 영역)
-		//String header[] = {"등록번호", "제목", "저자", "출판사", "ISBN", "편권수", "복권수" , "등록일", "가격", "위치", "비고"};
-		DefaultTableModel model = new DefaultTableModel(labels_Regist, 0); // header추가, 행은 1개 지정
-
-		table_Regist = new JTable(model);
+		table_Regist = new JTable(model_Regist);
 		// table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrolledTable_Regist = new JScrollPane(table_Regist); // 스크롤 될 수 있도록 JScrollPane 적용
 		scrolledTable_Regist.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // 너무 붙어있어서 가장자리 띄움(padding)
@@ -78,9 +83,7 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 
 		// 하단 패널(추가/제외/저장 버튼이 위치하는 영역)
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 3, 10, 10));
-		//bottomPanel.setLayout(null);
-		bottomPanel.setBorder(new LineBorder(Color.BLACK));
-		
+
 		addBtn = new JButton("추가");
 		delBtn = new JButton("제외");
 		saveBtn_Regist = new JButton("저장");
@@ -161,24 +164,38 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 		model.removeRow(index);
 	}
 
-	public void addRecord() {
-		DefaultTableModel model = (DefaultTableModel) table_Regist.getModel();
-		String[] record = new String[10];
+	public void addRecord() {		
+//		DefaultTableModel model_Regist = (DefaultTableModel) table_Regist.getModel();
 		for (int i = 0; i < labels_Regist.length; i++) {
-			if (i < labels_Regist.length-1) {
-				if (isInvalidInput(fields_Regist[i].getText())) {
+			
+			if (i < 6) {
+				if (isInvalidInput(fields_Regist[i].getText())) {				
 					JOptionPane.showMessageDialog(this, "입력하지 않은 정보가 있습니다.");
-					return;
-				}
+					return;						
+				} else {
+					if (fields_Regist[i].getText().trim().equals("")) {
+						continue;
+					} else if (!fields_Regist[i].getText().equals(model_Regist.getValueAt(rowCount-1, i)) && (i != 6)) { // && fields[i] == null
+						model_Regist.setValueAt(fields_Regist[i].getText(), 0, i);
+					}
+				
 			}
-			record[i] = fields_Regist[i].getText();
-		}
-		model.addRow(record);
-
+				if (i == 6) {
+					model_Regist.setValueAt(cb_Regist.getSelectedItem(), rowCount-1, i);
+				}
+			
+			
+		
+		++rowCount;
+		model_Regist.setRowCount(rowCount);
+		table_Regist.setModel(model_Regist);
+		scrolledTable_Regist.validate();
 		// 모든 TextField 비우기
-		for (int i = 0; i < labels_Regist.length; i++)
+		for (int i = 0; i < labels_Regist.length; i++) 
 			fields_Regist[i].setText("");
 		fields_Regist[0].requestFocus();
+		
+		
 	}
 
 	public void printCell(int row, int col) {
@@ -197,7 +214,7 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 			int selected = table_Regist.getSelectedRow();
 			removeRecord(selected);
 		}
-		
+
 		// 저장버튼 클릭 시 작동기능 명령(196-216)
 //		if (src == saveBtn_Regist) {
 //			int num = JOptionPane.showConfirmDialog(table, "정말로 저장합니까?", "DB에 저장하기", JOptionPane.YES_NO_OPTION);
@@ -221,13 +238,6 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 //			}				
 //		}
 
-		// 테이블 안에 해당 위치 마우스로 클릭 시 해당 값 출력
-//		if (src == table) {
-//			int row = table.getSelectedRow();
-//			int col = table.getSelectedColumn();
-//			printCell(row, col);
-//		}
-		
 	}
 
 	@Override
@@ -258,9 +268,9 @@ public class BookRegistration extends JFrame implements MouseListener, KeyListen
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		if (keyCode == KeyEvent.VK_ENTER) {
-			addRecord();
-		}
+//		if (keyCode == KeyEvent.VK_ENTER) {
+//			addRecord();
+//		}
 	}
 
 }
