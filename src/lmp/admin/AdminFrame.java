@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 
 import lmp.admin.menu.book.booksearch.BookSearchPanel;
 import lmp.admin.menu.checkin_out.Member_Searching_Panel;
+import lmp.admin.menu.readingroom.readingroom_jy.AdminReadingRoom;
 
 
 public class AdminFrame extends JFrame{
@@ -60,6 +61,7 @@ public class AdminFrame extends JFrame{
 			// 버튼 생성 메서드 테스트
 			bookMgmt = getButton("도서 관리");
 			bookMgmt.setIcon(new ImageIcon(bookMgmtIcon));
+			bookMgmt.setFont(new Font("한컴 말랑말랑 Regular",Font.PLAIN, 15));
 			bookMgmt.addActionListener(new ActionListener() {
 				
 				@Override
@@ -106,6 +108,12 @@ public class AdminFrame extends JFrame{
 			
 			readingRoom = getButton("열람실 관리");
 			readingRoom.setIcon(new ImageIcon(readingRoomIcon));
+			readingRoom.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					card.show(menuCardPanel, "6");	
+				}
+			});
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -121,6 +129,10 @@ public class AdminFrame extends JFrame{
 		menuCardPanel.setBounds(17, 200, 1150, 550);
 		menuCardPanel.add("1", initialLabel());
 		menuCardPanel.add("2", new BookSearchPanel());
+		
+		menuCardPanel.setBounds(17, 200, 1150, 550);
+		menuCardPanel.add("1", initialLabel());
+		menuCardPanel.add("6", new AdminReadingRoom());
 		
 		
 		
@@ -166,7 +178,7 @@ public class AdminFrame extends JFrame{
 				setHorizontalTextPosition(CENTER);
 				setVerticalTextPosition(BOTTOM);
 				setForeground(Color.WHITE);
-				setFont(new Font(null, Font.BOLD, 15));
+				setFont(new Font("한컴 말랑말랑 Regular",Font.PLAIN, 15));
 				setText(text);
 				setToolTipText(text);
 				setBorderPainted(false);

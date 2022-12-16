@@ -15,6 +15,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import lmp.members.MemberFrame;
+
 public class EntranceFrame {
 
 
@@ -51,8 +53,7 @@ public class EntranceFrame {
 				addActionListener(new ActionListener() {	
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						MemberFrame memberframe = new MemberFrame();
-						memberframe.open();
+						new MemberFrame();
 					}
 				});
 			}
@@ -68,8 +69,8 @@ public class EntranceFrame {
 				addActionListener(new ActionListener() {	
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						ManagerLoginFrame managerframe = new ManagerLoginFrame();
-						managerframe.open();
+//						new ManagerFrame();
+//						new ManagerLogin();
 					}
 				});
 			}
