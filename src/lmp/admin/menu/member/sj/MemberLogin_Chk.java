@@ -1,4 +1,4 @@
-package lmp.admin.menu.readingroom.sj;
+package lmp.admin.menu.member.sj;
 
 
 import java.sql.SQLException;

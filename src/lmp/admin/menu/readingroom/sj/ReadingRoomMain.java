@@ -232,6 +232,12 @@ public class ReadingRoomMain extends JFrame {
 
 							// 로그인 정보 넘어와야 하는 부분 아직...
 							
+							
+							
+							
+							
+							
+							
 							SeatUseDetailDao sudDao = new SeatUseDetailDao();
 							ArrayList<SeatUseDetailVO> sudList=  new ArrayList<>();
 						

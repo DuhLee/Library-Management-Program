@@ -1,4 +1,4 @@
-package lmp.admin.menu.readingroom.sj;
+package lmp.admin.menu.member.sj;
 
 import java.awt.Color;
 
@@ -15,6 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import lmp.admin.menu.readingroom.sj.ReadingRoomMain;
 
 
 
