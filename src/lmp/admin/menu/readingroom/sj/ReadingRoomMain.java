@@ -1,7 +1,9 @@
 package lmp.admin.menu.readingroom.sj;
 
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
@@ -9,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,6 +29,7 @@ public class ReadingRoomMain extends JFrame {
 	Font font = new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15);
 
 	public ReadingRoomMain() {
+		
 		setTitle("열람실 자리 현황");
 		add(getPanel());
 		setVisible(true);

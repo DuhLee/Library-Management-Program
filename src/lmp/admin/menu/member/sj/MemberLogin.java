@@ -2,10 +2,18 @@ package lmp.admin.menu.member.sj;
 
 import java.awt.Color;
 
+
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.TextField;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,6 +25,9 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import lmp.admin.menu.readingroom.sj.ReadingRoomMain;
+import lmp.db.dao.MemberDao;
+import lmp.db.vo.MemberVO;
+import lmp.util.PasswordEncoder;
 
 
 
@@ -77,26 +88,65 @@ public class MemberLogin extends JFrame {
 		pwField.setColumns(10);
 
 		
+
 		JButton loginBtn = new JButton("로그인");
 		loginBtn.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
-				// 로그인 했을 때 작업
-				boolean bLoginChk = false;
-				GetIdandPw(idTextFiled, pwField); // 입력된 값 각각 넘겨 주기
-				MemberLogin_Chk loginchk = new MemberLogin_Chk();
-				bLoginChk = loginchk.LogInList_Chk(sID, sPW); // false면 로그인 실패
-
-				if (!bLoginChk) { // 로그인 실패
-					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호를 확인 후\n다시 로그인해주세요.");
-				} else { // 로그인 성공
-					setVisible(false); // 기존의 로그인 화면 꺼주기
-					new ReadingRoomMain(); // 열람실 조회화면으로 갱신
+				// 로그인 비밀번호 검증
+				MemberDao mDao = new MemberDao();
+				ArrayList<MemberVO> memberList = new ArrayList<>();
+				String id = idTextFiled.getText();
+				char[] pw = pwField.getPassword();
+				String password = new String(pw);
+				try {
+					memberList.addAll(mDao.get(3, "yeon1988"));
+					PasswordEncoder pwEnc = new PasswordEncoder();
+					for (MemberVO member : memberList) {
+						if (!(member.getId().equals(idTextFiled.getText()))) {
+							JOptionPane.showMessageDialog(null, "해당 아이디가 없습니다");
+						} else if (member.getId().equals(idTextFiled.getText()) && !(pwEnc.encrypt(password).equals(pwEnc.encrypt(member.getPw())))) {
+								JOptionPane.showMessageDialog(null, "비밀번호가 일치하지 않습니다");
+						} else if (member.getId().equals(idTextFiled.getText()) && pwEnc.encrypt(password).equals(pwEnc.encrypt(member.getPw()))) {
+								JOptionPane.showMessageDialog(null, "로그인 성공");
+								setVisible(false); // 기존의 로그인 화면 꺼주기
+								// new ReadingRoomMain(); // 열람실 조회화면으로 갱신
+							}
+						} 
+				} catch (Exception e1) {
+					e1.printStackTrace();
 				}
+
 			}
 		});
 		loginBtn.setBounds(274, 27, 80, 46);
 		contentPane.add(loginBtn);
+
+		
+		
+		
+//			JButton loginBtn = new JButton("로그인");
+//			loginBtn.addMouseListener(new MouseAdapter() {
+//				public void mouseClicked(MouseEvent e) {
+//					super.mouseClicked(e);
+//					// 로그인 했을 때 작업
+//					boolean bLoginChk = false;
+//					GetIdandPw(idTextFiled, pwField); // 입력된 값 각각 넘겨 주기
+//					MemberLogin_Chk loginchk = new MemberLogin_Chk();
+//					bLoginChk = loginchk.LogInList_Chk(sID, sPW); // false면 로그인 실패
+//
+//					if (!bLoginChk) { // 로그인 실패
+//						JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호를 확인 후\n다시 로그인해주세요.");
+//					} else { // 로그인 성공
+//						
+//						
+//						setVisible(false); // 기존의 로그인 화면 꺼주기
+//						new ReadingRoomMain(); // 열람실 조회화면으로 갱신
+//					}
+//				}
+//			});
+//			loginBtn.setBounds(274, 27, 80, 46);
+//			contentPane.add(loginBtn);
 
 		
 		JButton searchIdBtn = new JButton("아이디 찾기");
@@ -224,6 +274,8 @@ public class MemberLogin extends JFrame {
 	}
 	
 	
+
+
 	private void GetIdandPw (JTextField idTextFiled, JTextField pwField) {
 		// TODO Auto-generated method stub
 		sID = idTextFiled.getText();
