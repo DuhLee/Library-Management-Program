@@ -2,13 +2,12 @@ package lmp.admin.menu.book;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -16,40 +15,32 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.StreamCorruptedException;
-import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.DefaultTreeCellEditor.DefaultTextField;
-
-import lmp.db.dao.BookDao;
-import lmp.db.vo.BookVO;
 
 public class BookModification extends JFrame implements MouseListener, KeyListener {
 
-	//static final String[] labels_top = {"등록번호o", "제목", "저자", "출판사", "ISBN", "편권수", "복권수o" , "등록일o", "가격", "위치", "비고"};
-	static final String[] labels_modify = {"제목", "저자", "출판사", "ISBN", "편권수", "복권수" , "등록일", "가격", "위치", "비고"};
-	private JTextField[] fields = new JTextField[10];
-	private JScrollPane scrolledTable;
-	static JTable table;
-	DefaultTableModel model = new DefaultTableModel(labels_modify, 1); // column추가, 행은 1개 지정
+	static final String[] labels_Modify = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
+	private JTextField[] fields_Modify = new JTextField[10];
+	static String[] comboBox_BookLocations = { "E.기술과학", "제목", "저자", "출판사", "ISBN", "편권수", "복권수o", "등록일o", "가격", "위치",
+			"비고" };
+	private JScrollPane scrolledTable_Modify;
+	static JTable table_Modify;
+	DefaultTableModel model_Modify = new DefaultTableModel(labels_Modify, 1); // column추가, 행은 1개 지정
 	private JButton overwriteBtn;
 	private JButton comebackBtn;
 	private JButton saveBtn_Modify;
-	String[] comebackList = new String[labels_modify.length];
 
 	public BookModification(String title) {
 
@@ -58,26 +49,45 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 
 		// 상단 패널(정보수정할 내용을 입력하는 텍스트필드 영역)
 		JPanel topPanel = new JPanel(new GridLayout(6, 2, 100, 5));
-		for (int i = 0; i < labels_modify.length; i++) {
-			JLabel label = new JLabel(labels_modify[i]);
+		for (int i = 0; i < labels_Modify.length; i++) {
+			JLabel label = new JLabel(labels_Modify[i]);
 			label.setForeground(Color.WHITE);
 			topPanel.add(label);
-			fields[i] = new JTextField(100);
-			topPanel.add(fields[i]);
+			fields_Modify[i] = new JTextField(100);
+			topPanel.add(fields_Modify[i]);
 		}
 		topPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		this.add("North", topPanel); // 가장 위쪽 Panel 설정
 		topPanel.setBackground(Color.DARK_GRAY);
 
-		// 중앙 스크롤테이블(도서검색 후 그 정보를 가져와 보여주는 영역)
-		//String header[] = { "제목", "저자", "출판사", "ISBN", "편권수", "복권수", "등록일", "가격", "위치", "비고" };
-//		DefaultTableModel model = new DefaultTableModel(labels, 0);
+		fields_Modify[5].setText(
+				String.valueOf(BookMgmt.model_BookMgmt.getValueAt(BookMgmt.table_BookMgmt.getSelectedRow(), 6)));
+		fields_Modify[5].setEditable(false);
+		fields_Modify[6].setText(
+				String.valueOf(BookMgmt.model_BookMgmt.getValueAt(BookMgmt.table_BookMgmt.getSelectedRow(), 7)));
+		fields_Modify[6].setEditable(false);
+//		fields_Modify[8].setText(String.valueOf(BookMgmt.model_BookMgmt.getValueAt(BookMgmt.table_BookMgmt.getSelectedRow(), 9)));
+		fields_Modify[8].setText("저장할 위치를 선택하세요.");
+		fields_Modify[8].setEditable(false);
 
-		table = new JTable(model);
+		// 위치정보
+		JComboBox cb_Modify = new JComboBox(comboBox_BookLocations);
+		topPanel.add(cb_Modify);
+		cb_Modify.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if (e.getStateChange() == ItemEvent.SELECTED) {
+					fields_Modify[8].setText((String) e.getItem());
+				}
+			}
+		});
+
+		// 중앙 스크롤테이블(도서검색 후 그 정보를 가져와 보여주는 영역)
+		table_Modify = new JTable(model_Modify);
 		// table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		scrolledTable = new JScrollPane(table); // 스크롤 될 수 있도록 JScrollPane 적용
-		scrolledTable.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // 너무 붙어있어서 가장자리 띄움(padding)
-		this.add("Center", scrolledTable); // 가운데에 JTable 추가
+		scrolledTable_Modify = new JScrollPane(table_Modify); // 스크롤 될 수 있도록 JScrollPane 적용
+		scrolledTable_Modify.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // 너무 붙어있어서 가장자리 띄움(padding)
+		this.add("Center", scrolledTable_Modify); // 가운데에 JTable 추가
 
 		// 하단 패널(덮어쓰기/원래대로/저장하기 버튼이 위치하는 영역)
 		JPanel bottomPanel = new JPanel(new GridLayout(1, 3, 10, 10));
@@ -118,7 +128,7 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 		// 저장버튼 이미지
 		BufferedImage bfi_save = null;
 		try {
-			bfi_save = ImageIO.read(new File("src\\lmp\\admin\\menu\\book\\images\\saveIconImage_modify.png"));
+			bfi_save = ImageIO.read(new File("src\\lmp\\admin\\menu\\book\\images\\saveIconImage_Modify.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -143,9 +153,10 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 		// 이벤트 추가
 		overwriteBtn.addMouseListener(this); // 추가 처리
 		comebackBtn.addMouseListener(this); // 삭제 처리
-		for (int i = 0; i < labels_modify.length; i++)
-			fields[i].addKeyListener(this); // 엔터 처리
-		table.addMouseListener(this); // 셀 읽기 처리
+		for (int i = 0; i < labels_Modify.length; i++)
+			fields_Modify[i].addKeyListener(this); // 엔터 처리
+		table_Modify.addMouseListener(this); // 셀 읽기 처리
+
 	}
 
 	private boolean isInvalidInput(String input) {
@@ -153,9 +164,9 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 	}
 
 	public void comebackRecord(int index) {
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		DefaultTableModel model = (DefaultTableModel) table_Modify.getModel();
 		if (index < 0) {
-			if (table.getRowCount() == 0)// 비어있는 테이블이면
+			if (table_Modify.getRowCount() == 0)// 비어있는 테이블이면
 				return;
 			index = 0;
 		}
@@ -163,27 +174,28 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 	}
 
 	public void overwriteRecord() {
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
-		for (int i = 0; i < labels_modify.length; i++) {
+		DefaultTableModel model = (DefaultTableModel) table_Modify.getModel();
+		for (int i = 0; i < labels_Modify.length; i++) {
 
 			// 아무것도 없으면 아래 코드 패스
-			if (fields[i].getText().trim().equals("")) {
+			if (fields_Modify[i].getText().trim().equals("")) {
 				continue;
 				// fields에 무언가 있을 때 테이블에 있는 정보와 비교해서 다르면 정보 수정
-			} else if (!fields[i].getText().equals(model.getValueAt(0, i))) { // && fields[i] == null
-				model.setValueAt(fields[i].getText(), 0, i);
+			} else if (!fields_Modify[i].getText().equals(model.getValueAt(0, i))) { // && fields[i] == null
+				model.setValueAt(fields_Modify[i].getText(), 0, i);
 			}
 		}
 
 		// 모든 TextField 비우기
-		for (int i = 0; i < labels_modify.length; i++) {
-			fields[i].setText("");
+		for (int i = 0; i < labels_Modify.length; i++) {
+			if (!(i == 5 || i == 6))
+				fields_Modify[i].setText("");
 		}
-		fields[0].requestFocus();
+		fields_Modify[0].requestFocus();
 	}
 
 	public void printCell(int row, int col) {
-		DefaultTableModel model = (DefaultTableModel) table.getModel();
+		DefaultTableModel model = (DefaultTableModel) table_Modify.getModel();
 		System.out.println(model.getValueAt(row, col));
 	}
 
@@ -195,13 +207,11 @@ public class BookModification extends JFrame implements MouseListener, KeyListen
 			overwriteRecord();
 
 		if (src == comebackBtn) {
-			for (int i = 0; i < model.getColumnCount(); i++) {
-				model.setValueAt(comebackList[i], 0, i);
-				if(comebackList[i-1]==null) {
-					model.setValueAt("", 0, i-1);
-				}
+			for (int i = 1; i < BookMgmt.bookColumn.length; i++) {
+				model_Modify.setValueAt(BookMgmt.model_BookMgmt.getValueAt(BookMgmt.table_BookMgmt.getSelectedRow(), i),
+						0, i - 1);
 			}
-			table.setModel(model);
+			table_Modify.setModel(model_Modify);
 		}
 
 		// 저장버튼 클릭 시 작동기능 명령(203-223)
