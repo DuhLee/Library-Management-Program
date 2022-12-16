@@ -146,7 +146,6 @@ public class ReadingRoomMain extends JFrame {
 		}
 
 
-
 		for (int i = 0; i < totalSeatCnt; i++) {
 			labels[i] = new JLabel("" + (i+1), JLabel.CENTER);
 			labels[i].setOpaque(true);

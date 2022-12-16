@@ -1,13 +1,11 @@
 package lmp.admin.menu.readingroom.sj;
 
 
-import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import lmp.db.dao.MemberDao;
 import lmp.db.vo.MemberVO;
-import lmp.db.vo.SeatUseDetailVO;
 
 public class MemberLogin_Chk {
 	
