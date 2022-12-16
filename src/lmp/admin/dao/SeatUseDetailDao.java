@@ -102,6 +102,7 @@ public class SeatUseDetailDao extends MenuDao{
 								rs.getString("mem_email"),
 								rs.getString("mem_address"),
 								rs.getString("mem_registrationdate"),
+								rs.getString("mem_updatedate"),
 								rs.getString("mem_note")
 								),
 							new ReadingRoomVO(
@@ -160,6 +161,7 @@ public class SeatUseDetailDao extends MenuDao{
 								rs.getString("mem_email"),
 								rs.getString("mem_address"),
 								rs.getString("mem_registrationdate"),
+								rs.getString("mem_updatedate"),
 								rs.getString("mem_note")
 								),
 							new ReadingRoomVO(

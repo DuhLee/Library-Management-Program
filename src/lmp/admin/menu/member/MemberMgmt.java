@@ -1,5 +1,7 @@
 package lmp.admin.menu.member;
 
-public class MemberMgmt {
+import javax.swing.JPanel;
+
+public class MemberMgmt extends JPanel {
 
 }

@@ -47,9 +47,9 @@ public abstract class MenuDao {
 	}
 	
 	
-	public void delete(AdminVO adminVO) throws SQLException {}
+	public void delete(String adminVO) throws SQLException {}
 	
-	public void delete(MemberVO memberVO) throws SQLException {}
+	public void delete(Integer memberVO) throws SQLException {}
 	
 	public void delete(BookVO bookVO) throws SQLException {}
 	

@@ -7,7 +7,7 @@ public class AdminVO {
 	/**
 	 * 관리자 직원 정보
 	 */
-	
+
 	private Integer num;
 	private String	name;
 	private String	pw;
@@ -16,12 +16,13 @@ public class AdminVO {
 	private String	address;
 	private String	regDate;
 	private String	note;
-	
+	private Object[] list;
+
 	/**
 	 * 기본 생성자
 	 */
 	public AdminVO() {}
-	
+
 	/**
 	 * 관리자 로그인시 생성자
 	 * 
@@ -32,7 +33,7 @@ public class AdminVO {
 		this.num = admin_num;
 		this.pw	 = admin_pw;
 	}
-	
+
 	/**
 	 * 관리자 등록, 조회 생성자
 	 * 
@@ -46,16 +47,16 @@ public class AdminVO {
 	 * @param note
 	 */
 	public AdminVO(
-					Integer	admin_num, 
-					String	admin_name, 
-					String	admin_pw, 
-					String	admin_phone, 
-					String	admin_email, 
-					String	admin_address, 
-					String	admin_registrationdate, 
-					String	admin_note
-					) {
-		
+			Integer	admin_num, 
+			String	admin_name, 
+			String	admin_pw, 
+			String	admin_phone, 
+			String	admin_email, 
+			String	admin_address, 
+			String	admin_registrationdate, 
+			String	admin_note
+			) {
+
 		this.num	 = admin_num;
 		this.name	 = admin_name;
 		this.pw 	 = admin_pw;
@@ -64,6 +65,16 @@ public class AdminVO {
 		this.address = admin_address;
 		this.regDate = admin_registrationdate;
 		this.note 	 = admin_note;
+		this.list	 = 	new Object[] {
+										admin_num, 
+										admin_name, 
+										admin_pw, 
+										admin_phone, 
+										admin_email, 
+										admin_address, 
+										admin_registrationdate, 
+										admin_note
+									};
 	}
 
 	public Integer getNum() {
@@ -130,6 +141,10 @@ public class AdminVO {
 		this.note = note;
 	}
 	
+	public Object[] getList() {
+		return this.list;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("%s,%s,%s,%s,%s,%s,%s,%s", this.num,this.name,this.pw,this.phone,this.email,this.address,this.regDate,this.note);

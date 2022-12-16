@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 
 import lmp.admin.menu.book.booksearch.BookSearchPanel;
 import lmp.admin.menu.checkin_out.Member_Searching_Panel;
+import lmp.admin.menu.employees.EmployeesMgmt;
 
 
 public class AdminFrame extends JFrame{
@@ -102,6 +103,12 @@ public class AdminFrame extends JFrame{
 			
 			employeeMgmt = getButton("직원 관리");
 			employeeMgmt.setIcon(new ImageIcon(employeeMgmtIcon));
+			employeeMgmt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					card.show(menuCardPanel, "4");
+				}
+			});
 			
 			memberMgmt = getButton("회원 관리");
 			memberMgmt.setIcon(new ImageIcon(memberMgmtIcon));
@@ -124,6 +131,9 @@ public class AdminFrame extends JFrame{
 		menuCardPanel.add("1", initialLabel());
 		menuCardPanel.add("2", new BookSearchPanel());
 		
+		menuCardPanel.setBounds(17, 200, 1150, 550);
+		menuCardPanel.add("1", initialLabel());
+		menuCardPanel.add("4", new EmployeesMgmt());
 		
 		
 		menuButtonPanel.add(bookMgmt);

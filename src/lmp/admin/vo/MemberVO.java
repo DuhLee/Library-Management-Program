@@ -18,13 +18,9 @@ public class MemberVO {
 	private	String	email;
 	private	String	address;
 	private	String	regDate;
+	private String	updateDate;
 	private	String	note;
-	
-
-	public MemberVO() {
-		
-	}
-	
+	private Object[] list;
 	
 	/**
 	 * 회원 로그인시 생성자
@@ -32,9 +28,8 @@ public class MemberVO {
 	 * @param mem_id
 	 * @param mem_pw
 	 */
-	public MemberVO(Integer mem_num, String mem_id, String mem_pw) {
+	public MemberVO(String mem_id, String mem_pw) {
 		
-		this.num = num;
 		this.id = mem_id;
 		this.pw = mem_pw;
 		
@@ -55,6 +50,16 @@ public class MemberVO {
 	 * @param mem_registrationDate
 	 * @param mem_note
 	 */
+	
+	public MemberVO(Integer mem_num, String mem_name,String mem_phone,String mem_email,String mem_address) {
+		this.num = mem_num;
+		this.name = mem_name;
+		this.phone = mem_phone;
+		this.email = mem_email;
+		this.address = mem_address;
+		
+		
+	}
 	public MemberVO(
 					Integer	mem_num,
 					String	mem_name,
@@ -66,6 +71,7 @@ public class MemberVO {
 					String	mem_email,
 					String	mem_address,
 					String	mem_registrationDate,
+					String	mem_updateDate,
 					String	mem_note
 					) {
 		
@@ -79,10 +85,23 @@ public class MemberVO {
 		this.email		=	mem_email;
 		this.address	=	mem_address;
 		this.regDate	=	mem_registrationDate;
+		this.updateDate =	mem_updateDate;
 		this.note		=	mem_note;
+		this.list		=	new Object[] {
+											mem_num,
+											mem_name,
+											mem_id,
+											mem_pw,
+											mem_birthDay,
+											mem_sex,
+											mem_phone,
+											mem_email,
+											mem_address,
+											mem_registrationDate,
+											mem_note
+										};
 		
 	}
-
 
 	public Integer getNum() {
 		return num;
@@ -107,6 +126,10 @@ public class MemberVO {
 	public String getSex() {
 		return sex;
 	}
+	
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
 
 	public String getPhone() {
 		return phone;
@@ -123,15 +146,25 @@ public class MemberVO {
 	public String getRegDate() {
 		return regDate;
 	}
+	
+	
+
+	public String getUpdateDate() {
+		return updateDate;
+	}
 
 	public String getNote() {
 		return note;
 	}
 	
+	public Object[] getList() {
+		return this.list;
+	}
+	
 	@Override
 	public String toString() {
 		
-		return String.format("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s", this.num,this.name,this.id,this.pw,this.birthDay,this.phone,this.email,this.address,this.regDate,this.note);
+		return String.format("%d,%s,%s,%s,%s,%s,%s,%s,%s,%s", this.num,this.name,this.id,this.pw,this.birthDay,this.phone,this.email,this.address,this.regDate,this.updateDate,this.note);
 	}
 	
 }
