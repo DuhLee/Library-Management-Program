@@ -14,8 +14,8 @@ import lmp.members.vo.SeatUseDetailVO;
 
 public abstract class MenuDao {
 	
-	private static String url = "jdbc:oracle:thin:@192.168.0.100:1521:XE";
-	private static String user = "library";
+	private static String url = "jdbc:oracle:thin:@localhost:1521:XE";
+	private static String user = "mydb";
 	private static String pw = "1234";
 	
 	/**
@@ -171,6 +171,29 @@ public abstract class MenuDao {
 		// TODO Auto-generated method stub
 		
 	}
+
+	/**
+	 * 전체 회원 목록 가져오기
+	 * 
+	 * @return ArrayList<MemberVO> memberList
+	 */
+	public ArrayList get() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * 회원 삭제
+	 * 
+	 * @param memberVO
+	 * @throws SQLException
+	 */
+	public void delete(String mem_num) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 
 
 }

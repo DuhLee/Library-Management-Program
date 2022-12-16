@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import lmp.members.vo.MemberLogHistoryVO;
+import lmp.members.vo.MemberVO;
 
 public class MemberLogHistroyDao extends MenuDao{
 
@@ -19,7 +20,7 @@ public class MemberLogHistroyDao extends MenuDao{
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
-		pstmt.setInt(1, memLogVO.getMem_num());
+		pstmt.setInt(1, memLogVO.getMemberVO().getNum());
 		pstmt.setString(2, null);
 		
 		pstmt.executeUpdate();
@@ -42,7 +43,7 @@ public class MemberLogHistroyDao extends MenuDao{
 		String sql =  "Update members SET logout_time = to_char(sysdate, 'yyyy.mm.dd hh24:mi') WHERE mem_num = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 			
-		pstmt.setInt(1,memLogVO.getMem_num());
+		pstmt.setInt(1,memLogVO.getMemberVO().getNum());
 			
 		pstmt.executeUpdate();
 		
@@ -52,18 +53,32 @@ public class MemberLogHistroyDao extends MenuDao{
 	
 	@Override
 	public MemberLogHistoryVO getLog() throws SQLException {
-		String sql = "SELECT * FROM members WHERE logout_time IS NULL";
+		String sql = "SELECT * FROM member_log_history INNER JOIN members "
+				+ "USING(mem_num) WHERE logout_time IS NULL";
 		Connection conn = getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
 		MemberLogHistoryVO memLogVO = null;
 		while (rs.next()) {
-			memLogVO = new MemberLogHistoryVO(rs.getInt(0), rs.getInt(1), rs.getString(2), rs.getString(3));
+			memLogVO = new MemberLogHistoryVO(rs.getInt("mem_log_id"),
+					new MemberVO(
+							rs.getInt("mem_num"),
+							rs.getString("mem_name"),
+							rs.getString("mem_id"),
+							rs.getString("mem_pw"),
+							rs.getString("mem_birthday"),
+							rs.getString("mem_sex"),
+							rs.getString("mem_phone"),
+							rs.getString("mem_email"),
+							rs.getString("mem_address"),
+							rs.getString("mem_registrationdate"),
+							rs.getString("mem_updatedate"),
+							rs.getString("mem_note")), rs.getString("login_time"), rs.getString("logout_time"));
 		}
 		rs.close();
 		pstmt.close();
 		conn.close();
-		
+
 		return memLogVO;
 	}
 

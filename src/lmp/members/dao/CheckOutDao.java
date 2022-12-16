@@ -50,6 +50,7 @@ public class CheckOutDao extends MenuDao{
 										rs.getString("mem_email"),
 										rs.getString("mem_address"),
 										rs.getString("mem_registrationdate"),
+										rs.getString("mem_updatedate"),
 										rs.getString("mem_note")),
 								rs.getString("check_out_date"),
 								rs.getString("expect_return_date"),
