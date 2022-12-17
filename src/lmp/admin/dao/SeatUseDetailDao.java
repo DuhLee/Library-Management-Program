@@ -95,7 +95,7 @@ public class SeatUseDetailDao extends MenuDao{
 						new SeatUseDetailVO(
 							rs.getInt("use_id"),
 							new MemberVO(
-								rs.getString("mem_num"),
+								rs.getInt("mem_num"),
 								rs.getString("mem_name"),
 								rs.getString("mem_id"),
 								rs.getString("mem_pw"),
