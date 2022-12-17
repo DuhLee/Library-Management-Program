@@ -53,7 +53,7 @@ public class SeatUseDetailDao extends MenuDao{
 	 * @throws SQLException
 	 */
 	@Override
-	public void update(SeatUseDetailVO sudVO) throws SQLException {
+	public void update(int seat_num) throws SQLException {
 		Connection conn = getConnection();
 		
 		String sql =  "UPDATE"
@@ -61,11 +61,11 @@ public class SeatUseDetailDao extends MenuDao{
 					+ "SET"
 					+ " end_time = sysdate,"
 					+ "WHERE"
-					+ " use_id = ?";
+					+ " seat_num = ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
-		pstmt.setInt(1,sudVO.getUse_id());
+		pstmt.setInt(1,seat_num);
 		
 		pstmt.executeUpdate();
 		
@@ -80,19 +80,22 @@ public class SeatUseDetailDao extends MenuDao{
 	 * @return ArrayList<SeatUseDetailVO> sudList
 	 */
 	@Override
-	public ArrayList get() throws SQLException {
-		String sql = "SELECT * FROM seat_use_details JOIN members USING(mem_num) JOIN readingroom USING(seat_num) WHERE end_time is null";
-		
+	public ArrayList<SeatUseDetailVO> get() throws SQLException {
+		String sql = "SELECT * FROM seat_use_details JOIN members USING (mem_num) JOIN readingroom USING (seat_num) WHERE end_time IS NULL";
+		System.out.println(1);
 		Connection conn = getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
+		System.out.println(2);
 		ResultSet rs = pstmt.executeQuery();
 		ArrayList<SeatUseDetailVO> sudList = new ArrayList<>();
+		System.out.println(3);
 		while (rs.next()) {
+			System.out.println(rs.getInt(0));
 			sudList.add(
 						new SeatUseDetailVO(
 							rs.getInt("use_id"),
 							new MemberVO(
-								rs.getInt("mem_num"),
+								rs.getString("mem_num"),
 								rs.getString("mem_name"),
 								rs.getString("mem_id"),
 								rs.getString("mem_pw"),
@@ -116,7 +119,7 @@ public class SeatUseDetailDao extends MenuDao{
 		rs.close();
 		pstmt.close();
 		conn.close();
-		
+		System.out.println(4);
 		return sudList;
 	}
 	

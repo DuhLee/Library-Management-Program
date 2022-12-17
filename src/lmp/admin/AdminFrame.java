@@ -1,6 +1,5 @@
 package lmp.admin;
 
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -13,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -20,10 +20,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 import lmp.admin.menu.book.booksearch.BookSearchPanel;
 import lmp.admin.menu.checkin_out.Member_Searching_Panel;
+import lmp.admin.menu.readingroom.ReadingRoomPanel;
 
 
 public class AdminFrame extends JFrame{
@@ -31,7 +31,7 @@ public class AdminFrame extends JFrame{
 	JButton bookMgmt, checkIn_Out, employeeMgmt, memberMgmt, readingRoom;
 	
 	JFrame f = this;
-	public AdminFrame() {
+	public AdminFrame() throws SQLException {
 
 		JPanel menuButtonPanel = new JPanel(new GridLayout(1, 5, 100, 0));
 		
@@ -108,6 +108,12 @@ public class AdminFrame extends JFrame{
 			
 			readingRoom = getButton("열람실 관리");
 			readingRoom.setIcon(new ImageIcon(readingRoomIcon));
+			readingRoom.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					card.show(menuCardPanel, "5");
+				}
+			});
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -121,9 +127,12 @@ public class AdminFrame extends JFrame{
 		menuCardPanel.add("3", new Member_Searching_Panel());
 		
 		menuCardPanel.setBounds(17, 200, 1150, 550);
-		menuCardPanel.add("1", initialLabel());
+		
 		menuCardPanel.add("2", new BookSearchPanel());
 		
+		menuCardPanel.setBounds(17, 200, 1150, 550);
+		
+		menuCardPanel.add("5", new ReadingRoomPanel());
 		
 		
 		menuButtonPanel.add(bookMgmt);
@@ -192,6 +201,11 @@ public class AdminFrame extends JFrame{
 	
 	
 	public static void main(String[] args) {
-		new AdminFrame();
+		try {
+			new AdminFrame();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
