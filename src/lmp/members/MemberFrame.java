@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import lmp.admin.menu.book.booksearch.BookSearchPanel;
 import lmp.admin.menu.checkin_out.Member_Searching_Panel;
 import lmp.admin.menu.readingroom.readingroom_jy.AdminReadingRoom;
+import lmp.members.menu.readingroom.ReadingRoomMain;
 
 
 public class MemberFrame extends JFrame{
@@ -38,7 +39,7 @@ public class MemberFrame extends JFrame{
 		CardLayout card = new CardLayout();
 		JPanel menuCardPanel = new JPanel(card);
 		
-		setTitle("관리자 모드");
+		setTitle("회원 모드");
 		setLayout(null);
 		
 		BufferedImage bufferedBookMgmt = null;
@@ -82,7 +83,7 @@ public class MemberFrame extends JFrame{
 			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}         
 		
 		menuButtonPanel.setBounds(90, 40, 1000, 120);
 		menuButtonPanel.setBackground(new Color(49, 82, 91));
@@ -97,7 +98,7 @@ public class MemberFrame extends JFrame{
 		
 		menuCardPanel.setBounds(17, 200, 1150, 550);
 		menuCardPanel.add("1", initialLabel());
-		menuCardPanel.add("6", new AdminReadingRoom());
+		menuCardPanel.add("6", new ReadingRoomMain());
 		
 		
 		

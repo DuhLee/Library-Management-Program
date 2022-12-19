@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 
 import lmp.admin.menu.book.booksearch.BookSearchPanel;
 import lmp.admin.menu.checkin_out.Member_Searching_Panel;
-import lmp.admin.menu.readingroom.readingroom_jy.AdminReadingRoom;
+import lmp.admin.menu.readingroom.jy.AdminReadingRoom;
 
 
 public class AdminFrame extends JFrame{
@@ -47,7 +47,7 @@ public class AdminFrame extends JFrame{
 		BufferedImage bufferedReadingRoom = null;
 		try {
 			bufferedBookMgmt = ImageIO.read(new File("src/lmp/admin/menuButtonImages/bookMgmtImage.png"));
-			bufferedCheckIn_Out = ImageIO.read(new File("src/lmp/admin/menuButtonImages/checkIn_OutMgmtImage.png"));
+			bufferedCheckIn_Out = ImageIO.read(new File("src/lmp/admin/menuButtonImages/checkInOut.png"));
 			bufferedEmployeeMgmt = ImageIO.read(new File("src/lmp/admin/menuButtonImages/employeeMgmtImage.png"));
 			befferedMemberMgmt = ImageIO.read(new File("src/lmp/admin/menuButtonImages/memberMgmtImage.png"));
 			bufferedReadingRoom = ImageIO.read(new File("src/lmp/admin/menuButtonImages/readingRoomMgmtImage.png"));

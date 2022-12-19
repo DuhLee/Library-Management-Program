@@ -1,4 +1,4 @@
-package lmp.members.menu.loginJoin_jy;
+package lmp.loginJoin;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,6 +14,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import lmp.admin.menu.readingroom.jy.AdminReadingRoom;
+
 
 
 public class MemberLogin extends JFrame {
@@ -88,7 +91,7 @@ public class MemberLogin extends JFrame {
 					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호를 확인 후\n다시 로그인해주세요.");
 				} else { // 로그인 성공
 					setVisible(false); // 기존의 로그인 화면 꺼주기
-					// 열람실 조회화면으로 갱신
+					new AdminReadingRoom(); // 열람실 조회화면으로 갱신
 				}
 			}
 		});

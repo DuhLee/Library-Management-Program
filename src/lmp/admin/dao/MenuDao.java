@@ -1,0 +1,128 @@
+package lmp.admin.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import lmp.admin.vo.AdminLogHistoryVO;
+import lmp.admin.vo.AdminVO;
+import lmp.admin.vo.BookVO;
+import lmp.admin.vo.CheckOutVO;
+import lmp.admin.vo.MemberVO;
+import lmp.admin.vo.SeatUseDetailVO;
+
+
+public abstract class MenuDao {
+
+	private static String url = "jdbc:oracle:thin:@127.0.0.1:1521:XE";
+//	private static String user = "library";
+	private static String user = "mydb";
+	private static String pw = "1234";
+	
+	public void add(AdminVO adminVO) throws SQLException {}
+	
+	public void add(MemberVO memberVO) throws SQLException {}
+	
+	public void add(BookVO bookVO) throws SQLException {}
+	
+	public void add(CheckOutVO checkOutVO) throws SQLException {}
+	
+	public void add(SeatUseDetailVO sudVO) throws SQLException {}
+	
+	public void update(AdminVO adminVO) throws SQLException {}
+
+	public void update(MemberVO memberVO) throws SQLException {}
+	
+	public void update(BookVO bookVO) throws SQLException {}
+
+	public void update(CheckOutVO checkOutVO) throws SQLException {}
+
+	public void update(SeatUseDetailVO sudVO) throws SQLException {}
+
+	
+	public ArrayList get() throws SQLException {
+		return null;
+	}
+	public ArrayList get(int header, String searchStr) throws SQLException {
+		return null;
+	}
+	
+	
+	public void delete(AdminVO adminVO) throws SQLException {}
+	
+	public void delete(MemberVO memberVO) throws SQLException {}
+	
+	public void delete(BookVO bookVO) throws SQLException {}
+	
+	public void delete() throws SQLException {}
+	
+	
+	/**
+	 * Connection 연결 부분 분리 메서드화
+	 * 
+	 * @return conn
+	 */
+	public Connection getConnection() {
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection conn = DriverManager.getConnection(url, user, pw);
+			return conn;
+		} catch (ClassNotFoundException e) {
+			System.out.println("Class 못찾음");
+		} catch (SQLException e) {
+			System.out.println("DB 접속 실패");
+		}
+		return null; 
+	}
+
+	public void add(AdminLogHistoryVO adminLogVO) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * 회원 정보 수정
+	 * 
+	 * @param memberVO
+	 * @throws SQLException
+	 */
+	public void update(AdminLogHistoryVO adminLogVO) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public AdminLogHistoryVO getLog() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void delete(Integer mem_id) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * 열람실 이용내역 업데이트
+	 * 
+	 * 퇴실 , 강제퇴실 할경우
+	 * end_time 현재시간으로 수정.
+	 * 
+	 * @param sudVO
+	 * @throws SQLException
+	 */
+	
+	public void update(Object seat_num) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	/**
+	 * 도서 삭제
+	 * 
+	 * @param bookVO
+	 * @throws SQLException
+	 */
+
+}

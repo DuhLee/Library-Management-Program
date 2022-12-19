@@ -1,4 +1,4 @@
-package lmp.members.menu.loginJoin_jy;
+package lmp.loginJoin;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,18 +12,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class FindIdFrame {
-	
-	private JTextField nameTf;
-	private JTextField emailTf;
-	private String sName = "";
-	private String sEmail = "";
 
 
 	public FindIdFrame() {
@@ -94,53 +88,29 @@ public class FindIdFrame {
 		});
 			
 
-//		JButton loginBtn = new JButton("찾기") {
-//			{
-//				setBounds(50, 300, 80, 30);
-//				setFont(font);
-//				setBackground(Color.LIGHT_GRAY);
-//				setForeground(Color.WHITE);
-//				setBorderPainted(false); // 버튼 외곽선 없애기
-//				setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
-//				addActionListener(new ActionListener() {
-////					if (id =! id) {
-////					public void actionPerformed(ActionEvent e) {
-////						failIdLogin failidlogin = new failIdLogin();
-////					failidlogin.open();
-////					}
-////				}
-//					@Override
+		JButton loginBtn = new JButton("찾기") {
+			{
+				setBounds(50, 300, 80, 30);
+				setFont(font);
+				setBackground(Color.LIGHT_GRAY);
+				setForeground(Color.WHITE);
+				setBorderPainted(false); // 버튼 외곽선 없애기
+				setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
+				addActionListener(new ActionListener() {
+//					if (id =! id) {
 //					public void actionPerformed(ActionEvent e) {
-//						FoundId foundid = new FoundId();
-//						foundid.open();
+//						failIdLogin failidlogin = new failIdLogin();
+//					failidlogin.open();
 //					}
-//				});
-//			}
-//		};
-		
-		
-		JButton searchIdBtn = new JButton("찾기");
-		searchIdBtn.setBounds(50, 300, 80, 30);
-		setFont(font);
-		setBackground(Color.LIGHT_GRAY);
-		setForeground(Color.WHITE);
-		setBorderPainted(false); // 버튼 외곽선 없애기
-		setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
-		searchIdBtn.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				super.mouseClicked(e);
-				boolean bsearchChk = false;
-				GetNameAndEmail(nameTf, emailTf); // 입력된 값 각각 넘겨 주기
-				SearchMemberIdPw_Chk searchchk = new SearchMemberIdPw_Chk();
-				bsearchChk = searchchk.FindLoginId_Chk(sName, sEmail);
-				
-				if (!bsearchChk) { // 로그인 실패
-					JOptionPane.showMessageDialog(null, "이름 또는 이메일을 확인 후\n다시 로그인해주세요.");
-				} else { // 로그인 성공
-					frame.setVisible(false); // 기존의 로그인 화면 꺼주기
-				}
+//				}
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						FoundId foundid = new FoundId();
+						foundid.open();
+					}
+				});
 			}
-		});
+		};
 
 
 		JButton cancelBtn = new JButton("취소") {
@@ -162,7 +132,7 @@ public class FindIdFrame {
 		};
 		
 		frame.add(findIdLabel);
-		frame.add(searchIdBtn);
+		frame.add(loginBtn);
 		frame.add(cancelBtn);
 		frame.add(nameLabel);
 		frame.add(emailLabel);
@@ -175,17 +145,6 @@ public class FindIdFrame {
 		frame.setSize(new Dimension(300, 400));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null); // 화면 중앙에 띄우기
-	}
-	
-	private void GetNameAndEmail (JTextField nameTf, JTextField emailTf) {
-		// TODO Auto-generated method stub
-		sName = nameTf.getText();
-		sEmail = emailTf.getText();
-	}
-	
-	private void Reset (JTextField nameTf, JTextField emailTf) {
-		nameTf.setText(null);
-		emailTf.setText(null);
 	}
 
 

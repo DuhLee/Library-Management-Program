@@ -1,4 +1,4 @@
-package lmp.mainFrame_jy;
+package lmp.main;
 
 import java.awt.Color;
 
@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import lmp.admin.AdminFrame;
+import lmp.loginJoin.ManagerLogin;
 import lmp.members.MemberFrame;
 
 public class EntranceFrame {
@@ -31,8 +32,8 @@ public class EntranceFrame {
 		panel.setSize(500, 400);
 
 		// 이미지 아이콘 만들기
-		ImageIcon memberImg = new ImageIcon("src/lmp/admin/menuButtonImages/memberIcon.png");
-		ImageIcon managerImg = new ImageIcon("src/lmp/admin/menuButtonImages/employeeIcon.png");
+		ImageIcon memberImg = new ImageIcon("src/lmp/admin/menuButtonImages/membersEnterance.png");
+		ImageIcon managerImg = new ImageIcon("src/lmp/admin/menuButtonImages/adminEntrance.png");
 
 
 		// 이미지 사이즈 변경
@@ -55,6 +56,7 @@ public class EntranceFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						new MemberFrame();
+						System.out.println("회원창");
 					}
 				});
 			}
@@ -71,6 +73,7 @@ public class EntranceFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						new AdminFrame();
+						System.out.println("관리자창");
 					}
 				});
 			}

@@ -1,7 +1,7 @@
-package lmp.admin.menu.readingroom.readingroom_jy;
+package lmp.admin.menu.readingroom.jy;
 
-import java.awt.CardLayout;
 import java.awt.Color;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,19 +22,20 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import lmp.db.dao.SeatUseDetailDao;
-import lmp.db.vo.SeatUseDetailVO;
+import lmp.admin.dao.SeatUseDetailDao;
+import lmp.admin.vo.SeatUseDetailVO;
 
 public class AdminReadingRoom extends JPanel implements ActionListener{
 
-	String colNames[] = {"좌석번호","회원번호","회원명","연락처","성별", "시작시간", "사용여부"};
-//	String colNames[] = {"좌석번호","회원번호","회원명","연락처","성별", "시작시간"};
+//	String colNames[] = {"좌석번호","회원번호","회원명","연락처","성별", "시작시간", "사용여부"};
+	String colNames[] = {"좌석번호","회원번호","회원명","연락처","성별", "시작시간"};
 	DefaultTableModel model = new DefaultTableModel(colNames,0); // 데이터 저장 부분
 	JTable table = new JTable(model);
 	JScrollPane scrollPane = new JScrollPane(table);
 	DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer(); // 디폴트테이블셀렌더러를 생성
 
-	int totalSeatCnt = 18;
+//	int totalSeatCnt = 18;
+	int totalSeatCnt = 60;
 	int usingCnt;
 	int remainCnt;
 	JTextField totalCntTf = new JTextField(totalSeatCnt + "석");
@@ -50,33 +50,108 @@ public class AdminReadingRoom extends JPanel implements ActionListener{
 	public AdminReadingRoom() { // 컴포넌트 새성하여 부착
 		add(scrollPane, "Center");
 
-		for (int i = 0; i < totalSeatCnt; i++) {
-			labels[i] = new JLabel("" + (i + 1));
-			labels[i].setOpaque(true);
-			labels[i].setFont(font);
-			labels[i].setForeground(Color.GRAY);
-			labels[i].setHorizontalAlignment(JTextField.CENTER);
-			labels[i].setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		}
-
-		labels[0].setBounds(310, 315, 70, 70);
-		labels[1].setBounds(310, 387, 70, 70);
-		labels[2].setBounds(310, 459, 70, 70);
-		labels[3].setBounds(382, 315, 70, 70);
-		labels[4].setBounds(382, 387, 70, 70);
-		labels[5].setBounds(382, 459, 70, 70);
-		labels[6].setBounds(505, 315, 70, 70);
-		labels[7].setBounds(505, 387, 70, 70);
-		labels[8].setBounds(505, 459, 70, 70);
-		labels[9].setBounds(577, 315, 70, 70);
-		labels[10].setBounds(577, 387, 70, 70);
-		labels[11].setBounds(577, 459, 70, 70);
-		labels[12].setBounds(698, 315, 70, 70);
-		labels[13].setBounds(698, 387, 70, 70);
-		labels[14].setBounds(698, 459, 70, 70);
-		labels[15].setBounds(770, 315, 70, 70);
-		labels[16].setBounds(770, 387, 70, 70);
-		labels[17].setBounds(770, 459, 70, 70);
+//		for (int i = 0; i < totalSeatCnt; i++) {
+//			labels[i] = new JLabel("" + (i + 1));
+//			labels[i].setOpaque(true);
+//			labels[i].setFont(font);
+//			labels[i].setForeground(Color.GRAY);
+//			labels[i].setHorizontalAlignment(JTextField.CENTER);
+//			labels[i].setBorder(javax.swing.BorderFactory.createEmptyBorder());
+//		}
+//
+//		labels[0].setBounds(310, 315, 70, 70);
+//		labels[1].setBounds(310, 387, 70, 70);
+//		labels[2].setBounds(310, 459, 70, 70);
+//		labels[3].setBounds(382, 315, 70, 70);
+//		labels[4].setBounds(382, 387, 70, 70);
+//		labels[5].setBounds(382, 459, 70, 70);
+//		labels[6].setBounds(505, 315, 70, 70);
+//		labels[7].setBounds(505, 387, 70, 70);
+//		labels[8].setBounds(505, 459, 70, 70);
+//		labels[9].setBounds(577, 315, 70, 70);
+//		labels[10].setBounds(577, 387, 70, 70);
+//		labels[11].setBounds(577, 459, 70, 70);
+//		labels[12].setBounds(698, 315, 70, 70);
+//		labels[13].setBounds(698, 387, 70, 70);
+//		labels[14].setBounds(698, 459, 70, 70);
+//		labels[15].setBounds(770, 315, 70, 70);
+//		labels[16].setBounds(770, 387, 70, 70);
+//		labels[17].setBounds(770, 459, 70, 70);
+		
+		
+	      for(int i = 0; i < labels.length; i++) {
+	         labels[i] = new JLabel("" + (i + 1) +"번", JLabel.CENTER);
+	         labels[i].setOpaque(true);
+	         labels[i].setFont(font);
+	         labels[i].setBorder(javax.swing.BorderFactory.createEmptyBorder());
+	         add(labels[i]);
+	      }
+	      
+	      labels[0].setBounds(260, 345, 65, 20);
+	      labels[1].setBounds(330, 345, 65, 20);
+	      labels[2].setBounds(400, 345, 65, 20);
+	      labels[3].setBounds(470, 345, 65, 20);
+	      labels[4].setBounds(540, 345, 65, 20);
+	      labels[5].setBounds(610, 345, 65, 20);
+	      labels[6].setBounds(680, 345, 65, 20);
+	      labels[7].setBounds(750, 345, 65, 20);
+	      labels[8].setBounds(820, 345, 65, 20);
+	      labels[9].setBounds(890, 345, 65, 20);
+	      
+	      labels[10].setBounds(260, 375, 65, 20);
+	      labels[11].setBounds(330, 375, 65, 20);
+	      labels[12].setBounds(400, 375, 65, 20);
+	      labels[13].setBounds(470, 375, 65, 20);
+	      labels[14].setBounds(540, 375, 65, 20);
+	      labels[15].setBounds(610, 375, 65, 20);
+	      labels[16].setBounds(680, 375, 65, 20);
+	      labels[17].setBounds(750, 375, 65, 20);
+	      labels[18].setBounds(820, 375, 65, 20);
+	      labels[19].setBounds(890, 375, 65, 20);
+	      
+	      labels[20].setBounds(260, 405, 65, 20);
+	      labels[21].setBounds(330, 405, 65, 20);
+	      labels[22].setBounds(400, 405, 65, 20);
+	      labels[23].setBounds(470, 405, 65, 20);
+	      labels[24].setBounds(540, 405, 65, 20);
+	      labels[25].setBounds(610, 405, 65, 20);
+	      labels[26].setBounds(680, 405, 65, 20);
+	      labels[27].setBounds(750, 405, 65, 20);
+	      labels[28].setBounds(820, 405, 65, 20);
+	      labels[29].setBounds(890, 405, 65, 20);
+	      
+	      labels[30].setBounds(260, 435, 65, 20);
+	      labels[31].setBounds(330, 435, 65, 20);
+	      labels[32].setBounds(400, 435, 65, 20);
+	      labels[33].setBounds(470, 435, 65, 20);
+	      labels[34].setBounds(540, 435, 65, 20);
+	      labels[35].setBounds(610, 435, 65, 20);
+	      labels[36].setBounds(680, 435, 65, 20);
+	      labels[37].setBounds(750, 435, 65, 20);
+	      labels[38].setBounds(820, 435, 65, 20);
+	      labels[39].setBounds(890, 435, 65, 20);
+	      
+	      labels[40].setBounds(260, 465, 65, 20);
+	      labels[41].setBounds(330, 465, 65, 20);
+	      labels[42].setBounds(400, 465, 65, 20);
+	      labels[43].setBounds(470, 465, 65, 20);
+	      labels[44].setBounds(540, 465, 65, 20);
+	      labels[45].setBounds(610, 465, 65, 20);
+	      labels[46].setBounds(680, 465, 65, 20);
+	      labels[47].setBounds(750, 465, 65, 20);
+	      labels[48].setBounds(820, 465, 65, 20);
+	      labels[49].setBounds(890, 465, 65, 20);
+	      
+	      labels[50].setBounds(260, 495, 65, 20);
+	      labels[51].setBounds(330, 495, 65, 20);
+	      labels[52].setBounds(400, 495, 65, 20);
+	      labels[53].setBounds(470, 495, 65, 20);
+	      labels[54].setBounds(540, 495, 65, 20);
+	      labels[55].setBounds(610, 495, 65, 20);
+	      labels[56].setBounds(680, 495, 65, 20);
+	      labels[57].setBounds(750, 495, 65, 20);
+	      labels[58].setBounds(820, 495, 65, 20);
+	      labels[59].setBounds(890, 495, 65, 20);
 
 
 		exitLb.setBounds(980, 315, 70, 220);
@@ -280,9 +355,9 @@ public class AdminReadingRoom extends JPanel implements ActionListener{
 
 
 		// 사용여부 컬럼에 '이용중' 입력
-		for (int i = 0; i < table.getRowCount(); i++) {
-			table.setValueAt("이용 중", i, 6); // i : row, 6 : 컬럼 번호
-		}
+//		for (int i = 0; i < table.getRowCount(); i++) {
+//			table.setValueAt("이용 중", i, 6); // i : row, 6 : 컬럼 번호
+//		}
 
 		totalCntTf.setBorder(null); // TextField 테두리 없애기
 		usingCntTf.setBorder(null); // TextField 테두리 없애기
@@ -389,21 +464,23 @@ public class AdminReadingRoom extends JPanel implements ActionListener{
 		//		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
 
 
 	public void open() {
 		new AdminReadingRoom();
 	}
 
-	public static void main(String[] args) {
-		new AdminReadingRoom();
-	}
+//	public static void main(String[] args) {
+//		AdminReadingRoom arr = new AdminReadingRoom();
+//		arr.open();
+//	}
 
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
-	}
 
 }
