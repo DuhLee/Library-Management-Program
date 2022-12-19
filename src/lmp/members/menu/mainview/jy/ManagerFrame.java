@@ -3,7 +3,9 @@ package lmp.members.menu.mainview.jy;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.Panel;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -12,8 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import lmp.admin.dao.AdminLogHistoryDao;
+
 public class ManagerFrame extends JFrame {
 
+	AdminLogHistoryDao adminLogHistoryDao;
 	public void ManagerFrame() {
 		//		JFrame frame = new JFrame();
 		JPanel panel1 = new JPanel();
@@ -152,7 +157,56 @@ public class ManagerFrame extends JFrame {
 		setLayout(null);
 		setVisible(true);
 		setResizable(false);// 창 크기 고정
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				try {
+					adminLogHistoryDao = new AdminLogHistoryDao();
+					adminLogHistoryDao.update(adminLogHistoryDao.getLog());
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
 	}
 
 	public void open() {

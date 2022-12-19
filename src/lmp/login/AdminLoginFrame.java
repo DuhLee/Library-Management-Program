@@ -1,26 +1,43 @@
-package lmp.members.menu.mainview.jy;
+package lmp.login;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class ManagerLoginFrame {
+import lmp.admin.dao.AdminDao;
+import lmp.admin.dao.AdminLogHistoryDao;
+import lmp.admin.vo.AdminVO;
+import lmp.members.menu.mainview.jy.ManagerFrame;
 
+public class AdminLoginFrame extends JFrame{
 
-	public void ManagerLoginFrame() {
-		JFrame frame = new JFrame();
+	LoginFrame loginFrame;
+	AdminLoginFrame adminLoginFrame;
+	ManagerFrame managerframe;						
+	
+	AdminDao adminDao = new AdminDao();
+	AdminLogHistoryDao adminLogHistoryDao = new AdminLogHistoryDao();
+
+	public AdminLoginFrame(LoginFrame loginFrame) {
+
+		this.loginFrame = loginFrame;
+		adminLoginFrame = this;
+		
 		JPanel panel = new JPanel();
 
 		Font font = new Font("한컴 말랑말랑 Regular", Font.BOLD, 14);
@@ -64,35 +81,7 @@ public class ManagerLoginFrame {
 			}
 		});
 
-
-		// 텍스트 필드에서 엔터키를 누르면 액션 이벤트 발생
-		managerIdTf.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				managerIdTf.setText(null);
-			}
-		});
-
-		managerPwTf.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				managerPwTf.setText(null);
-			}
-		});
-
-
-		JButton loginBtn = new JButton("로그인") {
-			{
-				setBounds(90, 180, 80, 30);
-				addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						ManagerFrame managerframe = new ManagerFrame();
-						managerframe.open();
-					}
-				});
-			}
-		};
+		JButton loginBtn = new JButton("로그인");
 		
 		
 		loginBtn.setBounds(90, 180, 80, 30);
@@ -100,7 +89,26 @@ public class ManagerLoginFrame {
 		loginBtn.setBackground(Color.WHITE);
 		loginBtn.setForeground(Color.GRAY);
 		loginBtn.setBorderPainted(false);
-
+		loginBtn.addActionListener(new ActionListener () {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					System.out.println(managerIdTf.getText() + new String(managerPwTf.getPassword()));
+					if (checkLogin(managerIdTf.getText(),new String(managerPwTf.getPassword()))) {
+						adminLoginFrame.dispose();
+						loginFrame.dispose();
+						managerframe = new ManagerFrame();
+						managerframe.open();
+					} else {
+						JOptionPane.showMessageDialog(adminLoginFrame, "사원번호/비밀번호를 확인하세요");	
+					}
+				} catch (HeadlessException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+		});
 
 		JButton cancelBtn = new JButton("취소") {
 			{
@@ -108,8 +116,7 @@ public class ManagerLoginFrame {
 				addActionListener(new ActionListener() {	
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						frame.setVisible(false);
-
+						adminLoginFrame.setVisible(false);
 					}
 				});
 			}
@@ -124,26 +131,45 @@ public class ManagerLoginFrame {
 
 
 
-		frame.add(loginBtn);
-		frame.add(cancelBtn);
+		add(loginBtn);
+		add(cancelBtn);
 
-		frame.add(managerIdLabel);
-		frame.add(managerPwLabel);
-		frame.add(managerIdTf);
-		frame.add(managerPwTf);
-		frame.add(panel);
-		frame.setTitle("관리자 로그인");
-		frame.setVisible(true);
-		frame.setResizable(false);
-		frame.setSize(new Dimension(400, 300));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null); // 화면 중앙에 띄우기
+		add(managerIdLabel);
+		add(managerPwLabel);
+		add(managerIdTf);
+		add(managerPwTf);
+		add(panel);
+		setTitle("관리자 로그인");
+		setVisible(true);
+		setResizable(false);
+		setSize(new Dimension(400, 300));
+		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null); // 화면 중앙에 띄우기
 	}
 
-	public void open() {
-		this.ManagerLoginFrame();
+	public void visible(boolean visible) {
+		setVisible(visible);
 	}
 	
-	public void close() {
+	public boolean checkLogin(String admin_num, String admin_pw) {
+		AdminVO adminVO;
+		try {
+			adminVO = adminDao.get(1, admin_num).get(0);
+			if (adminVO == null) {
+				return false;
+			} else {
+				if (adminVO.getPw().equals(admin_pw)) {
+
+						adminLogHistoryDao.add(adminVO);
+						
+					return true;
+				} else {
+					return false;
+				}
+			} 
+		}catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

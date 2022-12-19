@@ -1,4 +1,4 @@
-package lmp.members.menu.mainview.jy;
+package lmp.login;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,13 +11,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class FirstLoginFrame {
+import lmp.members.menu.mainview.jy.MemberFrame;
+
+public class LoginFrame extends JFrame{
 	
-	ManagerLoginFrame managerloginframe = new ManagerLoginFrame();
+	AdminLoginFrame adminLoginframe;
 
-	public FirstLoginFrame() {
+	public LoginFrame() {
+		LoginFrame loginFrame = this;
 
-		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
 
 
@@ -39,7 +41,9 @@ public class FirstLoginFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						MemberFrame memberframe = new MemberFrame();
+						loginFrame.visible(false);
 						memberframe.open();
+						
 					}
 				});
 			}
@@ -52,7 +56,8 @@ public class FirstLoginFrame {
 				addActionListener(new ActionListener() {	
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						ManagerLoginFrame managerloginframe = new ManagerLoginFrame();
+						AdminLoginFrame AdminLoginFrame = new AdminLoginFrame(loginFrame);
+						AdminLoginFrame.setVisible(true);
 					}
 				});
 			}
@@ -71,19 +76,25 @@ public class FirstLoginFrame {
 		managerBtn.setBorderPainted(false);
 
 
-		frame.add(memberBtn);
-		frame.add(managerBtn);
-		frame.add(panel);
-		frame.setTitle("도서관 관리 프로그램");
-		frame.setVisible(true);
-		frame.setResizable(false);
-		frame.setSize(new Dimension(500, 400));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setLocationRelativeTo(null); // 화면 중앙에 띄우기
+		panel.add(memberBtn);
+		panel.add(managerBtn);
+		add(panel);
+		setTitle("도서관 관리 프로그램");
+		setVisible(true);
+		setResizable(false);
+		setSize(new Dimension(500, 400));
+		setDefaultCloseOperation(this.EXIT_ON_CLOSE);
+		setLocationRelativeTo(null); // 화면 중앙에 띄우기
 	}
 
-
+	public void visible(boolean visible) {
+		setVisible(visible);
+	}
+	
+	
 	public static void main(String[] args) {
-		new FirstLoginFrame();
+		System.out.println("시작");
+		new LoginFrame();
+		
 	}
 }
