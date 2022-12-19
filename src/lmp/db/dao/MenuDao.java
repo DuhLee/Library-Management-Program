@@ -36,7 +36,7 @@ public abstract class MenuDao {
 
 	public void update(CheckOutVO checkOutVO) throws SQLException {}
 
-	public void update(SeatUseDetailVO sudVO) throws SQLException {}
+	public void update(int seat_num) throws SQLException {}
 
 	
 	public ArrayList get() throws SQLException {
@@ -74,6 +74,7 @@ public abstract class MenuDao {
 		return null;
 	}
 
+		
 
 	/**
 	 * 도서 삭제

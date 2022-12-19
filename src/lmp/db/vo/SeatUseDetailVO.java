@@ -15,7 +15,10 @@ public class SeatUseDetailVO {
 	private ReadingRoomVO readingroom;
 	private String startTime;
 	private String endTime;
+	private Object[] sudList; 
 	
+	
+	public SeatUseDetailVO() {}
 	/**
 	 * 열람실 이용내역 정보 생성자
 	 * 
@@ -36,7 +39,15 @@ public class SeatUseDetailVO {
 		this.readingroom = readingroom;
 		this.startTime	 = startTime;
 		this.endTime	 = endTime;
-		
+		this.sudList	 = new Object[] {
+											readingroom.getSeatNum(),
+											member.getNum(),
+											member.getName(),
+											member.getPhone(),
+											member.getSex(),
+											startTime,
+											endTime
+										};
 	}
 
 	public Integer getUse_id() {
@@ -59,6 +70,11 @@ public class SeatUseDetailVO {
 		return endTime;
 	}
 	
+	
+	public Object[] getSudList() {
+		return sudList;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("%d,%s,%s,%s,%s", this.use_id, this.member, this.readingroom, this.startTime, this.endTime);

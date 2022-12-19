@@ -1,12 +1,12 @@
 package lmp.db.dao;
 
 import java.sql.Connection;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import lmp.db.vo.AdminVO;
 import lmp.db.vo.MemberVO;
 import lmp.db.vo.ReadingRoomVO;
 import lmp.db.vo.SeatUseDetailVO;
@@ -53,7 +53,7 @@ public class SeatUseDetailDao extends MenuDao{
 	 * @throws SQLException
 	 */
 	@Override
-	public void update(SeatUseDetailVO sudVO) throws SQLException {
+	public void update(int seat_num) throws SQLException {
 		Connection conn = getConnection();
 		
 		String sql =  "UPDATE"
@@ -61,11 +61,11 @@ public class SeatUseDetailDao extends MenuDao{
 					+ "SET "
 					+ " end_time = sysdate,"
 					+ "WHERE"
-					+ " use_id = ?";
+					+ " seat_num = ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
-		pstmt.setInt(1,sudVO.getUse_id());
+		pstmt.setInt(1,seat_num);
 		
 		pstmt.executeUpdate();
 		

@@ -3,6 +3,7 @@ package lmp.admin.menu.member.sj;
 import java.awt.Color;
 
 
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.TextField;
@@ -24,9 +25,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import lmp.admin.menu.readingroom.sj.ReadingRoomMain;
 import lmp.db.dao.MemberDao;
 import lmp.db.vo.MemberVO;
+import lmp.members.menu.MemMenuSelectPanel;
 import lmp.util.PasswordEncoder;
 
 
@@ -200,7 +201,7 @@ public class MemberLogin extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				setVisible(false); // 기존의 로그인 화면 꺼주기
-				new ReadingRoomMain();		// 좌석 조회만 가능하게..?
+				new MemMenuSelectPanel();		// 좌석 조회만 가능하게..?
 			}
 		});
 		guestBtn.setBounds(360, 27, 95, 46);
