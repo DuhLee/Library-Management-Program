@@ -23,116 +23,100 @@ import lmp.db.vo.SeatUseDetailVO;
 
 public class ReadingRoomMain extends JFrame {
 
-	// 좌석 배열 초기화
-	int totalSeatCnt = 18;
-	JLabel[] labels = new JLabel[totalSeatCnt];
+	int totalSeatCnt = 60;
 	Font font = new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15);
 
+	LineBorder lb = new LineBorder(Color.WHITE, 1, true);
+
+
 	public ReadingRoomMain() {
-		
-		setTitle("열람실 자리 현황");
-		add(getPanel());
-		setVisible(true);
-		setResizable(false);
-		setSize(1200, 800);	// setBounds(300, 100, 1200, 800);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	}
 
-	public JPanel getPanel() {
-		JPanel myPanel = new JPanel();	// 각각의 패널이 붙을 전체 패널
-
-		// 패널추가
-		JPanel titlePanel = new JPanel();			// 제목(현재좌석배치도) 라벨이 붙을 패널
-		JPanel cntPanel = new JPanel();			// 총좌석, 사용중, 사용가능 라벨이 붙을 패널
-
-		// 라벨추가
 		JLabel titleLabel = new JLabel("현재 좌석 배치도", JLabel.CENTER);
-		JLabel usingLabel = new JLabel("사용중", JLabel.CENTER);					
-		JLabel usingCntLabel = new JLabel("", JLabel.CENTER);
-		JLabel totalLabel = new JLabel("총 좌석", JLabel.CENTER);
-		JLabel totalCntLabel = new JLabel("", JLabel.CENTER);
-		JLabel remainLabel = new JLabel("사용가능", JLabel.CENTER);
-		JLabel remainCntLabel = new JLabel("", JLabel.CENTER);
-		JLabel maleLabel = new JLabel("남성", JLabel.CENTER);
-		JLabel femaleLabel = new JLabel("여성", JLabel.CENTER);
-		JLabel maleColorLabel = new JLabel("", JLabel.CENTER);
-		JLabel femaleColorLabel = new JLabel("", JLabel.CENTER);
-
-		// maleColorLabel, femaleColorLabel --> 이미지 넣기
-		ImageIcon maleImg = new ImageIcon("images/male.png");
-		ImageIcon femaleImg = new ImageIcon("images/female.png");
-		maleColorLabel = new JLabel("", maleImg, JLabel.CENTER);
-		femaleColorLabel = new JLabel("", femaleImg, JLabel.CENTER);
-
-		// 패널 간 배치
-		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.X_AXIS));
-		cntPanel.setLayout(new BoxLayout(cntPanel, BoxLayout.Y_AXIS));
-
-		// 패널 배경
-		titlePanel.setBackground(Color.WHITE);
-		cntPanel.setBackground(Color.WHITE);
-
-		// 패널 위치와 크기
-		titlePanel.setBounds(50, 50, 300, 100);
-		cntPanel.setBounds(50, 150, 1000, 50);
-
-		// 프레임에 라벨 추가
 		this.add(titleLabel);
+		titleLabel.setBounds(400, 220, 400, 50);
+		titleLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 30));
+		titleLabel.setForeground(Color.WHITE);
+
+		JButton exitBtn = new JButton("퇴실하기");
+		this.add(exitBtn);
+		exitBtn.setBounds(1000, 220, 100, 30);
+		exitBtn.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
+		exitBtn.setForeground(Color.WHITE);
+		exitBtn.setBackground(Color.LIGHT_GRAY);
+		exitBtn.setBorderPainted(false);
+		exitBtn.setFocusPainted(false); 
+		
+		JLabel totalLabel = new JLabel("총 좌석", JLabel.CENTER);
 		this.add(totalLabel);
+		totalLabel.setBounds(200, 300, 100, 30);
+		totalLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
+		totalLabel.setForeground(Color.WHITE);
+
+		JLabel totalCntLabel = new JLabel("", JLabel.CENTER);
 		this.add(totalCntLabel);
+		lb = new LineBorder(Color.WHITE, 1, true);
+		totalCntLabel.setBorder(lb);
+		totalCntLabel.setBounds(300, 300, 100, 30);
+		totalCntLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 16));
+		totalCntLabel.setForeground(Color.WHITE);
+		
+		JLabel usingLabel = new JLabel("사용중", JLabel.CENTER);		
 		this.add(usingLabel);
+		usingLabel.setBounds(400, 300, 100, 30);
+		usingLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
+		usingLabel.setForeground(Color.WHITE);
+
+		JLabel usingCntLabel = new JLabel("", JLabel.CENTER);
 		this.add(usingCntLabel);
+		lb = new LineBorder(Color.WHITE, 1, true);
+		usingCntLabel.setBorder(lb);
+		usingCntLabel.setBounds(500, 300, 100, 30);
+		usingCntLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 16));
+		usingCntLabel.setForeground(Color.WHITE);
+
+		JLabel remainLabel = new JLabel("사용가능", JLabel.CENTER);
 		this.add(remainLabel);
+		remainLabel.setBounds(600, 300, 100, 30);
+		remainLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
+		remainLabel.setForeground(Color.WHITE);
+
+		JLabel remainCntLabel = new JLabel("", JLabel.CENTER);
 		this.add(remainCntLabel);
+		lb = new LineBorder(Color.WHITE, 1, true);
+		remainCntLabel.setBorder(lb);
+		remainCntLabel.setBounds(700, 300, 100, 30);
+		remainCntLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 16));
+		remainCntLabel.setForeground(Color.WHITE);
+
+		JLabel maleLabel = new JLabel("남성", JLabel.CENTER);
 		this.add(maleLabel);
-		this.add(femaleLabel);
+		maleLabel.setBounds(850, 300, 50, 30);
+		maleLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
+		maleLabel.setForeground(Color.WHITE);
+
+		JLabel maleColorLabel = new JLabel("", JLabel.CENTER);
+		ImageIcon maleImg = new ImageIcon("images/male.png");
+		maleColorLabel = new JLabel("", maleImg, JLabel.CENTER);
+		maleColorLabel.setBounds(910, 300, 30, 30);
+		maleColorLabel.setForeground(Color.WHITE);
 		this.add(maleColorLabel);
+
+		JLabel femaleLabel = new JLabel("여성", JLabel.CENTER);
+		this.add(femaleLabel);
+		femaleLabel.setBounds(950, 300, 50, 30);
+		femaleLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
+		femaleLabel.setForeground(Color.WHITE);
+
+		JLabel femaleColorLabel = new JLabel("", JLabel.CENTER);
+		ImageIcon femaleImg = new ImageIcon("images/female.png");
+		femaleColorLabel = new JLabel("", femaleImg, JLabel.CENTER);
+		femaleColorLabel.setBounds(1010, 300, 30, 30);
+		femaleColorLabel.setForeground(Color.WHITE);
 		this.add(femaleColorLabel);
 
-		// 총좌석, 이용중좌석, 잔여좌석 숫자 부분 테두리 넣기
-		LineBorder lb = new LineBorder(Color.WHITE, 1, true);
-		totalCntLabel.setBorder(lb);
-		usingCntLabel.setBorder(lb);
-		remainCntLabel.setBorder(lb);
 
-		// 라벨의 위치와 크기
-		titleLabel.setBounds(100, 180, 1000, 50);
-		usingLabel.setBounds(230, 250, 80, 30);
-		usingCntLabel.setBounds(310, 250, 100, 30);
-		totalLabel.setBounds(440, 250, 80, 30);
-		totalCntLabel.setBounds(520, 250, 100, 30);
-		remainLabel.setBounds(650, 250, 80, 30);
-		remainCntLabel.setBounds(730, 250, 100, 30);
-		maleLabel.setBounds(900, 240, 50, 30);
-		femaleLabel.setBounds(900, 280, 50, 30);
-		maleColorLabel.setBounds(960, 240, 30, 30);
-		femaleColorLabel.setBounds(960, 280, 30, 30);
-
-		// 라벨 폰트
-		titleLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 30));
-		totalLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
-		totalCntLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 16));
-		usingLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
-		usingCntLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 16));
-		remainLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
-		remainCntLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 16));
-		maleLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
-		femaleLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 16));
-
-		// 라벨 색상
-		titleLabel.setForeground(Color.WHITE);
-		totalLabel.setForeground(Color.WHITE);
-		totalCntLabel.setForeground(Color.WHITE);
-		usingLabel.setForeground(Color.WHITE);
-		usingCntLabel.setForeground(Color.WHITE);
-		remainLabel.setForeground(Color.WHITE);
-		remainCntLabel.setForeground(Color.WHITE);
-		maleLabel.setForeground(Color.WHITE);
-		femaleLabel.setForeground(Color.WHITE);
-		maleColorLabel.setForeground(Color.WHITE);
-		femaleColorLabel.setForeground(Color.WHITE);
-
+		
+		
 		// count 라벨에 해당 좌석 숫자 표시
 		SeatUseDetailDao sudDao = new SeatUseDetailDao();
 		ArrayList<SeatUseDetailVO> sudList=  new ArrayList<>();
@@ -141,45 +125,91 @@ public class ReadingRoomMain extends JFrame {
 			sudList.addAll(sudDao.get());
 			usingCntLabel.setText(sudList.size() + "");
 			// remainCntLabel(잔여좌석)
-			int rCnt = 18 - sudList.size();
+			int rCnt = 60 - sudList.size();
 			remainCntLabel.setText(rCnt + "");
 			// totalCntLabel(총좌석)
-			totalCntLabel.setText("18");	
+			totalCntLabel.setText("60");	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 
-		for (int i = 0; i < totalSeatCnt; i++) {
-			labels[i] = new JLabel("" + (i+1), JLabel.CENTER);
-			labels[i].setOpaque(true);
-			labels[i].setFont(font);
-			//			labels[i].setHorizontalAlignment(JTextFiled.CENTER);
-			labels[i].setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		}
-
-		labels[0].setBounds(230, 380, 90, 90);
-		labels[1].setBounds(230, 475, 90, 90);
-		labels[2].setBounds(230, 570, 90, 90);
-		labels[3].setBounds(325, 380, 90, 90);
-		labels[4].setBounds(325, 475, 90, 90);
-		labels[5].setBounds(325, 570, 90, 90);
-		labels[6].setBounds(515, 380, 90, 90);
-		labels[7].setBounds(515, 475, 90, 90);
-		labels[8].setBounds(515, 570, 90, 90);
-		labels[9].setBounds(610, 380, 90, 90);
-		labels[10].setBounds(610, 475, 90, 90);
-		labels[11].setBounds(610, 570, 90, 90);
-		labels[12].setBounds(800, 380, 90, 90);
-		labels[13].setBounds(800, 475, 90, 90);
-		labels[14].setBounds(800, 570, 90, 90);
-		labels[15].setBounds(895, 380, 90, 90);
-		labels[16].setBounds(895, 475, 90, 90);
-		labels[17].setBounds(895, 570, 90, 90);
-
-		for (int i = 0; i < labels.length; i++) {
-			add(labels[i]);
-		}
+		// 좌석 1~60 추가
+				JLabel[] labels = new JLabel[60];
+				for(int i = 0; i < labels.length; i++) {
+					labels[i] = new JLabel("" + (i + 1) +"번", JLabel.CENTER);
+					labels[i].setOpaque(true);
+					labels[i].setFont(font);
+					labels[i].setBorder(javax.swing.BorderFactory.createEmptyBorder());
+					add(labels[i]);
+				}
+				
+				labels[0].setBounds(100, 400, 90, 30);
+				labels[1].setBounds(200, 400, 90, 30);
+				labels[2].setBounds(300, 400, 90, 30);
+				labels[3].setBounds(400, 400, 90, 30);
+				labels[4].setBounds(500, 400, 90, 30);
+				labels[5].setBounds(600, 400, 90, 30);
+				labels[6].setBounds(700, 400, 90, 30);
+				labels[7].setBounds(800, 400, 90, 30);
+				labels[8].setBounds(900, 400, 90, 30);
+				labels[9].setBounds(1000, 400, 90, 30);
+				
+				labels[10].setBounds(100, 450, 90, 30);
+				labels[11].setBounds(200, 450, 90, 30);
+				labels[12].setBounds(300, 450, 90, 30);
+				labels[13].setBounds(400, 450, 90, 30);
+				labels[14].setBounds(500, 450, 90, 30);
+				labels[15].setBounds(600, 450, 90, 30);
+				labels[16].setBounds(700, 450, 90, 30);
+				labels[17].setBounds(800, 450, 90, 30);
+				labels[18].setBounds(900, 450, 90, 30);
+				labels[19].setBounds(1000, 450, 90, 30);
+				
+				labels[20].setBounds(100, 500, 90, 30);
+				labels[21].setBounds(200, 500, 90, 30);
+				labels[22].setBounds(300, 500, 90, 30);
+				labels[23].setBounds(400, 500, 90, 30);
+				labels[24].setBounds(500, 500, 90, 30);
+				labels[25].setBounds(600, 500, 90, 30);
+				labels[26].setBounds(700, 500, 90, 30);
+				labels[27].setBounds(800, 500, 90, 30);
+				labels[28].setBounds(900, 500, 90, 30);
+				labels[29].setBounds(1000, 500, 90, 30);
+				
+				labels[30].setBounds(100, 550, 90, 30);
+				labels[31].setBounds(200, 550, 90, 30);
+				labels[32].setBounds(300, 550, 90, 30);
+				labels[33].setBounds(400, 550, 90, 30);
+				labels[34].setBounds(500, 550, 90, 30);
+				labels[35].setBounds(600, 550, 90, 30);
+				labels[36].setBounds(700, 550, 90, 30);
+				labels[37].setBounds(800, 550, 90, 30);
+				labels[38].setBounds(900, 550, 90, 30);
+				labels[39].setBounds(1000, 550, 90, 30);
+				
+				labels[40].setBounds(100, 600, 90, 30);
+				labels[41].setBounds(200, 600, 90, 30);
+				labels[42].setBounds(300, 600, 90, 30);
+				labels[43].setBounds(400, 600, 90, 30);
+				labels[44].setBounds(500, 600, 90, 30);
+				labels[45].setBounds(600, 600, 90, 30);
+				labels[46].setBounds(700, 600, 90, 30);
+				labels[47].setBounds(800, 600, 90, 30);
+				labels[48].setBounds(900, 600, 90, 30);
+				labels[49].setBounds(1000, 600, 90, 30);
+				
+				labels[50].setBounds(100, 650, 90, 30);
+				labels[51].setBounds(200, 650, 90, 30);
+				labels[52].setBounds(300, 650, 90, 30);
+				labels[53].setBounds(400, 650, 90, 30);
+				labels[54].setBounds(500, 650, 90, 30);
+				labels[55].setBounds(600, 650, 90, 30);
+				labels[56].setBounds(700, 650, 90, 30);
+				labels[57].setBounds(800, 650, 90, 30);
+				labels[58].setBounds(900, 650, 90, 30);
+				labels[59].setBounds(1000, 650, 90, 30);
+				
 
 
 		try {
@@ -203,19 +233,7 @@ public class ReadingRoomMain extends JFrame {
 
 
 	
-		
-		
-		
-
-		boolean bLoginChk = false;
-	
-		if (!bLoginChk) { // 로그인 실패
-			
-		} else { // 로그인 성공
-			
-		}	
-		
-		// 좌석 1~ 18번 이벤트 (18개 같은 동작 실행)
+		// 좌석 1~ 60번 이벤트 (60개 같은 동작 실행)
 		// Local variable i defined in an enclosing scope must be final or effectively final -- 오류발생
 		// final int j = i; 추가함
 		try {
@@ -235,11 +253,6 @@ public class ReadingRoomMain extends JFrame {
 						} else if (result == JOptionPane.YES_OPTION) {
 
 							// 로그인 정보 넘어와야 하는 부분 아직...
-							
-							
-							
-							
-							
 							
 							
 							SeatUseDetailDao sudDao = new SeatUseDetailDao();
@@ -266,19 +279,47 @@ public class ReadingRoomMain extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-			
-
-		this.add(myPanel);
-		myPanel.add(titlePanel);
-		myPanel.add(cntPanel);
-		myPanel.setBounds(0, 100, 1100, 600);
-
+		
+		
+		
+		// 퇴실 버튼 이벤트
+		exitBtn.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				super.mouseClicked(e);
+				int result = JOptionPane.showConfirmDialog(exitBtn, "퇴실하시겠습니까?", "Confirm", JOptionPane.YES_NO_OPTION); 
+				if (result == JOptionPane.NO_OPTION) {
+					dispose();
+					setVisible(true);
+				} else if (result == JOptionPane.YES_OPTION) {
+					SeatUseDetailDao sudDao = new SeatUseDetailDao();
+					ArrayList<SeatUseDetailVO> sudList = new ArrayList<>();
+					try {
+						sudList.addAll(sudDao.get());
+						for (SeatUseDetailVO sud : sudList) {
+							
+							// 로그인 정보 있어야 함
+							labels[sud.getReadingroom().getSeatNum() - 1].setBackground(Color.GRAY);
+						}
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
 		// 서브 배경색상 변경
 		JPanel p2 = new JPanel();
-		p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
+		p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
 		p2.setBackground(new Color(126, 151, 148));
-		p2.setBounds(50, 100, 1100, 600);
+		p2.setBounds(17, 200, 1150, 550);
 		add(p2);
 
 		// 메인 배경색상 변경
@@ -287,10 +328,15 @@ public class ReadingRoomMain extends JFrame {
 		p.setBackground(new Color(42, 64, 61));
 		p.setBounds(0, 0, 1200, 800);
 		add(p);
+		
+		// 기본 세팅
+		setTitle("열람실 자리 현황");
+		setVisible(true);
+		setResizable(false);
+		setSize(1200, 800);	// setBounds(300, 100, 1200, 800);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JOptionPane.setDefaultLocale(null);
-
-		return myPanel;
 	}
 
 
