@@ -89,7 +89,7 @@ public class SeatUseDetailDao extends MenuDao{
 		ArrayList<SeatUseDetailVO> sudList = new ArrayList<>();
 		System.out.println(3);
 		while (rs.next()) {
-			System.out.println(rs.getInt(0));
+
 			sudList.add(
 						new SeatUseDetailVO(
 							rs.getInt("use_id"),

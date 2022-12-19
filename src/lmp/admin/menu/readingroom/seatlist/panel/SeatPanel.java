@@ -45,7 +45,7 @@ public class SeatPanel extends JPanel{
 	public void refresh(ArrayList<SeatUseDetailVO> sudVOs) {
 		
 		for (int i = 0; i < seatLabels.length; i++) {
-			seatLabels[i].setBackground(Color.GRAY);
+			seatLabels[i].setBackground(Color.LIGHT_GRAY);
 		}
 		
 		for (SeatUseDetailVO sudVO : sudVOs) {
