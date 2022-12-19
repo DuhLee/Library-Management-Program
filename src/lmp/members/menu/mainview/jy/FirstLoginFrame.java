@@ -12,7 +12,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class FirstLoginFrame {
-
+	
+	ManagerLoginFrame managerloginframe = new ManagerLoginFrame();
 
 	public FirstLoginFrame() {
 
@@ -52,7 +53,6 @@ public class FirstLoginFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						ManagerLoginFrame managerloginframe = new ManagerLoginFrame();
-						managerloginframe.open();
 					}
 				});
 			}

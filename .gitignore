@@ -1,1 +1,6 @@
 /bin/
+
+# Eclipse Core
+.project
+# JDK-specific (Eclipse Java Development Tools)
+.classpath

@@ -23,7 +23,7 @@ public class ManagerLoginFrame {
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
 
-		Font font = new Font("한컴 말랑말랑 Regular", Font.ITALIC, 14);
+		Font font = new Font("한컴 말랑말랑 Regular", Font.BOLD, 14);
 
 		Color panelColor = new Color(49, 82, 91);
 		Color btnColor = new Color(204, 139, 101);
@@ -33,8 +33,8 @@ public class ManagerLoginFrame {
 
 		JLabel managerIdLabel = new JLabel("관리자번호");
 		JLabel managerPwLabel = new JLabel("관리자암호");
-		managerIdLabel.setBounds(60, 80, 100, 30);
-		managerPwLabel.setBounds(60, 120, 100, 30);
+		managerIdLabel.setBounds(40, 80, 100, 30);
+		managerPwLabel.setBounds(40, 120, 100, 30);
 		managerIdLabel.setFont(font);
 		managerPwLabel.setFont(font);
 		managerIdLabel.setForeground(Color.WHITE);
@@ -140,12 +140,10 @@ public class ManagerLoginFrame {
 		frame.setLocationRelativeTo(null); // 화면 중앙에 띄우기
 	}
 
-
-	public static void main(String[] args) {
-		new ManagerLoginFrame();
-	}
-
 	public void open() {
 		this.ManagerLoginFrame();
+	}
+	
+	public void close() {
 	}
 }
