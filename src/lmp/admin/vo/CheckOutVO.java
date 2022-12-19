@@ -1,7 +1,5 @@
 package lmp.admin.vo;
 
-import java.util.Date;
-
 public class CheckOutVO {
 	/**
 	 * 대여 정보 VO

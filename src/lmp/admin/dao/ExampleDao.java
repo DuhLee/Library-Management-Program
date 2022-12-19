@@ -1,10 +1,8 @@
 package lmp.admin.dao;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.sql.Blob;
 import java.sql.Connection;
@@ -12,8 +10,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import javax.imageio.ImageIO;
 
 import lmp.admin.vo.BookVO;
 

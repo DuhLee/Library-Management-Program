@@ -2,16 +2,10 @@ package lmp.admin.menu.checkin_out;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -27,7 +21,6 @@ import javax.swing.table.DefaultTableModel;
 import lmp.admin.AdminFrame;
 import lmp.admin.dao.BookDao;
 import lmp.admin.dao.CheckOutDao;
-import lmp.admin.vo.CheckOutVO;
 
 public class CheckIn_Out_Frame extends JFrame{
 

@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 
 import lmp.admin.menu.readingroom.ReadingRoomPanel;
-import lmp.admin.menu.readingroom.usagelist.UsageListPanel;
 import lmp.admin.menu.readingroom.usagelist.label.UsageListCheckOutLabel;
 import lmp.admin.menu.readingroom.usagelist.label.UsageListTitleLabel;
 

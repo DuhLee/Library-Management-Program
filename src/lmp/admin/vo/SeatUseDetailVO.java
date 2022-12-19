@@ -1,7 +1,5 @@
 package lmp.admin.vo;
 
-import java.util.Date;
-
 public class SeatUseDetailVO {
 
 	/**

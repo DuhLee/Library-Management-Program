@@ -1,12 +1,9 @@
 package lmp.members.menu.book;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,7 +30,6 @@ import javax.swing.table.DefaultTableModel;
 
 import lmp.admin.AdminFrame;
 import lmp.admin.dao.BookDao;
-import lmp.admin.vo.BookVO;
 
 public class BookSearchFrame extends JFrame {
 

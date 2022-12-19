@@ -1,17 +1,13 @@
 package lmp.admin.menu.readingroom;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.sql.SQLException;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import lmp.admin.dao.SeatUseDetailDao;
 import lmp.admin.menu.readingroom.seatlist.SeatListPanel;
 import lmp.admin.menu.readingroom.usagelist.UsageListPanel;
-import lmp.admin.menu.readingroom.usagelist.label.UsageListCheckOutLabel;
-import lmp.admin.menu.readingroom.usagelist.label.UsageListTitleLabel;
 import lmp.admin.menu.readingroom.usagelist.panel.UsageListTitlePanel;
 import lmp.admin.menu.readingroom.usagelist.scrollpane.UsageListScrollPane;
 

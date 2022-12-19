@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import lmp.admin.vo.AdminVO;
 import lmp.admin.vo.MemberVO;
 
 public class MemberDao extends MenuDao{
