@@ -3,7 +3,9 @@ package lmp.members.menu;
 import java.awt.Color;
 import java.sql.SQLException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import lmp.members.menu.readingroom.sj.ReadingRoomPanel;
 
@@ -11,6 +13,7 @@ public class MemMenuSelectPanel {
 
 	public static void main(String[] args) {
 		JFrame frame = new JFrame();
+		
 		try {
 			
 			frame.add(new ReadingRoomPanel());
@@ -22,6 +25,12 @@ public class MemMenuSelectPanel {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	
 	}
-
+	
 }
+
+
+
+
+

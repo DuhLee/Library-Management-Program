@@ -1,29 +1,37 @@
 package lmp.members.menu.readingroom.sj;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import lmp.db.dao.SeatUseDetailDao;
+import lmp.db.vo.SeatUseDetailVO;
 import lmp.members.menu.readingroom.sj.seatlist.SeatListPanel;
+import lmp.members.menu.readingroom.sj.seatlist.panel.SeatPanel;
 import lmp.members.menu.readingroom.sj.seatlist.panel.StatusPanel;
 import lmp.members.menu.readingroom.sj.usagelist.UsageListPanel;
+import lmp.members.menu.readingroom.sj.usagelist.label.UsageListCheckOutLabel;
 import lmp.members.menu.readingroom.sj.usagelist.panel.UsageListTitlePanel;
 //import lmp.members.menu.readingroom.sj.usagelist.scrollpane.UsageListScrollPane;
 
 public class ReadingRoomPanel extends JPanel {
-	
-	SeatUseDetailDao sudDao = new SeatUseDetailDao();
 	
 	SeatListPanel seatListPanel;
 	UsageListPanel usageListPanel;
 	StatusPanel statusPanel;
 	UsageListTitlePanel usageListTitlaPanel;
 
-	GridLayout gridLayout = new GridLayout(2,1);
+//	GridLayout gridLayout = new GridLayout(0,1);
 	
+	SeatUseDetailDao sudDao = new SeatUseDetailDao();
+	ArrayList<SeatUseDetailVO> sudVO;
 	
 	public ReadingRoomPanel() throws SQLException {
 		
@@ -33,16 +41,35 @@ public class ReadingRoomPanel extends JPanel {
 		statusPanel = new StatusPanel();
 		usageListTitlaPanel = new UsageListTitlePanel(this);
 		
+		setBorder(new TitledBorder(new LineBorder(new Color(49, 82, 91),30)));
+		setBackground(new Color(49, 82, 91));
 		
-		usageListPanel.add(usageListTitlaPanel, "North");
-		usageListPanel.add(statusPanel, "Center");
-		setLayout(gridLayout);
+		usageListPanel.add(usageListTitlaPanel);
+//		setLayout(gridLayout);
+//		usageListTitlaPanel.setBounds(100, 0, 500, 50);
+		setLayout(null);
 		add(usageListPanel);
+		usageListPanel.setBounds(100, 180, 1000, 140);
+		
+		try {
+			sudVO = sudDao.get();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		statusPanel = new StatusPanel(sudVO);
+		add(statusPanel);
+		statusPanel.setBounds(300, 310, 630, 50);
+		
 		add(seatListPanel);
-
+		seatListPanel.setBounds(20, 350, 1150, 400);
 	}
 
-
+	public void refresh(ArrayList<SeatUseDetailVO> sudVO) {
+		statusPanel.refresh(sudVO);
+		this.validate();
+	}
+	
 	public SeatListPanel getSeatListPanel() {
 		return seatListPanel;
 	}
@@ -51,8 +78,9 @@ public class ReadingRoomPanel extends JPanel {
 		return usageListPanel;
 	}
 	
-	public StatusPanel getStatusPanel() {
+	public StatusPanel getStatusPanel(ArrayList<SeatUseDetailVO> sudVO) {
 		return statusPanel;
 	}
+	
 	
 }

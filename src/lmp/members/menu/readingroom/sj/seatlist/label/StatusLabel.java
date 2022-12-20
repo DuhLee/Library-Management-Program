@@ -5,6 +5,8 @@ import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import lmp.members.menu.readingroom.sj.ReadingRoomPanel;
 import lmp.members.menu.readingroom.sj.seatlist.SeatListPanel;
@@ -16,11 +18,11 @@ public class StatusLabel extends JLabel{
 	public StatusLabel() {
 
 		this.setOpaque(true);
-		this.setForeground(Color.BLACK);
-		this.setBackground(Color.GRAY);
+		this.setBackground(new Color(49, 82, 91));
 		this.setHorizontalAlignment(JLabel.CENTER);
-		this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
+//		this.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+		this.setForeground(Color.WHITE);
+		this.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15));
 	}
 
 }

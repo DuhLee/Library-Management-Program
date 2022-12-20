@@ -1,5 +1,6 @@
 package lmp.members.menu.readingroom.sj.seatlist;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.sql.SQLException;
@@ -11,8 +12,13 @@ import javax.swing.border.TitledBorder;
 
 import lmp.db.dao.SeatUseDetailDao;
 import lmp.db.vo.SeatUseDetailVO;
+import lmp.members.menu.readingroom.sj.ReadingRoomPanel;
+import lmp.members.menu.readingroom.sj.seatlist.label.GenderLabel;
+import lmp.members.menu.readingroom.sj.seatlist.label.StatusLabel;
 import lmp.members.menu.readingroom.sj.seatlist.panel.SeatPanel;
 import lmp.members.menu.readingroom.sj.seatlist.panel.StatusPanel;
+import lmp.members.menu.readingroom.sj.usagelist.label.UsageListCheckOutLabel;
+import lmp.members.menu.readingroom.sj.usagelist.label.UsageListTitleLabel;
 
 public class SeatListPanel extends JPanel{
 	
@@ -23,6 +29,7 @@ public class SeatListPanel extends JPanel{
 	
 	SeatUseDetailDao sudDao = new SeatUseDetailDao();
 	ArrayList<SeatUseDetailVO> sudVO;
+		
 	public SeatListPanel() {
 		System.out.println("seatlistpanel");
 		setLayout(gridLayout);
@@ -53,5 +60,7 @@ public class SeatListPanel extends JPanel{
 		
 		this.validate();
 	}
+	
+	
 
 }

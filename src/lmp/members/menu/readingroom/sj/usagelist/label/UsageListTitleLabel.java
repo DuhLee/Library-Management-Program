@@ -1,5 +1,6 @@
 package lmp.members.menu.readingroom.sj.usagelist.label;
 
+import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -12,6 +13,7 @@ public class UsageListTitleLabel extends JLabel{
 		this.setText("현재 좌석 배치도");
 		this.setHorizontalAlignment(JLabel.CENTER);
 		setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 30));
+		this.setForeground(Color.WHITE);
 	}
 
 }

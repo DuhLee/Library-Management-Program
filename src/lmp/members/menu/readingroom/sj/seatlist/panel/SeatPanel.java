@@ -1,10 +1,14 @@
 package lmp.members.menu.readingroom.sj.seatlist.panel;
 
 import java.awt.Color;
+
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import lmp.db.vo.SeatUseDetailVO;
@@ -26,6 +30,24 @@ public class SeatPanel extends JPanel{
 			seatLabels[i - tens] = new SeatLabel(i + 1);
 			seatLabels[i - tens].setBorder(BorderFactory.createLineBorder(Color.BLACK));
 			add(seatLabels[i - tens]);
+			
+			//---------------------
+			
+			seatLabels[i - tens].addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					super.mouseClicked(e);
+					int result = JOptionPane.showConfirmDialog(null, "좌석을 발권하겠습니까?", "Confirm", JOptionPane.YES_NO_OPTION);
+					if (result == JOptionPane.NO_OPTION) {
+						setVisible(true);
+					} else if (result == JOptionPane.YES_OPTION) {
+						JOptionPane.showMessageDialog(null, "좌석 발권이 완료되었습니다.", "Message", 1);
+						// 로그인 정보 db로 어떻게 넘기나..... 에휴....ㅠㅠ
+					} 
+				}	
+			});
+			
+			//---------------------
 		}
 		
 		for (SeatUseDetailVO sudVO : sudVOs) {
@@ -33,9 +55,9 @@ public class SeatPanel extends JPanel{
 			String sex = sudVO.getMember().getSex();
 			if (usageSeatNum > tens + 1 && usageSeatNum < tens + 10) {
 				if (sex.equals("0")) {					
-					seatLabels[usageSeatNum - tens - 1].setBackground(Color.BLUE);
+					seatLabels[usageSeatNum - tens - 1].setBackground(new Color(153,204,255));
 				} else {
-					seatLabels[usageSeatNum - tens - 1].setBackground(Color.PINK);
+					seatLabels[usageSeatNum - tens - 1].setBackground(new Color(255,153,204));
 				}
 			}
 		}
@@ -53,9 +75,9 @@ public class SeatPanel extends JPanel{
 			String sex = sudVO.getMember().getSex();
 			if (usageSeatNum > tens + 1 && usageSeatNum < tens + 10) {
 				if (sex.equals("0")) {					
-					seatLabels[usageSeatNum - tens - 1].setBackground(Color.BLUE);
+					seatLabels[usageSeatNum - tens - 1].setBackground(new Color(153,204,255));
 				} else {
-					seatLabels[usageSeatNum - tens - 1].setBackground(Color.PINK);
+					seatLabels[usageSeatNum - tens - 1].setBackground(new Color(255,153,204));
 				}
 			}
 		}
