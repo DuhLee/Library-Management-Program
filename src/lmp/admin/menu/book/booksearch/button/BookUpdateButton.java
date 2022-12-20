@@ -14,7 +14,7 @@ public class BookUpdateButton extends BookButton {
 	public BookUpdateButton(BookSearchPanel bookSearchPanel) {
 		this.setText("수정");
 		this.bookSearchPanel =  bookSearchPanel;
-		this.setBounds(1020, 110, 120, 40);
+		this.setBounds(1020, 60, 100, 30);
 		
 		this.addActionListener(new ActionListener() {
 			

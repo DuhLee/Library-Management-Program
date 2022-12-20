@@ -1,6 +1,6 @@
 package lmp.admin.vo;
 
-public class SeatUseDetailVO {
+public class SeatUseDetailVO implements Comparable<SeatUseDetailVO>{
 
 	/**
 	 * 열람실 이용 내역 VO
@@ -75,6 +75,16 @@ public class SeatUseDetailVO {
 	@Override
 	public String toString() {
 		return String.format("%d,%s,%s,%s,%s", this.use_id, this.member, this.readingroom, this.startTime, this.endTime);
+	}
+	
+	// 오름차순으로 정렬
+	@Override
+	public int compareTo(SeatUseDetailVO o) {
+		if (o.getReadingroom().getSeatNum() > this.getReadingroom().getSeatNum()) {
+			return -1;
+		} else {
+			return 1;
+		}
 	}
 	
 }

@@ -37,7 +37,7 @@ public class ManagerLogin extends JFrame {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setResizable(false);
-		setMinimumSize(new Dimension(510, 164));
+		setMinimumSize(new Dimension(400, 164));
 		setLocationRelativeTo(null);
 		
 		contentPane = new JPanel();
@@ -50,28 +50,28 @@ public class ManagerLogin extends JFrame {
 		// 라벨 
 		JLabel idLabel = new JLabel("관리자번호", JLabel.LEFT);
 		idLabel.setHorizontalAlignment(JLabel.CENTER);
-		idLabel.setBounds(75, 40, 60, 15);
+		idLabel.setBounds(30, 40, 65, 15);
 		contentPane.add(idLabel);
 		
 		
 		idTextFiled = new JTextField("관리자번호를 입력해주세요");
 		idTextFiled.setText("");
 		// sID = idTextFiled.getText();
-		idTextFiled.setBounds(145, 40, 180, 21);
+		idTextFiled.setBounds(99, 40, 167, 21);
 		contentPane.add(idTextFiled);
 		idTextFiled.setColumns(10);
 		
 		
 		JLabel pwLabel = new JLabel("관리자암호", JLabel.LEFT);
 		pwLabel.setHorizontalAlignment(JLabel.CENTER);
-		pwLabel.setBounds(75, 65, 60, 15);
+		pwLabel.setBounds(30, 65, 65, 15);
 		contentPane.add(pwLabel);
 		
 		
 		pwField  = new JPasswordField("관리자암호를 입력해주세요");
 		pwField.setText("");
 		// sPW = pwField.getText();
-		pwField.setBounds(145, 65, 180, 21);
+		pwField.setBounds(99, 65, 167, 21);
 		contentPane.add(pwField);
 		pwField.setColumns(10);
 
@@ -94,7 +94,7 @@ public class ManagerLogin extends JFrame {
 				}
 			}
 		});
-		loginBtn.setBounds(340, 40, 80, 46);
+		loginBtn.setBounds(274, 40, 80, 46);
 		contentPane.add(loginBtn);
 
 		
@@ -111,17 +111,16 @@ public class ManagerLogin extends JFrame {
 		loginBtn.setFocusPainted(false);
 		
 		// 로그인 버튼의 배경 색상을 변경
-		loginBtn.setBackground(Color.WHITE);
+		loginBtn.setBackground(Color.GRAY);
 		
 		// 로그인 버튼의 폰트 색상을 변경
-		loginBtn.setForeground(Color.GRAY);
+		loginBtn.setForeground(Color.WHITE);
 		
 		
 		// 폰트설정
 		idLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));
 		pwLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));
-		
-		loginBtn.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));
+		loginBtn.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
 
 		// 색상 변경
 		idLabel.setForeground(Color.WHITE);

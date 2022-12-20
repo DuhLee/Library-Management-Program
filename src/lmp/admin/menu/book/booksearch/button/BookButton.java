@@ -13,14 +13,14 @@ import javax.swing.JButton;
 public abstract class BookButton extends JButton {
 	
 	public BookButton() {
-			this.setBackground(Color.PINK);
+			this.setBackground(Color.GRAY);
 			this.setBorderPainted(false);
 			this.setFocusPainted(false);
 			this.setContentAreaFilled(false);
-			this.setFont(new Font(null, Font.BOLD, 18));
+			this.setFont(new Font("한컴 말랑말랑 Regular",Font.BOLD, 15));
+			this.setForeground(Color.WHITE);
 			this.setVerticalTextPosition(JButton.CENTER);
 			this.setHorizontalTextPosition(JButton.RIGHT);
-			this.setForeground(Color.WHITE);
 			this.addMouseListener(new MouseAdapter() {
 				// 버튼에 마우스 올리면 배경색 변경
 				@Override

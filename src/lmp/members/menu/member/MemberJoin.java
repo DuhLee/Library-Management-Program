@@ -29,7 +29,7 @@ public class MemberJoin extends JFrame {
 		JLabel address = new JLabel("주소");
 		
 		JTextField idField = new JTextField();
-		JTextField pwField = new JTextField(" 8자리이상 입력해주세요");
+		JTextField pwField = new JTextField("8자리이상 입력해주세요");
 		JTextField chkpwField = new JTextField();
 		JTextField nameField = new JTextField();
 		JTextField birthField = new JTextField(" ex) 1997-05-05");

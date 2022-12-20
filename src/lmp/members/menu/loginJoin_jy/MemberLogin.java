@@ -48,7 +48,7 @@ public class MemberLogin extends JFrame {
 		// 라벨 
 		JLabel idLabel = new JLabel("아이디", JLabel.LEFT);
 		idLabel.setHorizontalAlignment(JLabel.CENTER);
-		idLabel.setBounds(40, 30, 47, 15);
+		idLabel.setBounds(40, 30, 50, 15);
 		contentPane.add(idLabel);
 		
 		
@@ -62,7 +62,7 @@ public class MemberLogin extends JFrame {
 		
 		JLabel pwLabel = new JLabel("비밀번호", JLabel.LEFT);
 		pwLabel.setHorizontalAlignment(JLabel.CENTER);
-		pwLabel.setBounds(40, 55, 47, 15);
+		pwLabel.setBounds(40, 55, 50, 15);
 		contentPane.add(pwLabel);
 		
 		
@@ -83,7 +83,6 @@ public class MemberLogin extends JFrame {
 				GetIdandPw(idTextFiled, pwField); // 입력된 값 각각 넘겨 주기
 				MemberLogin_Chk loginchk = new MemberLogin_Chk();
 				bLoginChk = loginchk.LogInList_Chk(sID, sPW); // false면 로그인 실패
-
 				if (!bLoginChk) { // 로그인 실패
 					JOptionPane.showMessageDialog(null, "아이디 또는 비밀번호를 확인 후\n다시 로그인해주세요.");
 				} else { // 로그인 성공
@@ -103,8 +102,8 @@ public class MemberLogin extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
 				// ID찾기 했을 때 작업
-				dispose();			// 로그인 화면 off
-				// new FindIdFrame();a		// ID찾기 페이지 화면으로 갱신
+//				dispose();			// 로그인 화면 off
+				new FindIdFrame();
 			}
 		});
 		searchIdBtn.setBounds(30, 80, 109, 30);
@@ -118,8 +117,9 @@ public class MemberLogin extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					super.mouseClicked(e);
 					// PW찾기 했을 때 작업
-					dispose();			// 로그인 화면 off
+//					dispose();			// 로그인 화면 off
 					// new FindPwFrame();		// PW찾기 페이지 화면으로 갱신
+					new FindPwFrame();
 			}
 		});
 		searchPwBtn.setBounds(145, 80, 118, 30);
@@ -142,23 +142,6 @@ public class MemberLogin extends JFrame {
 		
 		
 		
-//		JButton guestBtn = new JButton("게스트입장");
-//		guestBtn.addMouseListener(new MouseAdapter() {
-//			public void mouseClicked(MouseEvent e) {
-//				super.mouseClicked(e);
-//				setVisible(false); // 기존의 로그인 화면 꺼주기
-//				new ReadingRoomMain();		// 좌석 조회만 가능하게..?
-//			}
-//		});
-//		guestBtn.setBounds(360, 27, 95, 46);
-//		contentPane.add(guestBtn);
-
-//		Reset(idTextFiled, pwField);
-		
-		// 게스트 입장했을 때 발권 버튼 막기
-		
-		
-
 		
 		// 버튼 테두리 설정
 		loginBtn.setBorderPainted(false);
@@ -175,22 +158,18 @@ public class MemberLogin extends JFrame {
 		searchIdBtn.setContentAreaFilled(false);
 		searchPwBtn.setContentAreaFilled(false);
 		joinBtn.setContentAreaFilled(false);
-	
-	
+		
 		// 포커스 표시 설정
 		loginBtn.setFocusPainted(false);
 		searchIdBtn.setFocusPainted(false);
 		searchPwBtn.setFocusPainted(false);
 		joinBtn.setFocusPainted(false);
-//		guestBtn.setFocusPainted(false);
 		
 		// 로그인 버튼의 배경 색상을 변경
-		loginBtn.setBackground(Color.WHITE);
-//		guestBtn.setBackground(Color.WHITE);
+		loginBtn.setBackground(Color.GRAY);
 		
 		// 로그인 버튼의 폰트 색상을 변경
-		loginBtn.setForeground(Color.GRAY);
-//		guestBtn.setForeground(Color.GRAY);
+		loginBtn.setForeground(Color.WHITE);
 		
 		
 		// 폰트설정
@@ -200,7 +179,7 @@ public class MemberLogin extends JFrame {
 //		idTextFiled.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));
 //		pwField.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));
 		
-		loginBtn.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));
+		loginBtn.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
 		searchIdBtn.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));
 		searchPwBtn.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));
 		joinBtn.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 14));

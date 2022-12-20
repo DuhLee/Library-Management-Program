@@ -1,12 +1,12 @@
 package lmp.main;
 
 import java.awt.Color;
-
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import lmp.admin.AdminFrame;
-import lmp.loginJoin.ManagerLogin;
 import lmp.members.MemberFrame;
 
 public class EntranceFrame {
@@ -32,7 +31,7 @@ public class EntranceFrame {
 		panel.setSize(500, 400);
 
 		// 이미지 아이콘 만들기
-		ImageIcon memberImg = new ImageIcon("src/lmp/admin/menuButtonImages/membersEnterance.png");
+		ImageIcon memberImg = new ImageIcon("src/lmp/admin/menuButtonImages/membersEntrance.png");
 		ImageIcon managerImg = new ImageIcon("src/lmp/admin/menuButtonImages/adminEntrance.png");
 
 
@@ -72,7 +71,12 @@ public class EntranceFrame {
 				addActionListener(new ActionListener() {	
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						new AdminFrame();
+						try {
+							new AdminFrame();
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						System.out.println("관리자창");
 					}
 				});
@@ -81,7 +85,7 @@ public class EntranceFrame {
 
 
 
-		Font font = new Font("한컴 말랑말랑 Regular", Font.PLAIN, 20);
+		Font font = new Font("한컴 말랑말랑 Regular", Font.BOLD, 20);
 		JLabel memberLb = new JLabel("회원용");
 		memberLb.setBounds(110, 140, 150, 150);
 		JLabel managerLb = new JLabel("관리자용");

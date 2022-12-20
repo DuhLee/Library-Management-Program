@@ -41,7 +41,7 @@ public class FindPwFrame {
 
 		JLabel findPwLabel = new JLabel("비밀번호 찾기");
 		findPwLabel.setBounds(90, 30, 150, 30);
-		findPwLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 20));
+		findPwLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 20));
 		findPwLabel.setForeground(Color.WHITE);
 		
 		JLabel idLabel = new JLabel("아이디");
@@ -115,32 +115,13 @@ public class FindPwFrame {
 		});
 
 
-//		JButton searchPwBtn = new JButton("찾기") {
-//			{
-//				setBounds(50, 300, 80, 30);
-//				setFont(font);
-//				setBackground(Color.LIGHT_GRAY);
-//				setForeground(Color.WHITE);
-//				setBorderPainted(false); // 버튼 외곽선 없애기
-//				setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
-//				addActionListener(new ActionListener() {
-////					if (pw =! pw) {
-////					public void actionPerformed(ActionEvent e) {
-////						FailPwLogin failpwlogin = new FailPwLogin();
-////					failpwlogin.open();
-////					}
-////				}
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						FoundPw foundpw = new FoundPw();
-//						foundpw.open();
-//					}
-//				});
-//			}
-//		};
-		
-		
 		JButton searchPwBtn = new JButton("찾기");
+		searchPwBtn.setBounds(50, 220, 80, 30);
+		searchPwBtn.setFont(font);
+		searchPwBtn.setBackground(Color.LIGHT_GRAY);
+		searchPwBtn.setForeground(Color.WHITE);
+		searchPwBtn.setBorderPainted(false); // 버튼 외곽선 없애기
+		searchPwBtn.setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
 		searchPwBtn.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
@@ -150,7 +131,7 @@ public class FindPwFrame {
 				bsearchChk = searchchk.FindLoginPw_Chk(sId, sName, sEmail);
 				
 				if (!bsearchChk) { // 로그인 실패
-					JOptionPane.showMessageDialog(null, "아이디, 이름, 이메일을 확인 후\n다시 로그인해주세요.");
+					JOptionPane.showMessageDialog(null, "아이디, 이름 또는 이메일을 확인 후\n다시 로그인해주세요.");
 				} else { // 로그인 성공
 					frame.setVisible(false); // 기존의 로그인 화면 꺼주기
 				}
@@ -160,7 +141,7 @@ public class FindPwFrame {
 
 		JButton cancelBtn = new JButton("취소") {
 			{
-				setBounds(160, 300, 80, 30);
+				setBounds(160, 220, 80, 30);
 				setFont(font);
 				setBackground(Color.LIGHT_GRAY);
 				setForeground(Color.WHITE);
@@ -189,8 +170,8 @@ public class FindPwFrame {
 		frame.setTitle("비밀번호 찾기");
 		frame.setVisible(true);
 		frame.setResizable(false);
-		frame.setSize(new Dimension(300, 400));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(new Dimension(300, 320));
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null); // 화면 중앙에 띄우기
 	}
 	

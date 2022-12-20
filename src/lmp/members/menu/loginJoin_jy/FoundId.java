@@ -36,8 +36,8 @@ public class FoundId {
 			{
 				setBounds(100, 110, 80, 30);
 				setFont(font);
-				setForeground(Color.GRAY);
-				setBackground(Color.WHITE);
+				setForeground(Color.WHITE);
+				setBackground(Color.GRAY);
 				setBorderPainted(false); // 버튼 외곽선 없애기
 				setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
 				addActionListener(new ActionListener() {

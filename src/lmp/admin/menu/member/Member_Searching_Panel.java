@@ -1,4 +1,4 @@
-package lmp.admin.menu.checkin_out;
+package lmp.admin.menu.member;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -27,6 +27,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import lmp.admin.menu.checkin_out.CheckIn_Out_Frame;
 import lmp.db.dao.MemberDao;
 
 public class Member_Searching_Panel extends JPanel {
@@ -52,42 +53,67 @@ public class Member_Searching_Panel extends JPanel {
 	// 임의로 50 넣어놓음
 	String[][] valid = new String[50][memberColumn.length];
 	
-	DefaultTableModel model = new DefaultTableModel(memberColumn, 24);
+	DefaultTableModel model = new DefaultTableModel(memberColumn, 30);
 	
 	public Member_Searching_Panel() {
 		
+		
 		setLayout(null);
-		setBackground(new Color(49, 82, 91));
+		setBackground(new Color(126, 151, 148));
 		
 		table = new JTable(model);
 		// 테이블 컬럼 이동 안되게 설정
 		table.getTableHeader().setReorderingAllowed(false);
 		// 테이블에서 하나의 행만 선택되게 설정
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setRowHeight(30);
 		
 		
 		result = new JScrollPane(table);
-		result.setBounds(0, 156, 1152, 395);
+		result.setBounds(0, 156, 1151, 445);
 		
 
 		label = new JLabel("회원 검색");
-		label.setFont(new Font(null, Font.BOLD, 20));
+		label.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 30));
 		label.setForeground(Color.WHITE);
 		label.setHorizontalAlignment(JLabel.CENTER);
-		label.setBounds(475, 20, 200, 50);
+		label.setBounds(460, 25, 200, 50);
 		
 		
 		keyword = new JComboBox(keywordList);
-		keyword.setFont(new Font(null, Font.BOLD, 15));
-		keyword.setBounds(190, 80, 150, 30);
+		keyword.setFont(new Font(null, Font.PLAIN, 12));
+		keyword.setBounds(270, 80, 100, 30);
 		
-		button = new JButton("검색하기");
-		button.setFont(new Font(null, Font.BOLD, 15));
-		button.setBounds(840, 80, 100, 30);
+		button = new JButton("검색");
+		button.setBackground(Color.GRAY);
+		button.setBorderPainted(false);
+		button.setFocusPainted(false);
+		button.setContentAreaFilled(false);
+		button.setFont(new Font("한컴 말랑말랑 Regular",Font.BOLD, 15));
+		button.setForeground(Color.WHITE);
+		button.setBounds(800, 80, 100, 30);
+		button.addMouseListener(new MouseAdapter() {
+			// 버튼에 마우스 올리면 배경색 변경
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// setFocusPainted(true);
+				button.setContentAreaFilled(true);
+			}
+
+			// 버튼에서 마우스 떼면 배경색 투명
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// setFocusPainted(false);
+				button.setContentAreaFilled(false);
+			}
+		});
 		
 		// 텍스트 필드에서 엔터 누르면 버튼 클릭되도록 액션 추가 (검색 버튼 눌러도 되고 텍스트 필드에서 엔터 눌러도 검색됨)
 		searchField = new JTextField();
+		searchField.setText("검색어를 입력하세요");
 		searchField.setBounds(390, 80, 400, 30);
+		searchField.setForeground(Color.LIGHT_GRAY);
+		searchField.setBorder(null);
 		searchField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

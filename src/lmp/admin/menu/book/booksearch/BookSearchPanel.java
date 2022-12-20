@@ -56,8 +56,8 @@ public class BookSearchPanel extends JPanel {
 		this.add(bookUpdatedButton);
 		this.add(bookSearchListPane);
 		
-		this.setBounds(17, 200, 1150, 550);
-		this.setBackground(new Color(87, 119, 119));
+		this.setBounds(17, 150, 1150, 600);
+		this.setBackground(new Color(126, 151, 148));
 		this.setLayout(null);
 			
 	}

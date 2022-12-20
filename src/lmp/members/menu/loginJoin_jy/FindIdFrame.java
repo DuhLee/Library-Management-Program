@@ -39,7 +39,7 @@ public class FindIdFrame {
 
 		JLabel findIdLabel = new JLabel("아이디 찾기");
 		findIdLabel.setBounds(100, 30, 150, 30);
-		findIdLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 20));
+		findIdLabel.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 20));
 		findIdLabel.setForeground(Color.WHITE);
 
 		JLabel nameLabel = new JLabel("이　름");
@@ -94,38 +94,13 @@ public class FindIdFrame {
 		});
 			
 
-//		JButton loginBtn = new JButton("찾기") {
-//			{
-//				setBounds(50, 300, 80, 30);
-//				setFont(font);
-//				setBackground(Color.LIGHT_GRAY);
-//				setForeground(Color.WHITE);
-//				setBorderPainted(false); // 버튼 외곽선 없애기
-//				setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
-//				addActionListener(new ActionListener() {
-////					if (id =! id) {
-////					public void actionPerformed(ActionEvent e) {
-////						failIdLogin failidlogin = new failIdLogin();
-////					failidlogin.open();
-////					}
-////				}
-//					@Override
-//					public void actionPerformed(ActionEvent e) {
-//						FoundId foundid = new FoundId();
-//						foundid.open();
-//					}
-//				});
-//			}
-//		};
-		
-		
 		JButton searchIdBtn = new JButton("찾기");
-		searchIdBtn.setBounds(50, 300, 80, 30);
-		setFont(font);
-		setBackground(Color.LIGHT_GRAY);
-		setForeground(Color.WHITE);
-		setBorderPainted(false); // 버튼 외곽선 없애기
-		setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
+		searchIdBtn.setBounds(50, 220, 80, 30);
+		searchIdBtn.setFont(font);
+		searchIdBtn.setBackground(Color.GRAY);
+		searchIdBtn.setForeground(Color.WHITE);
+		searchIdBtn.setBorderPainted(false); // 버튼 외곽선 없애기
+		searchIdBtn.setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
 		searchIdBtn.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				super.mouseClicked(e);
@@ -145,9 +120,9 @@ public class FindIdFrame {
 
 		JButton cancelBtn = new JButton("취소") {
 			{
-				setBounds(160, 300, 80, 30);
+				setBounds(160, 220, 80, 30);
 				setFont(font);
-				setBackground(Color.LIGHT_GRAY);
+				setBackground(Color.GRAY);
 				setForeground(Color.WHITE);
 				setBorderPainted(false);
 				setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
@@ -172,8 +147,8 @@ public class FindIdFrame {
 		frame.setTitle("아이디 찾기");
 		frame.setVisible(true);
 		frame.setResizable(false);
-		frame.setSize(new Dimension(300, 400));
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(new Dimension(300, 320));
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setLocationRelativeTo(null); // 화면 중앙에 띄우기
 	}
 	

@@ -20,7 +20,7 @@ public class BookDeleteButton extends BookButton {
 		this.bookSearchPanel = bookSearchPanel;
 		this.bookSearchListTable = this.bookSearchPanel.getBookSearchListTable();
 		this.model = this.bookSearchListTable.getModel();
-		this.setBounds(1020, 60, 120, 40);
+		this.setBounds(1020, 100, 100, 30);
 		
 		this.addActionListener(new ActionListener() {
 			

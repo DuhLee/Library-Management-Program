@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import lmp.admin.vo.AdminVO;
 import lmp.admin.vo.MemberVO;
@@ -116,7 +117,7 @@ public class SeatUseDetailDao extends MenuDao{
 		rs.close();
 		pstmt.close();
 		conn.close();
-		
+		Collections.sort(sudList);
 		return sudList;
 	}
 	
