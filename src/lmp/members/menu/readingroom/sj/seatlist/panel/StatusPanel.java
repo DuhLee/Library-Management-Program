@@ -8,8 +8,6 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
 import lmp.db.vo.SeatUseDetailVO;
 import lmp.members.menu.readingroom.sj.seatlist.label.StatusLabel;
@@ -24,9 +22,6 @@ public class StatusPanel extends JPanel{
 	public StatusPanel() {
 		System.out.println("statusPanel");
 		setLayout(gridLayout);
-		setBorder(new TitledBorder(new LineBorder(new Color(49, 82, 91),30)));
-		setBackground(new Color(49, 82, 91));
-		
 	}
 	
 	public StatusPanel(ArrayList<SeatUseDetailVO> sudVO) {

@@ -22,7 +22,7 @@ import lmp.members.menu.readingroom.sj.usagelist.label.UsageListTitleLabel;
 
 public class SeatListPanel extends JPanel{
 	
-	GridLayout gridLayout = new GridLayout(1,7,30,0);
+	GridLayout gridLayout = new GridLayout(1,5,30,0);
 
 //	StatusPanel statusPanel;
 	SeatPanel[]	seatPanels = new SeatPanel[gridLayout.getColumns() -1 ];
@@ -33,8 +33,8 @@ public class SeatListPanel extends JPanel{
 	public SeatListPanel() {
 		System.out.println("seatlistpanel");
 		setLayout(gridLayout);
-		setBorder(new TitledBorder(new LineBorder(new Color(49, 82, 91),30)));
-		setBackground(new Color(49, 82, 91));
+		setBorder(new TitledBorder(new LineBorder(new Color(126, 151, 148),20)));
+		setBackground(new Color(126, 151, 148));
 	
 		try {
 			sudVO = sudDao.get();

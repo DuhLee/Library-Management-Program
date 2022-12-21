@@ -41,15 +41,18 @@ public class ReadingRoomPanel extends JPanel {
 		statusPanel = new StatusPanel();
 		usageListTitlaPanel = new UsageListTitlePanel(this);
 		
-		setBorder(new TitledBorder(new LineBorder(new Color(49, 82, 91),30)));
-		setBackground(new Color(49, 82, 91));
+		setBorder(new TitledBorder(new LineBorder(new Color(49, 82, 91),20)));
+//		setBorder(new TitledBorder(new LineBorder(Color.BLUE)));
+		setBackground(new Color(126, 151, 148));  //--> 사이즈 수정 필요
+//		seatListPanel.setBackground(Color.BLUE);
+		
 		
 		usageListPanel.add(usageListTitlaPanel);
 //		setLayout(gridLayout);
 //		usageListTitlaPanel.setBounds(100, 0, 500, 50);
 		setLayout(null);
 		add(usageListPanel);
-		usageListPanel.setBounds(100, 180, 1000, 140);
+		usageListPanel.setBounds(100, 220, 1000, 80);
 		
 		try {
 			sudVO = sudDao.get();
@@ -62,7 +65,7 @@ public class ReadingRoomPanel extends JPanel {
 		statusPanel.setBounds(300, 310, 630, 50);
 		
 		add(seatListPanel);
-		seatListPanel.setBounds(20, 350, 1150, 400);
+		seatListPanel.setBounds(20, 350, 1140, 390);
 	}
 
 	public void refresh(ArrayList<SeatUseDetailVO> sudVO) {

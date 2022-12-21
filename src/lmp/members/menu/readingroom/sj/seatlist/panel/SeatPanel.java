@@ -43,6 +43,8 @@ public class SeatPanel extends JPanel{
 					} else if (result == JOptionPane.YES_OPTION) {
 						JOptionPane.showMessageDialog(null, "좌석 발권이 완료되었습니다.", "Message", 1);
 						// 로그인 정보 db로 어떻게 넘기나..... 에휴....ㅠㅠ
+						// yes option -> 해당 좌석 번호 누르면 로그인한 사람 정보가 이용자 목록에 추가?
+						
 					} 
 				}	
 			});

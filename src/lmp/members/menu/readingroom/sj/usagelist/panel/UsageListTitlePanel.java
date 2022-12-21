@@ -31,15 +31,15 @@ public class UsageListTitlePanel extends JPanel{
 
 	public UsageListTitlePanel(ReadingRoomPanel readingRoomPanel) {
 		System.out.println("titlePanel");
-		setBorder(new TitledBorder(new LineBorder(new Color(49, 82, 91),30)));
-		setBackground(new Color(49, 82, 91));
+		setBorder(new TitledBorder(new LineBorder(new Color(126, 151, 148),20)));
+		setBackground(new Color(126, 151, 148));
 
 		usageListCheckOutLabel = new UsageListCheckOutLabel(readingRoomPanel);
 		usageListTitleLabel = new UsageListTitleLabel();
 		genderLabel = new GenderLabel(readingRoomPanel);
 
 		this.setLayout(borderLayout);
-		this.add(usageListTitleLabel, "North");
+		this.add(usageListTitleLabel, "Center");
 		this.add(usageListCheckOutLabel, "East");
 		this.add(genderLabel, "West");
 
@@ -59,7 +59,10 @@ public class UsageListTitlePanel extends JPanel{
 					try {
 						sudList.addAll(sudDao.get());
 						for (SeatUseDetailVO sud : sudList) {
-							// 로그인 정보... 띠로리....
+							// 로그인정보 필요...ㅠ
+							// Yes option -> 종료시간 입력되면서 퇴실처리
+							
+							
 							
 						}
 					} catch (SQLException e1) {
