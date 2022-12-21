@@ -18,6 +18,7 @@ public class BookSearchListTable extends JTable{
 		
 		this.setModel(model);
         this.getTableHeader().setReorderingAllowed(false);
+        this.getTableHeader().setResizingAllowed(false); // 테이블 컬럼 사이즈 변경 불가
         this.setRowHeight(30);
         this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		

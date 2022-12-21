@@ -1,14 +1,13 @@
 package lmp.admin;
 
 import java.awt.CardLayout;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -20,15 +19,18 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
+import lmp.admin.menu.book.BookMgmt;
+import lmp.admin.menu.book.BookModification;
 import lmp.admin.menu.book.booksearch.BookSearchPanel;
+import lmp.admin.menu.checkin_out.Member_Searching_Panel;
 import lmp.admin.menu.employees.EmployeesMgmt;
-import lmp.admin.menu.member.Member_Searching_Panel;
-import lmp.admin.menu.readingroom.AdminReadingRoom;
+import lmp.admin.menu.member.MemberMgmt;
 import lmp.admin.menu.readingroom.ReadingRoomPanel;
-import lmp.admin.menu.readingroom.panel.SeatPanel;
-import lmp.admin.menu.readingroom.seatlist.SeatListPanel;
-import lmp.admin.menu.readingroom.usagelist.scrollpane.table.UsageListTable;
+import lmp.members.menu.book.BookSearchFrame;
 
 
 public class AdminFrame extends JFrame{
@@ -90,6 +92,12 @@ public class AdminFrame extends JFrame{
 			
 			checkIn_Out = getButton("대출/반납");
 			checkIn_Out.setIcon(new ImageIcon(checkIn_OutIcon));
+			checkIn_Out.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					card.show(menuCardPanel, "3");	
+				}
+			});
 			
 			readingRoom = getButton("열람실 관리");
 			readingRoom.setIcon(new ImageIcon(readingRoomIcon));
@@ -111,6 +119,12 @@ public class AdminFrame extends JFrame{
 			
 			employeeMgmt = getButton("직원 관리");
 			employeeMgmt.setIcon(new ImageIcon(employeeMgmtIcon));
+			memberMgmt.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					card.show(menuCardPanel, "6");
+				}
+			});
 			
 			
 			
@@ -124,10 +138,10 @@ public class AdminFrame extends JFrame{
 		menuCardPanel.setBounds(17, 150, 1150, 600);
 		menuCardPanel.add("1", initialLabel());
 		menuCardPanel.add("2", new BookSearchPanel());
-//		menuCardPanel.add("3", 대출/반납);
+		menuCardPanel.add("3", new Member_Searching_Panel());
 		menuCardPanel.add("4", new ReadingRoomPanel());
-		menuCardPanel.add("5", new Member_Searching_Panel());
-//		menuCardPanel.add("6", new EmployeesMgmt());
+		menuCardPanel.add("5", new MemberMgmt());
+		menuCardPanel.add("6", new EmployeesMgmt());
 		
 		
 		menuButtonPanel.add(homeBtn);
@@ -166,6 +180,22 @@ public class AdminFrame extends JFrame{
 		return initImagePanel;
 	}
 	
+	
+	// ------------------추가---------------------------------------------
+	public static JTable getTable(DefaultTableModel model) {
+	      JTable table = new JTable(model);
+	      
+	      table.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15));
+	      table.setRowHeight(25);
+	      // 테이블 컬럼 이동 안되게 설정
+	      table.getTableHeader().setReorderingAllowed(false);
+	      // 테이블에서 하나의 행만 선택되게 설정
+	      table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+	      
+	      return table;
+	   }
+	// ------------------------------------------------------------------
+	
 	// 버튼 생성 및 설정 메서드
 	public static JButton getButton(String text) {
 		 return new JButton() {
@@ -179,18 +209,6 @@ public class AdminFrame extends JFrame{
 				setBorderPainted(false);
 				setFocusPainted(false);
 				setContentAreaFilled(false);
-//				addMouseListener(new MouseAdapter() {
-//					// 버튼에 마우스 올리면 테두리 생성
-//					@Override
-//					public void mouseEntered(MouseEvent e) {
-//						setBorderPainted(true);
-//					}
-//					// 버튼에서 마우스 떼면 테두리 삭제
-//					@Override
-//					public void mouseExited(MouseEvent e) {
-//						setBorderPainted(false);
-//					}
-//				});
 				}
 		 };
 	}

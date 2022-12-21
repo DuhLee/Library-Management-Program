@@ -1,14 +1,11 @@
 package lmp.admin.dao;
 
 import java.sql.Connection;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Collections;
 
-import lmp.admin.vo.AdminVO;
 import lmp.admin.vo.MemberVO;
 import lmp.admin.vo.ReadingRoomVO;
 import lmp.admin.vo.SeatUseDetailVO;
@@ -36,7 +33,7 @@ public class SeatUseDetailDao extends MenuDao{
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
-		pstmt.setInt(1, sudVO.getMember().getNum()); // setString에서 setInt로 수정함(지영)
+		pstmt.setInt(1, sudVO.getMember().getNum());
 		pstmt.setInt(2, sudVO.getReadingroom().getSeatNum());
 			
 		pstmt.executeUpdate();
@@ -55,25 +52,26 @@ public class SeatUseDetailDao extends MenuDao{
 	 * @throws SQLException
 	 */
 	@Override
-	public void update(Object seat_num) throws SQLException {
+	public void update(int use_id) throws SQLException {
 		Connection conn = getConnection();
 		
-		String sql =  "UPDATE seat_use_details SET end_time = to_char(sysdate, 'yyyy.mm.dd hh24:mi') WHERE seat_num = ?";
+		String sql =  "UPDATE"
+					+ " seat_use_details"
+					+ " SET"
+					+ " end_time = sysdate"
+					+ " WHERE"
+					+ " use_id = ?";
 		
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		
-		pstmt.setInt(1,(int) seat_num);
-		System.out.println("업데이트");
-		pstmt.executeUpdate();
-		System.out.println("완료");
+		pstmt.setInt(1, use_id);
 		
+		pstmt.executeUpdate();
 		
 		pstmt.close();
 		conn.close();
 		
 	}
-	
-	
 	
 	/**
 	 * 열람실 이용중인 좌석 가져오기
@@ -82,7 +80,7 @@ public class SeatUseDetailDao extends MenuDao{
 	 */
 	@Override
 	public ArrayList get() throws SQLException {
-		String sql = "SELECT * FROM seat_use_details JOIN members USING(mem_num) JOIN readingroom USING(seat_num) WHERE end_time is null";
+		String sql = "SELECT * FROM seat_use_details JOIN members USING(mem_num) JOIN readingroom USING(seat_num) WHERE end_time IS NULL";
 		
 		Connection conn = getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -93,7 +91,7 @@ public class SeatUseDetailDao extends MenuDao{
 						new SeatUseDetailVO(
 							rs.getInt("use_id"),
 							new MemberVO(
-								rs.getInt("mem_num"), // getString에서 getInt로 수정함(지영)
+								rs.getInt("mem_num"),
 								rs.getString("mem_name"),
 								rs.getString("mem_id"),
 								rs.getString("mem_pw"),
@@ -117,16 +115,16 @@ public class SeatUseDetailDao extends MenuDao{
 		rs.close();
 		pstmt.close();
 		conn.close();
-		Collections.sort(sudList);
+		
 		return sudList;
 	}
 	
-
+	
 	/**
 	 * 열람실 좌석 조건 검색
 	 * 
 	 * header
-	 * 1 - seatNum - 좌석 번호
+	 * seatNum - 좌석 번호
 	 * 
 	 * searchStr
 	 * header에 해당하는 값
@@ -141,7 +139,6 @@ public class SeatUseDetailDao extends MenuDao{
 		StringBuilder sql = new StringBuilder(selectSql(header));
 
 		Connection conn = getConnection();
-		System.out.println(conn);
 		PreparedStatement pstmt = conn.prepareStatement(sql.toString());
 		pstmt.setString(1, searchStr);
 		ResultSet rs = pstmt.executeQuery();
@@ -151,7 +148,7 @@ public class SeatUseDetailDao extends MenuDao{
 						new SeatUseDetailVO(
 							rs.getInt("use_id"),
 							new MemberVO(
-								rs.getInt("mem_num"), // getString에서 getInt로 수정함(지영)
+								rs.getInt("mem_num"),
 								rs.getString("mem_name"),
 								rs.getString("mem_id"),
 								rs.getString("mem_pw"),
@@ -207,7 +204,5 @@ public class SeatUseDetailDao extends MenuDao{
 		pstmt.close();
 		conn.close();
 	}
-	
-
 
 }

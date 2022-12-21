@@ -9,17 +9,15 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import lmp.admin.menu.readingroom.seatlist.panel.SeatPanel;
+import lmp.admin.menu.readingroom.seatlist.panel.StatusPanel;
 import lmp.admin.dao.SeatUseDetailDao;
-import lmp.admin.menu.readingroom.panel.SeatPanel;
-import lmp.admin.menu.readingroom.panel.StatusPanel;
 import lmp.admin.vo.SeatUseDetailVO;
-
 
 
 public class SeatListPanel extends JPanel{
 	
-			
-	GridLayout gridLayout = new GridLayout(1,5,30,0);
+	GridLayout gridLayout = new GridLayout(1, 5, 30, 0);
 
 	StatusPanel statusPanel;
 	SeatPanel[]	seatPanels = new SeatPanel[gridLayout.getColumns() - 1];
@@ -27,16 +25,17 @@ public class SeatListPanel extends JPanel{
 	
 	SeatUseDetailDao sudDao = new SeatUseDetailDao();
 	ArrayList<SeatUseDetailVO> sudVO;
+	
+	// 좌석 이미지로 표시되는 패널
 	public SeatListPanel() {
 		
-		System.out.println("seatlistpanel");
 		setLayout(gridLayout);
 		setBorder(new TitledBorder(new LineBorder(new Color(126, 151, 148), 20)));
+		setBackground(new Color(126, 151, 148));
 	
 		try {
 			sudVO = sudDao.get();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -44,7 +43,7 @@ public class SeatListPanel extends JPanel{
 		add(statusPanel);
 		
 		for (int i = 0; i < gridLayout.getColumns() - 1; i++) {
-			seatPanels[i] = new SeatPanel(sudVO,i);
+			seatPanels[i] = new SeatPanel(sudVO, i);
 			add(seatPanels[i]);
 		}
 		
@@ -55,7 +54,6 @@ public class SeatListPanel extends JPanel{
 		for (SeatPanel seatPanel : seatPanels) {
 			seatPanel.refresh(sudVO);
 		}
-		
 		this.validate();
 	}
 

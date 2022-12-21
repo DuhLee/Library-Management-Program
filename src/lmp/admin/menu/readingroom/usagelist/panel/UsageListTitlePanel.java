@@ -6,6 +6,7 @@ import java.awt.Color;
 import javax.swing.JPanel;
 
 import lmp.admin.menu.readingroom.ReadingRoomPanel;
+import lmp.admin.menu.readingroom.usagelist.UsageListPanel;
 import lmp.admin.menu.readingroom.usagelist.label.UsageListCheckOutButton;
 import lmp.admin.menu.readingroom.usagelist.label.UsageListTitleLabel;
 
@@ -13,16 +14,16 @@ public class UsageListTitlePanel extends JPanel{
 	
 	BorderLayout borderLayout = new BorderLayout();
 	UsageListTitleLabel usageListTitleLabel;
-	UsageListCheckOutButton UsageListCheckOutButton;
+	UsageListCheckOutButton usageListCheckOutButton;
 	
-	
+	// 타이틀, 버튼 부모 패널
 	public UsageListTitlePanel(ReadingRoomPanel readingRoomPanel) {
 		System.out.println("titlePanel");
-		UsageListCheckOutButton = new UsageListCheckOutButton(readingRoomPanel);
+		usageListCheckOutButton = new UsageListCheckOutButton(readingRoomPanel);
 		usageListTitleLabel = new UsageListTitleLabel();
 		this.setLayout(borderLayout);
 		this.add(usageListTitleLabel, "South");
-		this.add(UsageListCheckOutButton, "East");
+		this.add(usageListCheckOutButton, "East");
 		
 	}
 }

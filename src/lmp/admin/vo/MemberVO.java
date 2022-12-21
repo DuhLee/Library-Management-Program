@@ -1,12 +1,10 @@
 package lmp.admin.vo;
 
-import java.util.Date;
-
 public class MemberVO {
 	
 	/**
 	 * 	회원정보
-	 */
+	*/
 	
 	private	Integer	num;
 	private	String	name;
@@ -19,11 +17,7 @@ public class MemberVO {
 	private	String	address;
 	private	String	regDate;
 	private	String	note;
-	
-
-//	public MemberVO() {
-//		
-//	}
+	private Object[] list;
 	
 	
 	/**
@@ -32,9 +26,8 @@ public class MemberVO {
 	 * @param mem_id
 	 * @param mem_pw
 	 */
-	public MemberVO(Integer mem_num, String mem_id, String mem_pw) {
+	public MemberVO(String mem_id, String mem_pw) {
 		
-		this.num = num;
 		this.id = mem_id;
 		this.pw = mem_pw;
 		
@@ -56,7 +49,7 @@ public class MemberVO {
 	 * @param mem_note
 	 */
 	public MemberVO(
-					Integer	mem_num,
+					int		mem_num,
 					String	mem_name,
 					String	mem_id,
 					String	mem_pw,
@@ -80,9 +73,28 @@ public class MemberVO {
 		this.address	=	mem_address;
 		this.regDate	=	mem_registrationDate;
 		this.note		=	mem_note;
-		
+		this.list		=	new Object[] {
+										  mem_num,
+										  mem_name,
+										  mem_id,
+										  mem_pw,
+										  mem_birthDay,
+										  mem_sex,
+										  mem_phone,
+										  mem_email,
+										  mem_address,
+										  mem_registrationDate,
+										  mem_note
+										  };
 	}
-
+	
+	public MemberVO(int mem_num, String mem_name, String mem_phone, String mem_email, String mem_address) {
+		this.num = mem_num;
+		this.name = mem_name;
+		this.phone = mem_phone;
+		this.email = mem_email;
+		this.address = mem_address;
+	}
 
 	public Integer getNum() {
 		return num;
@@ -126,6 +138,11 @@ public class MemberVO {
 
 	public String getNote() {
 		return note;
+	}
+	
+	// 테이블에 데이터 넣기 쉽도록 getList 메서드 생성
+	public Object[] getList() {		
+		return list;
 	}
 	
 	@Override

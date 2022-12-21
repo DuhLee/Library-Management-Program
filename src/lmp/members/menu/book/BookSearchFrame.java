@@ -1,12 +1,9 @@
 package lmp.members.menu.book;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,10 +29,9 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import lmp.admin.AdminFrame;
-import lmp.db.dao.BookDao;
-import lmp.db.vo.BookVO;
+import lmp.admin.dao.BookDao;
 
-public class BookSearchFrame extends JFrame {
+public class BookSearchFrame extends JPanel {
 
 	JLabel label;
 	JComboBox keyword;
@@ -62,9 +58,8 @@ public class BookSearchFrame extends JFrame {
 		
 		setLayout(null);
 		
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 1185, 761);
-		panel.setLayout(null);
+		setBounds(0, 0, 1185, 761);
+		setLayout(null);
 		
 		table = new JTable(model);
 		// 테이블 컬럼 이동 안되게 설정
@@ -73,7 +68,7 @@ public class BookSearchFrame extends JFrame {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		result = new JScrollPane(table);
-		result.setBounds(0, 300, 1185, 462);
+		result.setBounds(0, 150, 1151, 450);
 		
 		
 		BufferedImage buffer = null;
@@ -146,12 +141,12 @@ public class BookSearchFrame extends JFrame {
 			}
 		});
 		
-		panel.add(label);
-		panel.add(keyword);
-		panel.add(searchField);
-		panel.add(button);
-		panel.add(result);
-		panel.setBackground(new Color(49, 82, 91));
+		add(label);
+		add(keyword);
+		add(searchField);
+		add(button);
+		add(result);
+		setBackground(new Color(126, 151, 148));
 		
 		// 검색 버튼 눌렀을 때 해당 키워드에 맞는 정보 있으면 출력
 		button.addActionListener(new ActionListener() {
@@ -190,16 +185,15 @@ public class BookSearchFrame extends JFrame {
 			}
 		});
 		
-		add(panel);
 		
-		setResizable(false);
-		setBounds(400, 150, 1200, 800);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setVisible(true);
+//		setResizable(false);
+//		setBounds(400, 150, 1200, 800);
+//		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//		setVisible(true);
 		
 	}
 	
-	public static void main(String[] args) {
-		new BookSearchFrame();
-	}
+//	public static void main(String[] args) {
+//		new BookSearchFrame();
+//	}
 }

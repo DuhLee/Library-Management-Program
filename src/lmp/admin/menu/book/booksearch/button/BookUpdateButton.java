@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import lmp.admin.menu.book.BookModification;
 import lmp.admin.menu.book.booksearch.BookSearchPanel;
 
 public class BookUpdateButton extends BookButton {
@@ -20,7 +21,8 @@ public class BookUpdateButton extends BookButton {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(bookSearchPanel, "정보수정 완료.");
+//				JOptionPane.showMessageDialog(bookSearchPanel, "정보수정 완료.");
+//				new BookModification();
 				
 			}
 		});

@@ -1,43 +1,55 @@
 package lmp.admin.menu.readingroom.usagelist.scrollpane;
 
+import java.awt.Color;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 
-import lmp.admin.dao.SeatUseDetailDao;
 import lmp.admin.menu.readingroom.usagelist.scrollpane.table.UsageListTable;
+import lmp.admin.dao.SeatUseDetailDao;
 import lmp.admin.vo.SeatUseDetailVO;
 
 public class UsageListScrollPane extends JScrollPane{
 	
-	private static String colNames[] = {"좌석번호","회원번호","회원명","연락처","성별", "시작시간", "사용여부"};
+	private static String colNames[] = {"이용번호", "좌석번호", "회원번호", "이름", "전화번호", "성별", "시작시간"};
 	DefaultTableModel model;
 	
 	UsageListTable usageListTable;
 
+	// 열람실 이용 회원 테이블 부모 스크롤팬
 	public UsageListScrollPane() throws SQLException {
-		System.out.println("scrollpane");
+		
 		SeatUseDetailDao sudDao = new SeatUseDetailDao();
 		ArrayList<SeatUseDetailVO> sudList = new ArrayList<>();
-		System.out.println(sudDao.get());
 		
 		sudList.addAll(sudDao.get());
 		int resetRow = 0;
-		model = new DefaultTableModel(colNames, 30);
+		model = new DefaultTableModel(colNames, 30) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return false;
+			}
+		};
 		for (SeatUseDetailVO sud : sudList) {
-			System.out.println(sud.getUse_id());
-			model.setRowCount(sudList.size());
 			for (int i = 0; i < sud.getSudList().length; i++) {
-				model.setValueAt(sud.getSudList()[i], resetRow, i);
+				// DB에서 가져온 성별 데이터에 따라 남/여(문자)로 표시
+				if (i == 5) {
+					if (sud.getMember().getSex().equals("0")) {
+						model.setValueAt("남", resetRow, i);
+					} else {						
+						model.setValueAt("여", resetRow, i);
+					}
+				} else {
+					model.setValueAt(sud.getSudList()[i], resetRow, i);
+				}
 			}
 			resetRow++;
 		}
 		
 		usageListTable = new UsageListTable(model);
 		this.setViewportView(usageListTable);
-		
 	}
 
 	public UsageListTable getUsageListTable() {

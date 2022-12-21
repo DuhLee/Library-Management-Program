@@ -2,83 +2,128 @@ package lmp.admin.menu.readingroom.usagelist.label;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import lmp.admin.dao.ReadingRoomDao;
-import lmp.admin.dao.SeatUseDetailDao;
+import lmp.admin.AdminFrame;
 import lmp.admin.menu.readingroom.ReadingRoomPanel;
 import lmp.admin.menu.readingroom.seatlist.SeatListPanel;
+import lmp.admin.menu.readingroom.seatlist.panel.SeatPanel;
+import lmp.admin.menu.readingroom.seatlist.panel.StatusPanel;
 import lmp.admin.menu.readingroom.usagelist.UsageListPanel;
+import lmp.admin.menu.readingroom.usagelist.scrollpane.UsageListScrollPane;
 import lmp.admin.menu.readingroom.usagelist.scrollpane.table.UsageListTable;
+import lmp.admin.dao.ReadingRoomDao;
+import lmp.admin.dao.SeatUseDetailDao;
 import lmp.admin.vo.SeatUseDetailVO;
 
-public class UsageListCheckOutButton extends JButton{
+public class UsageListCheckOutButton extends JPanel {
 	
+	SeatUseDetailDao sudDao = new SeatUseDetailDao();
+	ReadingRoomDao roomDao = new ReadingRoomDao();
+	ArrayList<SeatUseDetailVO> sudList =  new ArrayList<>();
 	
+	// 강제퇴실, 새로고침 버튼 패널
 	public UsageListCheckOutButton(ReadingRoomPanel readingRoomPanel) {
 		
-		System.out.println("checkOUtButton");
-		
-		this.setText("강제퇴실");
-		this.setContentAreaFilled(false);
-		this.setBorderPainted(false);
-		this.setFocusPainted(false);
-		this.setHorizontalAlignment(JLabel.CENTER);
-		this.setBackground(Color.GRAY);
-		this.setForeground(Color.RED);
-		this.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
-//		this.setBorder(BorderFactory.createLineBorder(Color.RED,1));
-		
-		this.addMouseListener(new MouseAdapter() {
-			// 버튼에 마우스 올리면 배경색 변경
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// setFocusPainted(true);
-				setContentAreaFilled(true);
-			}
-
-			// 버튼에서 마우스 떼면 배경색 투명
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// setFocusPainted(false);
-				setContentAreaFilled(false);
-			}
-		});
+		this.setLayout(new GridLayout(1, 2));
+		this.setBackground(readingRoomPanel.getBackground());
 		
 		SeatListPanel  seatListPanel = readingRoomPanel.getSeatListPanel();
 		UsageListPanel usageListPanel = readingRoomPanel.getUsageListPanel();
 		UsageListTable usageListTable = readingRoomPanel.getUsageListScrollPane().getUsageListTable();
-
 		
-		this.addMouseListener(new MouseAdapter() {
+		JButton refreshButton = AdminFrame.getButton("");
+		try {
+			BufferedImage buffer = ImageIO.read(new File("src/lmp/admin/menuButtonImages/refreshIcon.png"));
+			Image image = buffer.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+			refreshButton.setIcon(new ImageIcon(image));
+		} catch (IOException e3) {
+			e3.printStackTrace();
+		}
+		refreshButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					sudList.clear();
+					sudList.addAll(sudDao.get()); // DB 내용 가져오기
+					DefaultTableModel model = readingRoomPanel.getUsageListScrollPane().getModel();
+					
+					int totalSeat = roomDao.get().size();
+					
+					model.setRowCount(0);
+					model.setRowCount(totalSeat);
+					
+					int resetRow = 0;
+					for (SeatUseDetailVO sud : sudList) {
+							
+						for (int i = 0; i < sud.getSudList().length; i++) {
+							if (i == 5) {
+								if (sud.getMember().getSex().equals("0")) {
+									model.setValueAt("남", resetRow, i);
+								} else {						
+									model.setValueAt("여", resetRow, i);
+								}
+							} else {
+								model.setValueAt(sud.getSudList()[i], resetRow, i);
+							}
+						}
+						resetRow++;
+					}
+					
+					usageListTable.setModel(model);
+					
+					usageListTable.validate(); // 새로고침 - 버튼 액션으로
+					
+					seatListPanel.refresh(sudList);
+					
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		
+		JButton checkOutButton = new JButton("강제퇴실");
+		checkOutButton.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
+		checkOutButton.setBorderPainted(false); // 버튼외곽선 가리기
+		checkOutButton.setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
+		checkOutButton.setBackground(Color.GRAY);
+		checkOutButton.setForeground(Color.RED);
+		
+		checkOutButton.addMouseListener(new MouseAdapter() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
-
-				SeatUseDetailDao sudDao = new SeatUseDetailDao();
-				ReadingRoomDao roomDao = new ReadingRoomDao();
-				ArrayList<SeatUseDetailVO> sudList =  new ArrayList<>();
 				
 				// 테이블에 선택한 값이 없는 경우
-				System.out.println(usageListTable.getSelectedRow());
 				if (usageListTable.getSelectedRow() != -1) {
-
+					
 					if (usageListTable.getValueAt(usageListTable.getSelectedRow(), 0) != null) {
 						int result = JOptionPane.showConfirmDialog(usageListPanel, "해당 사용자를 퇴실처리 하시겠습니까?", "강제퇴실 확인",
 								JOptionPane.YES_NO_OPTION);
 						if (result == JOptionPane.NO_OPTION) {
 							return;
 						} else {
-
+							
 							int selectRow = usageListTable.getSelectedRow();// 선택된 테이블의 행값
 							Integer seat_num = (int) usageListTable.getValueAt(selectRow, 0);
 
@@ -92,17 +137,28 @@ public class UsageListCheckOutButton extends JButton{
 								// --------- 데이터베이스 수정하기 ---------
 
 								try {
+									sudList.clear();
 									sudList.addAll(sudDao.get()); // DB 내용 가져오기
 									DefaultTableModel model = readingRoomPanel.getUsageListScrollPane().getModel();
 
 									int totalSeat = roomDao.get().size();
-
+									
+									model.setRowCount(0);
+									model.setRowCount(totalSeat);
+									
 									int resetRow = 0;
 									for (SeatUseDetailVO sud : sudList) {
-
-										model.setRowCount(sudList.size());
+										
 										for (int i = 0; i < sud.getSudList().length; i++) {
-											model.setValueAt(sud.getSudList()[i], resetRow, i);
+											if (i == 5) {
+												if (sud.getMember().getSex().equals("0")) {
+													model.setValueAt("남", resetRow, i);
+												} else {						
+													model.setValueAt("여", resetRow, i);
+												}
+											} else {
+												model.setValueAt(sud.getSudList()[i], resetRow, i);
+											}
 										}
 										resetRow++;
 									}
@@ -112,12 +168,11 @@ public class UsageListCheckOutButton extends JButton{
 									usageListTable.validate(); // 새로고침 - 버튼 액션으로
 
 									seatListPanel.refresh(sudList);
-
+									
+									
 								} catch (SQLException e1) {
-									// TODO Auto-generated catch block
 									e1.printStackTrace();
 								}
-
 							}
 						}
 					} else {
@@ -130,5 +185,8 @@ public class UsageListCheckOutButton extends JButton{
 				}
 			}
 		});
+		
+		this.add(refreshButton);
+		this.add(checkOutButton);
 	}
 }

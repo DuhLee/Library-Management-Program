@@ -5,7 +5,6 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import lmp.admin.vo.AdminLogHistoryVO;
 import lmp.admin.vo.AdminVO;
 import lmp.admin.vo.BookVO;
 import lmp.admin.vo.CheckOutVO;
@@ -16,7 +15,9 @@ import lmp.admin.vo.SeatUseDetailVO;
 public abstract class MenuDao {
 
 	private static String url = "jdbc:oracle:thin:@192.168.0.23:1521:XE";
+//	private static String url = "jdbc:oracle:thin:@localhost:1521:XE";
 	private static String user = "library";
+//	private static String user = "mydb";
 	private static String pw = "1234";
 	
 	public void add(AdminVO adminVO) throws SQLException {}
@@ -29,6 +30,9 @@ public abstract class MenuDao {
 	
 	public void add(SeatUseDetailVO sudVO) throws SQLException {}
 	
+	// 
+	public void add(BookVO bookVO, String memberNum) throws SQLException {}
+	
 	public void update(AdminVO adminVO) throws SQLException {}
 
 	public void update(MemberVO memberVO) throws SQLException {}
@@ -37,7 +41,7 @@ public abstract class MenuDao {
 
 	public void update(CheckOutVO checkOutVO) throws SQLException {}
 
-	public void update(SeatUseDetailVO sudVO) throws SQLException {}
+	public void update(int use_id) throws SQLException {}
 
 	
 	public ArrayList get() throws SQLException {
@@ -48,12 +52,11 @@ public abstract class MenuDao {
 	}
 	
 	
-//	public void delete(AdminVO adminVO) throws SQLException {}
 	public void delete(String adminNum) throws SQLException {}
 	
 	public void delete(MemberVO memberVO) throws SQLException {}
 	
-	public void delete(BookVO bookVO) throws SQLException {}
+	public void delete(int bookNum) throws SQLException {}
 	
 	public void delete() throws SQLException {}
 	
@@ -73,48 +76,7 @@ public abstract class MenuDao {
 		} catch (SQLException e) {
 			System.out.println("DB 접속 실패");
 		}
-		return null; 
-	}
-
-	public void add(AdminLogHistoryVO adminLogVO) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * 회원 정보 수정
-	 * 
-	 * @param memberVO
-	 * @throws SQLException
-	 */
-	public void update(AdminLogHistoryVO adminLogVO) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public AdminLogHistoryVO getLog() throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
-	}
-
-	public void delete(Integer mem_id) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * 열람실 이용내역 업데이트
-	 * 
-	 * 퇴실 , 강제퇴실 할경우
-	 * end_time 현재시간으로 수정.
-	 * 
-	 * @param sudVO
-	 * @throws SQLException
-	 */
-	
-	public void update(Object seat_num) throws SQLException {
-		// TODO Auto-generated method stub
-		
 	}
 
 

@@ -3,8 +3,8 @@ package lmp.members.menu.loginJoin_jy;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import lmp.db.dao.AdminDao;
-import lmp.db.vo.AdminVO;
+import lmp.admin.dao.AdminDao;
+import lmp.admin.vo.AdminVO;
 
 public class ManagerLogin_Chk {
 	

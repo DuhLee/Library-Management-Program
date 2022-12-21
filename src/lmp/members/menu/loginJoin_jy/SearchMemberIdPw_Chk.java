@@ -3,8 +3,8 @@ package lmp.members.menu.loginJoin_jy;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import lmp.db.dao.MemberDao;
-import lmp.db.vo.MemberVO;
+import lmp.admin.dao.MemberDao;
+import lmp.admin.vo.MemberVO;
 
 public class SearchMemberIdPw_Chk {
 	

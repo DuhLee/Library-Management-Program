@@ -7,12 +7,13 @@ import javax.swing.JLabel;
 
 public class UsageListTitleLabel extends JLabel{
 	
+	// 메뉴 타이틀 라벨
 	public UsageListTitleLabel() {
 		
-		System.out.println("titlelabel");
-		this.setText("열람실 현황");
+		this.setText("열람실 이용 내역");
 		this.setHorizontalAlignment(JLabel.CENTER);
 		setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 30));
-		this.setForeground(Color.WHITE);
+		setForeground(Color.WHITE);
 	}
+
 }

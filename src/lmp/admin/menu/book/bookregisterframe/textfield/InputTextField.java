@@ -7,6 +7,7 @@ public class InputTextField extends JTextField{
 	public InputTextField() {
 		
 		this.setColumns(100);
+		this.setBorder(null);
 		
 	}
 	

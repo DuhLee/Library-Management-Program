@@ -14,7 +14,7 @@ public class BookSearchListPane extends JScrollPane{
 	
 		this.bookSearchListTable = new BookSearchListTable();
 		this.setViewportView(this.bookSearchListTable);
-        this.setBounds(0, 150, 1151, 450);
+		this.setBounds(0, 150, 1151, 450);
         this.setBackground(new Color(126, 151, 148));
         
 	}

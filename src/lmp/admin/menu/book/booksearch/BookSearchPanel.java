@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import lmp.admin.menu.book.BookModification;
+import lmp.admin.menu.book.bookregisterframe.BookRegisterFrame;
 import lmp.admin.menu.book.booksearch.button.BookButton;
 import lmp.admin.menu.book.booksearch.button.BookDeleteButton;
 import lmp.admin.menu.book.booksearch.button.BookRegisterButton;
@@ -23,6 +25,7 @@ import lmp.admin.menu.book.booksearch.textfield.BookSearchTextField;
 
 public class BookSearchPanel extends JPanel {
 	
+	private static final ActionListener ActionListener = null;
 	BookSearchListPane bookSearchListPane;
 	BookSearchListTable bookSearchListTable;
 	BookSearchLabel bookSearchLabel;
@@ -41,6 +44,15 @@ public class BookSearchPanel extends JPanel {
 		this.bookSearchListTable = new BookSearchListTable();
 		this.bookSearchLabel = new BookSearchLabel();
 		this.bookRegisterButton = new BookRegisterButton();
+		
+		
+//		bookRegisterButton.addActionListener(new ActionListener() {
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				new BookRegisterFrame();
+//			}
+//		});
+		
 		this.bookDeleteButton = new BookDeleteButton(this);
 		this.bookSearchButton = new BookSearchButton(this.getBookSearchListTable());
 		this.bookUpdatedButton = new BookUpdateButton(this);

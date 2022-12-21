@@ -2,15 +2,12 @@ package lmp.members;
 
 
 import java.awt.CardLayout;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -22,12 +19,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import lmp.admin.menu.book.booksearch.BookSearchPanel;
-import lmp.admin.menu.member.Member_Searching_Panel;
-import lmp.admin.menu.readingroom.ReadingRoomPanel;
+import lmp.members.menu.book.BookSearchFrame;
 import lmp.members.menu.loginJoin_jy.MemberLogin;
-import lmp.members.menu.member.MemberJoin;
-import lmp.members.menu.readingroom.ReadingRoomMain;
 
 
 public class MemberFrame extends JFrame{
@@ -110,7 +103,7 @@ public class MemberFrame extends JFrame{
 		
 		menuCardPanel.setBounds(17, 150, 1150, 600);
 		menuCardPanel.add("1", initialLabel());
-		menuCardPanel.add("2", new BookSearchPanel());
+		menuCardPanel.add("2", new BookSearchFrame());
 		
 		
 		menuButtonPanel.add(homeBtn);

@@ -1,6 +1,8 @@
 package lmp.admin.vo;
 
-public class SeatUseDetailVO implements Comparable<SeatUseDetailVO>{
+import java.util.Date;
+
+public class SeatUseDetailVO {
 
 	/**
 	 * 열람실 이용 내역 VO
@@ -13,10 +15,8 @@ public class SeatUseDetailVO implements Comparable<SeatUseDetailVO>{
 	private ReadingRoomVO readingroom;
 	private String startTime;
 	private String endTime;
-	private Object[] sudList; 
+	private Object[] list;
 	
-	
-	public SeatUseDetailVO() {}
 	/**
 	 * 열람실 이용내역 정보 생성자
 	 * 
@@ -37,14 +37,16 @@ public class SeatUseDetailVO implements Comparable<SeatUseDetailVO>{
 		this.readingroom = readingroom;
 		this.startTime	 = startTime;
 		this.endTime	 = endTime;
-		this.sudList	 = new Object[] {
-											readingroom.getSeatNum(),
-											member.getNum(),
-											member.getName(),
-											member.getPhone(),
-											member.getSex(),
-											startTime
+		this.list		 = new Object[]{
+										use_id,
+										readingroom.getSeatNum(),
+										member.getNum(),
+										member.getName(),
+										member.getPhone(),
+										member.getSex(),
+									    startTime,
 										};
+		
 	}
 
 	public Integer getUse_id() {
@@ -67,18 +69,16 @@ public class SeatUseDetailVO implements Comparable<SeatUseDetailVO>{
 		return endTime;
 	}
 	
-	
 	public Object[] getSudList() {
-		return sudList;
+		return list;
 	}
-
+	
 	@Override
 	public String toString() {
 		return String.format("%d,%s,%s,%s,%s", this.use_id, this.member, this.readingroom, this.startTime, this.endTime);
 	}
 	
 	// 오름차순으로 정렬
-	@Override
 	public int compareTo(SeatUseDetailVO o) {
 		if (o.getReadingroom().getSeatNum() > this.getReadingroom().getSeatNum()) {
 			return -1;
