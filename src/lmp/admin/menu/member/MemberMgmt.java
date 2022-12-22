@@ -34,6 +34,7 @@ import lmp.admin.dao.MemberDao;
 import lmp.admin.dao.MenuDao;
 import lmp.admin.vo.CheckOutVO;
 import lmp.admin.vo.MemberVO;
+import lmp.util.Validator;
 
 public class MemberMgmt extends JPanel {
 
@@ -47,6 +48,8 @@ public class MemberMgmt extends JPanel {
 	};
 	JTable table;
 	JScrollPane scroll;
+	
+	Validator vd = new Validator();
 
 	public MemberMgmt() {
 
@@ -217,23 +220,30 @@ public class MemberMgmt extends JPanel {
 				JLabel phone = new JLabel("전화번호");
 				JLabel email = new JLabel("이메일");
 				JLabel address = new JLabel("주소");
+				JLabel note = new JLabel("비고");
 
 				JTextField idField = new JTextField
 						(model.getValueAt(table.getSelectedRow() , 2).toString());
 				JTextField nameField = new JTextField
 						(model.getValueAt(table.getSelectedRow() , 1).toString());
 				JTextField birthField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 4).toString());
+						(model.getValueAt(table.getSelectedRow() , 3).toString());
 				JTextField sexField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 5).toString());
+						(model.getValueAt(table.getSelectedRow() , 4).toString());
 				JTextField phoneField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 6).toString());
+						(model.getValueAt(table.getSelectedRow() , 5).toString());
 				JTextField emailField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 7).toString());
+						(model.getValueAt(table.getSelectedRow() , 6).toString());
 				JTextField addressField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 8).toString());
+						(model.getValueAt(table.getSelectedRow() , 7).toString());
+				JTextField noteField = new JTextField();
+				if (model.getValueAt(table.getSelectedRow() , 9) == null) {
+					noteField.setText("");
+				} else {
+					noteField.setText(model.getValueAt(table.getSelectedRow() , 9).toString());
+				}
 				
-				JButton idcheckBtn = new JButton("중복확인");
+				JButton phonecheckBtn = new JButton("중복확인");
 				JButton emailcheckBtn = new JButton("중복확인");
 				JButton joinBtn = new JButton("가입하기");
 				JButton changeBtn2 = new JButton("수정");
@@ -245,13 +255,9 @@ public class MemberMgmt extends JPanel {
 
 				setlabel2(j, id, 18, 40, 90);
 				setField(j, idField, 113);
-				setBtn(j, idcheckBtn, 13, 80, 30);
-				idcheckBtn.setLocation(350, 113);
-				checkBtn(idcheckBtn);
 				idField.setEditable(false);
 				j.add(id);
 				j.add(idField);
-				j.add(idcheckBtn);
 
 				setlabel2(j, name, 18, 40, 140);
 				setField(j, nameField, 163);
@@ -272,6 +278,47 @@ public class MemberMgmt extends JPanel {
 				
 				setlabel2(j, phone, 18, 40, 290);
 				setField(j, phoneField, 313);
+				setBtn(j, phonecheckBtn, 13, 80, 30);
+				phonecheckBtn.setLocation(350, 313);
+				
+				phonecheckBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						phonecheckBtn.addActionListener(new ActionListener() {
+				               @Override
+				               public void actionPerformed(ActionEvent e) {
+				            	   MemberDao memberDao = new MemberDao();
+				            	   
+				                  if (vd.isValidatePhone(phoneField.getText()))  {
+				                	  
+				                     MemberVO memberVo = null;
+				                     
+				                     try {
+				                    	 memberVo = memberDao.getByPhone(phoneField.getText()).get(0);
+				                     } catch (SQLException e1) {
+				                        JOptionPane.showMessageDialog(null, "사용가능합니다");
+				                     } catch (IndexOutOfBoundsException e2) {
+				                        JOptionPane.showMessageDialog(null, "사용가능합니다");
+				                        changeBtn2.setEnabled(true);
+				                     }
+				                     
+				                     if (memberVo != null) {
+				                        JOptionPane.showMessageDialog(null, "중복되는 전화번호 입니다.",
+				                              "경고", JOptionPane.ERROR_MESSAGE);
+				                        changeBtn2.setEnabled(false);
+				                     }
+				                  } else {
+				                     JOptionPane.showMessageDialog(null, "사용 불가한 전화번호입니다",
+				                           "경고", JOptionPane.ERROR_MESSAGE);
+				                     changeBtn2.setEnabled(false);
+				                  }
+
+				               }
+				            });
+					}
+				});
+				
+				j.add(phonecheckBtn);
 				j.add(phone);
 				j.add(phoneField);
 
@@ -279,7 +326,36 @@ public class MemberMgmt extends JPanel {
 				setField(j, emailField, 363);
 				setBtn(j, emailcheckBtn, 13, 80, 30);
 				emailcheckBtn.setLocation(350, 363);
-				checkBtn(emailcheckBtn);
+				emailcheckBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						 MemberDao memberDao = new MemberDao();
+		            	   
+		                  if (vd.isValidateEmail(phoneField.getText()))  {
+		                	  
+		                     MemberVO memberVo = null;
+		                     
+		                     try {
+		                    	 memberVo = memberDao.getByPhone(phoneField.getText()).get(0);
+		                     } catch (SQLException e1) {
+		                        JOptionPane.showMessageDialog(null, "사용가능합니다");
+		                     } catch (IndexOutOfBoundsException e2) {
+		                        JOptionPane.showMessageDialog(null, "사용가능합니다");
+		                        changeBtn2.setEnabled(true);
+		                     }
+		                     
+		                     if (memberVo != null) {
+		                        JOptionPane.showMessageDialog(null, "중복되는 전화번호 입니다.",
+		                              "경고", JOptionPane.ERROR_MESSAGE);
+		                        changeBtn2.setEnabled(false);
+		                     }
+		                  } else {
+		                     JOptionPane.showMessageDialog(null, "사용 불가한 전화번호입니다",
+		                           "경고", JOptionPane.ERROR_MESSAGE);
+		                     changeBtn2.setEnabled(false);
+		                  }
+					}
+				});
 				j.add(email);
 				j.add(emailField);
 				j.add(emailcheckBtn);
@@ -288,9 +364,15 @@ public class MemberMgmt extends JPanel {
 				setField(j, addressField, 413);
 				j.add(address);
 				j.add(addressField);
+				
+				
+				setlabel2(j, note, 18, 40, 440);
+				setField(j, noteField, 463);
+				j.add(note);
+				j.add(noteField);
 
 				setBtn(j, changeBtn2, 18, 80, 40);
-				changeBtn2.setLocation(350, 480);
+				changeBtn2.setLocation(350, 500);
 				j.add(changeBtn2);
 				
 				changeBtn2.addActionListener(new ActionListener() {
@@ -453,29 +535,14 @@ public class MemberMgmt extends JPanel {
 		field.setBorder(new LineBorder(new Color(49, 82, 91), 2, false));
 		frame.add(field);
 	}
-
+	
 	// 중복확인 버튼 액션리스너
 	public static void checkBtn(JButton button) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				JFrame r = new JFrame();
-//
-//				JLabel delete = new JLabel("사용가능합니다");
-//				
-//				delete.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 20));
-//				delete.setBounds(75, 40, 250, 30);
-//				r.add(delete);
-//				
-//				
-//				r.dispose();
-//				r.setLayout(null);
-//				r.setBounds(450, 350, 300, 150);
-//				r.getContentPane().setBackground(Color.WHITE);
-//				r.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-//				r.setVisible(true);
-				JOptionPane.showMessageDialog(null, "사용 가능");
-
+//				if ()
+					
 			}
 		});
 	}

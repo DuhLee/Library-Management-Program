@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -202,6 +203,8 @@ public class AdminFrame extends JFrame {
 		
 		
 //		setMinimumSize(new Dimension(500, 400));
+		
+		setMinimumSize(new Dimension(200, 100));
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 //		setBounds(300, 100, 1200, 800);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);

@@ -193,6 +193,70 @@ public class MemberDao extends MenuDao{
 		return memberList;
 	}
 	
+	
+	public ArrayList<MemberVO> getByPhone(String phone) throws SQLException {
+		
+		String sql = "SELECT * FROM members WHERE mem_phone LIKE ?";
+
+		Connection conn = getConnection();
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, "%" + phone + "%");
+		
+		ResultSet rs = pstmt.executeQuery();
+		ArrayList<MemberVO> memberList = new ArrayList<>();
+		while (rs.next()) {
+			memberList.add(new MemberVO(
+								rs.getInt("mem_num"),
+								rs.getString("mem_name"),
+								rs.getString("mem_id"),
+								rs.getString("mem_pw"),
+								rs.getString("mem_birthday"),
+								rs.getString("mem_sex"),
+								rs.getString("mem_phone"),
+								rs.getString("mem_email"),
+								rs.getString("mem_address"),
+								rs.getString("mem_registrationdate"),
+								rs.getString("mem_note")));
+		}
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return memberList;
+	}
+	
+	
+	public ArrayList<MemberVO> getByEmail(String email) throws SQLException {
+		
+		String sql = "SELECT * FROM members WHERE mem_email LIKE ?";
+
+		Connection conn = getConnection();
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, "%" + email + "%");
+		
+		ResultSet rs = pstmt.executeQuery();
+		ArrayList<MemberVO> memberList = new ArrayList<>();
+		while (rs.next()) {
+			memberList.add(new MemberVO(
+								rs.getInt("mem_num"),
+								rs.getString("mem_name"),
+								rs.getString("mem_id"),
+								rs.getString("mem_pw"),
+								rs.getString("mem_birthday"),
+								rs.getString("mem_sex"),
+								rs.getString("mem_phone"),
+								rs.getString("mem_email"),
+								rs.getString("mem_address"),
+								rs.getString("mem_registrationdate"),
+								rs.getString("mem_note")));
+		}
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return memberList;
+	}
+	
 	/**
 	 * 해당하는 조건의 sql문 가져오기
 	 * header

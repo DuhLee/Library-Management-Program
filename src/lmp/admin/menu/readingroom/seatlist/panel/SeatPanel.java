@@ -45,7 +45,7 @@ public class SeatPanel extends JPanel {
 			if (rVo.get(i).getTableDivider().equals("0")) {
 				seatLabels[i - tens].setText("" + (i + 1));
 			} else {
-				seatLabels[i - tens].setText("/ " + (i + 1) + " \\");
+				seatLabels[i - tens].setText("| " + (i + 1) + " |");
 			}
 			add(seatLabels[i - tens]);
 		}
