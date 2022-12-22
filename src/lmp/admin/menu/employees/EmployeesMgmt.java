@@ -41,11 +41,10 @@ import lmp.admin.vo.AdminVO;
 import lmp.admin.vo.MemberVO;
 import lmp.util.Validator;
 
-
 public class EmployeesMgmt extends JPanel {
-	
+
 	// JTable 구성품
-	private String[] header = {"사번", "이름", "전화번호", "이메일", "주소" ,"입사일", "비고"};
+	private String[] header = { "사번", "이름", "전화번호", "이메일", "주소", "입사일", "비고" };
 	private DefaultTableModel model = new DefaultTableModel(header, 20) {
 		public boolean isCellEditable(int row, int column) {
 			return false;
@@ -56,6 +55,8 @@ public class EmployeesMgmt extends JPanel {
 
 	JPanel panel = this;
 	
+	Validator vd = new Validator();
+
 	public EmployeesMgmt() {
 
 		JLabel employeeInquiry = new JLabel("직원 조회"); // 직원 조회 라벨
@@ -64,7 +65,7 @@ public class EmployeesMgmt extends JPanel {
 		JButton addBtn = BookMgmt.getButton("추가"); // 추가 버튼
 		JButton changeBtn = BookMgmt.getButton("수정"); // 수정버튼
 		JButton deleteBtn = BookMgmt.getButton("삭제"); // 삭제 버튼
-		
+
 		// 직원조회 타이틀 설정
 		employeeInquiry.setBounds(600, 30, 300, 50);
 		employeeInquiry.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 40));
@@ -86,20 +87,18 @@ public class EmployeesMgmt extends JPanel {
 		searchBtn.setBounds(1010, 100, 120, 100);
 		add(searchBtn);
 
-
 		// 콤보박스로 검색할내용 선택하기
-		String[] keywordList = {"사번", "이름", "전화번호", "입사일"};
+		String[] keywordList = { "사번", "이름", "전화번호", "입사일" };
 		JComboBox keyword = new JComboBox<>(keywordList);
 		keyword.setBounds(270, 130, 200, 35);
 		keyword.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
 		add(keyword);
-		
+
 		table = AdminFrame.getTable(model);
 		scroll = new JScrollPane(table);
 		scroll.setBounds(0, 250, 1500, 500);
 		add(scroll);
-		
-		
+
 		try {
 			BufferedImage buffer = ImageIO.read(new File("src/lmp/admin/menuButtonImages/searchButtonIcon.png"));
 			Image image = buffer.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
@@ -130,7 +129,6 @@ public class EmployeesMgmt extends JPanel {
 				}
 			}
 		});
-		
 
 		// 추가버튼 설정
 		addBtn.setBounds(1320, 15, 150, 70);
@@ -141,7 +139,7 @@ public class EmployeesMgmt extends JPanel {
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
-		
+
 		// 추가버튼을 누르면 새창이 뜨면서 정보입력하게..
 		addBtn.addActionListener(new ActionListener() {
 			@Override
@@ -150,7 +148,7 @@ public class EmployeesMgmt extends JPanel {
 			}
 		});
 		add(addBtn);
-		
+
 		// 수정버튼 설정
 		changeBtn.setBounds(1320, 175, 150, 70);
 		try {
@@ -160,7 +158,6 @@ public class EmployeesMgmt extends JPanel {
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
-		
 
 		// 삭제버튼 설정
 		deleteBtn.setBounds(1320, 95, 150, 70);
@@ -180,11 +177,12 @@ public class EmployeesMgmt extends JPanel {
 					JOptionPane.showMessageDialog(null, "삭제할 회원을 선택해주세요.");
 					return;
 				}
-				
-				int var = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+				int var = JOptionPane.showConfirmDialog(null, "삭제하시겠습니까?", "삭제 확인", JOptionPane.YES_NO_OPTION,
+						JOptionPane.INFORMATION_MESSAGE);
 				if (var == JOptionPane.YES_OPTION) {
 					AdminDao mdao = new AdminDao();
-					
+
 					try {
 						mdao.delete(table.getValueAt(table.getSelectedRow(), 0).toString());
 
@@ -193,7 +191,7 @@ public class EmployeesMgmt extends JPanel {
 						admins.addAll(mdao.get(keyword.getSelectedIndex() + 1, searchField.getText()));
 						int num = 0;
 						model.setRowCount(admins.size());
-						for (AdminVO admin : admins) {						
+						for (AdminVO admin : admins) {
 							for (int i = 0; i < admin.getList().length; i++) {
 								model.setValueAt(admin.getList()[i], num, i);
 							}
@@ -205,11 +203,10 @@ public class EmployeesMgmt extends JPanel {
 					}
 					JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다.");
 				}
-			}	
-		});		
+			}
+		});
 		add(deleteBtn);
-		
-		
+
 		changeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -217,45 +214,38 @@ public class EmployeesMgmt extends JPanel {
 					JOptionPane.showMessageDialog(null, "수정할 회원을 선택해주세요.");
 					return;
 				}
-				
+
 				JFrame j = new JFrame();
-				
+
 				JLabel join = new JLabel("직원 수정");
 				JLabel id = new JLabel("사번");
 				JLabel name = new JLabel("이름");
-				JLabel pw	= new JLabel("비밀번호");
+				JLabel pw = new JLabel("비밀번호");
 				JLabel pwCheck = new JLabel("비밀번호 확인");
 				JLabel phone = new JLabel("전화번호");
 				JLabel email = new JLabel("이메일");
 				JLabel address = new JLabel("주소");
 				JLabel note = new JLabel("비고");
-				
 
-				JTextField idField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 0).toString());
-				JTextField nameField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 1).toString());
+				JTextField idField = new JTextField(model.getValueAt(table.getSelectedRow(), 0).toString());
+				JTextField nameField = new JTextField(model.getValueAt(table.getSelectedRow(), 1).toString());
 				JTextField pwField = new JTextField();
 				JTextField pwCheckField = new JTextField();
-				JTextField phoneField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 2).toString());
-				JTextField emailField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 3).toString());
-				JTextField addressField = new JTextField
-						(model.getValueAt(table.getSelectedRow() , 4).toString());
+				JTextField phoneField = new JTextField(model.getValueAt(table.getSelectedRow(), 2).toString());
+				JTextField emailField = new JTextField(model.getValueAt(table.getSelectedRow(), 3).toString());
+				JTextField addressField = new JTextField(model.getValueAt(table.getSelectedRow(), 4).toString());
 				JTextField noteField = new JTextField();
-				if (model.getValueAt(table.getSelectedRow() , 6) == null) {
+				if (model.getValueAt(table.getSelectedRow(), 6) == null) {
 					noteField.setText("");
 				} else {
-					noteField.setText(model.getValueAt(table.getSelectedRow() , 6).toString());
+					noteField.setText(model.getValueAt(table.getSelectedRow(), 6).toString());
 				}
-				
+
 				JButton phonecheckBtn = new JButton("중복확인");
 				JButton emailcheckBtn = new JButton("중복확인");
 				JButton joinBtn = new JButton("가입하기");
 				JButton changeBtn2 = new JButton("수정");
 				JButton cancelBtn = new JButton("취소");
-
 
 				MemberMgmt.setlabel2(j, join, 40, 40, 13);
 				j.add(join);
@@ -283,10 +273,10 @@ public class EmployeesMgmt extends JPanel {
 					public void focusLost(FocusEvent e) {
 						if (!pwCheckField.getText().equals(pwField.getText())) {
 							pwCheckField.setForeground(Color.RED);
-							pwCheckField.setText("비밀번호가 일치하지 않습니다.");							
+							pwCheckField.setText("비밀번호가 일치하지 않습니다.");
 						}
 					}
-					
+
 					@Override
 					public void focusGained(FocusEvent e) {
 						pwCheckField.setForeground(Color.BLACK);
@@ -295,39 +285,39 @@ public class EmployeesMgmt extends JPanel {
 				});
 				j.add(pwCheck);
 				j.add(pwCheckField);
-				
+
 				MemberMgmt.setlabel2(j, phone, 18, 25, 290);
 				MemberMgmt.setField(j, phoneField, 313);
 				MemberMgmt.setBtn(j, phonecheckBtn, 13, 80, 30);
-				MemberMgmt.checkBtn(phonecheckBtn);
 				phonecheckBtn.setLocation(360, 313);
 				phonecheckBtn.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						Validator vd = new Validator();
 						AdminDao adminDao = new AdminDao();
-						  if (vd.isValidatePhone(phoneField.getText()))  {
-			                     AdminVO adminVo = null;
-			                     try {
-			                    	 adminVo = adminDao.get2(phoneField.getText()).get(0);
-			                     } catch (SQLException e1) {
-			                        JOptionPane.showMessageDialog(null, "사용가능합니다");
-			                     } catch (IndexOutOfBoundsException e2) {
-			                        JOptionPane.showMessageDialog(null, "사용가능합니다");
-			                        changeBtn2.setEnabled(true);
-			                     }
-			                     
-			                     if (adminVo != null) {
-			                        JOptionPane.showMessageDialog(null, "중복되는 전화번호 입니다.",
-			                              "경고", JOptionPane.ERROR_MESSAGE);
-			                        changeBtn2.setEnabled(false);
-			                     }
-			                  } else {
-			                     JOptionPane.showMessageDialog(null, "사용 불가한 전화번호입니다",
-			                           "경고", JOptionPane.ERROR_MESSAGE);
-			                     changeBtn2.setEnabled(false);
-			                  }
 
+						if (vd.isValidatePhone(phoneField.getText())) {
+							AdminVO adminVo = null;
+							try {
+								adminVo = adminDao.getByPhone(phoneField.getText()).get(0);
+							} catch (SQLException e1) {
+								JOptionPane.showMessageDialog(null, "사용가능합니다");
+								return;
+							} catch (IndexOutOfBoundsException e2) {
+								JOptionPane.showMessageDialog(null, "사용가능합니다");
+								changeBtn2.setEnabled(true);
+								return;
+							}
+
+							if (adminVo != null) {
+								JOptionPane.showMessageDialog(null, "중복되는 전화번호 입니다.", "경고", JOptionPane.ERROR_MESSAGE);
+								changeBtn2.setEnabled(false);
+								return;
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "사용 불가능한 전화번호입니다", "경고", JOptionPane.ERROR_MESSAGE);
+							changeBtn2.setEnabled(false);
+							return;
+						}
 					}
 				});
 				j.add(phone);
@@ -337,8 +327,38 @@ public class EmployeesMgmt extends JPanel {
 				MemberMgmt.setlabel2(j, email, 18, 25, 340);
 				MemberMgmt.setField(j, emailField, 363);
 				MemberMgmt.setBtn(j, emailcheckBtn, 13, 80, 30);
-				MemberMgmt.checkBtn(emailcheckBtn);
 				emailcheckBtn.setLocation(360, 363);
+				emailcheckBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						
+						AdminDao adminDao = new AdminDao();
+
+						if (vd.isValidateEmail(phoneField.getText())) {
+							AdminVO adminVo = null;
+							try {
+								adminVo = adminDao.getByEmail(emailField.getText()).get(0);
+							} catch (SQLException e1) {
+								JOptionPane.showMessageDialog(null, "사용가능합니다");
+								return;
+							} catch (IndexOutOfBoundsException e2) {
+								JOptionPane.showMessageDialog(null, "사용가능합니다");
+								changeBtn2.setEnabled(true);
+								return;
+							}
+
+							if (adminVo != null) {
+								JOptionPane.showMessageDialog(null, "중복되는 이메일 입니다.", "경고", JOptionPane.ERROR_MESSAGE);
+								changeBtn2.setEnabled(false);
+								return;
+							}
+						} else {
+							JOptionPane.showMessageDialog(null, "사용 불가능한 이메일입니다.", "경고", JOptionPane.ERROR_MESSAGE);
+							changeBtn2.setEnabled(false);
+							return;
+						}
+					}
+				});
 				j.add(email);
 				j.add(emailField);
 				j.add(emailcheckBtn);
@@ -347,43 +367,35 @@ public class EmployeesMgmt extends JPanel {
 				MemberMgmt.setField(j, addressField, 413);
 				j.add(address);
 				j.add(addressField);
-				
+
 				MemberMgmt.setlabel2(j, note, 18, 25, 440);
 				MemberMgmt.setField(j, noteField, 463);
 				j.add(note);
 				j.add(noteField);
-				
 
 				MemberMgmt.setBtn(j, changeBtn2, 18, 80, 40);
 				changeBtn2.setLocation(360, 500);
 				j.add(changeBtn2);
-				
+
 				changeBtn2.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						int var = JOptionPane.showConfirmDialog
-								(null, "수정하시겠습니까?", "수정 확인",
-										JOptionPane.YES_NO_OPTION,
-										JOptionPane.INFORMATION_MESSAGE, null);
+						int var = JOptionPane.showConfirmDialog(null, "수정하시겠습니까?", "수정 확인", JOptionPane.YES_NO_OPTION,
+								JOptionPane.INFORMATION_MESSAGE, null);
 						if (var == JOptionPane.YES_OPTION) {
 							if (!pwCheckField.getText().equals(pwField.getText())) {
 								JOptionPane.showMessageDialog(j, "비밀번호가 일치하지 않습니다.");
 								return;
 							}
 							AdminDao adao = new AdminDao();
-							AdminVO vo = new AdminVO((int)model.getValueAt(table.getSelectedRow() , 0),
-									nameField.getText(),
-									pwField.getText(),
-									phoneField.getText(),
-									emailField.getText(),
-									addressField.getText(),
-									model.getValueAt(table.getSelectedRow(), 5) + "",
-									noteField.getText()
-									);
+							AdminVO vo = new AdminVO((int) model.getValueAt(table.getSelectedRow(), 0),
+									nameField.getText(), pwField.getText(), phoneField.getText(), emailField.getText(),
+									addressField.getText(), model.getValueAt(table.getSelectedRow(), 5) + "",
+									noteField.getText());
 							try {
 								adao.update(vo);
 								ArrayList<AdminVO> admins = new ArrayList<>();
-								
+
 								admins.addAll(adao.get(keyword.getSelectedIndex() + 1, searchField.getText()));
 								int num = 0;
 								model.setRowCount(admins.size());
@@ -399,7 +411,6 @@ public class EmployeesMgmt extends JPanel {
 							}
 						}
 
-
 					}
 				});
 
@@ -411,53 +422,44 @@ public class EmployeesMgmt extends JPanel {
 		});
 		add(changeBtn);
 
-
 		// 판넬기본설정
 		setLayout(null);
 		setBackground(new Color(87, 119, 119));
-		//setBorder(new LineBorder(Color.WHITE, 5, false)); // 테두리
+		// setBorder(new LineBorder(Color.WHITE, 5, false)); // 테두리
 	}
-	
-	
+
 	public void modifyEmployee() {
 		JFrame j = new JFrame();
-		
+
 		JLabel join = new JLabel("직원 수정");
 		JLabel id = new JLabel("사번");
 		JLabel name = new JLabel("이름");
-		JLabel pw	= new JLabel("비밀번호");
+		JLabel pw = new JLabel("비밀번호");
 		JLabel pwCheck = new JLabel("비밀번호 확인");
 		JLabel phone = new JLabel("전화번호");
 		JLabel email = new JLabel("이메일");
 		JLabel address = new JLabel("주소");
 		JLabel note = new JLabel("비고");
-		
 
-		JTextField idField = new JTextField
-				(model.getValueAt(table.getSelectedRow() , 0).toString());
-		JTextField nameField = new JTextField
-				(model.getValueAt(table.getSelectedRow() , 1).toString());
+		JTextField idField = new JTextField(model.getValueAt(table.getSelectedRow(), 0).toString());
+		JTextField nameField = new JTextField(model.getValueAt(table.getSelectedRow(), 1).toString());
 		JTextField pwField = new JTextField();
 		JTextField pwCheckField = new JTextField();
-		JTextField phoneField = new JTextField
-				(model.getValueAt(table.getSelectedRow() , 2).toString());
-		JTextField emailField = new JTextField
-				(model.getValueAt(table.getSelectedRow() , 3).toString());
-		JTextField addressField = new JTextField
-				(model.getValueAt(table.getSelectedRow() , 4).toString());
+		JTextField phoneField = new JTextField(model.getValueAt(table.getSelectedRow(), 2).toString());
+		JTextField emailField = new JTextField(model.getValueAt(table.getSelectedRow(), 3).toString());
+		JTextField addressField = new JTextField(model.getValueAt(table.getSelectedRow(), 4).toString());
 		JTextField noteField = new JTextField();
-		if (model.getValueAt(table.getSelectedRow() , 6) == null) {
+		if (model.getValueAt(table.getSelectedRow(), 6) == null) {
 			noteField.setText("");
 		} else {
-			noteField.setText(model.getValueAt(table.getSelectedRow() , 6).toString());
+			noteField.setText(model.getValueAt(table.getSelectedRow(), 6).toString());
 		}
-		
+
 		JButton phonecheckBtn = new JButton("중복확인");
 		JButton emailcheckBtn = new JButton("중복확인");
 		JButton joinBtn = new JButton("가입하기");
 		JButton changeBtn2 = new JButton("수정");
 		JButton cancelBtn = new JButton("취소");
-
 
 		MemberMgmt.setlabel2(j, join, 40, 40, 13);
 		j.add(join);
@@ -485,10 +487,10 @@ public class EmployeesMgmt extends JPanel {
 			public void focusLost(FocusEvent e) {
 				if (!pwCheckField.getText().equals(pwField.getText())) {
 					pwCheckField.setForeground(Color.RED);
-					pwCheckField.setText("비밀번호가 일치하지 않습니다.");							
+					pwCheckField.setText("비밀번호가 일치하지 않습니다.");
 				}
 			}
-			
+
 			@Override
 			public void focusGained(FocusEvent e) {
 				pwCheckField.setForeground(Color.BLACK);
@@ -497,11 +499,10 @@ public class EmployeesMgmt extends JPanel {
 		});
 		j.add(pwCheck);
 		j.add(pwCheckField);
-		
+
 		MemberMgmt.setlabel2(j, phone, 18, 25, 290);
 		MemberMgmt.setField(j, phoneField, 313);
 		MemberMgmt.setBtn(j, phonecheckBtn, 13, 80, 30);
-		MemberMgmt.checkBtn(phonecheckBtn);
 		phonecheckBtn.setLocation(360, 313);
 		j.add(phone);
 		j.add(phoneField);
@@ -510,7 +511,6 @@ public class EmployeesMgmt extends JPanel {
 		MemberMgmt.setlabel2(j, email, 18, 25, 340);
 		MemberMgmt.setField(j, emailField, 363);
 		MemberMgmt.setBtn(j, emailcheckBtn, 13, 80, 30);
-		MemberMgmt.checkBtn(emailcheckBtn);
 		emailcheckBtn.setLocation(360, 363);
 		j.add(email);
 		j.add(emailField);
@@ -520,17 +520,16 @@ public class EmployeesMgmt extends JPanel {
 		MemberMgmt.setField(j, addressField, 413);
 		j.add(address);
 		j.add(addressField);
-		
+
 		MemberMgmt.setlabel2(j, note, 18, 25, 440);
 		MemberMgmt.setField(j, noteField, 463);
 		j.add(note);
 		j.add(noteField);
-		
 
 		MemberMgmt.setBtn(j, changeBtn2, 18, 80, 40);
 		changeBtn2.setLocation(360, 500);
 		j.add(changeBtn2);
-		
+
 		j.setLayout(null);
 		j.setBounds(330, 130, 480, 600);
 		j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -547,7 +546,6 @@ public class EmployeesMgmt extends JPanel {
 		JLabel email = getLabel("이메일");
 		JLabel address = getLabel("주소");
 
-		
 		JTextField nameField = EmployeesMgmt.getTextField();
 		JTextField birthField = EmployeesMgmt.getTextField();
 		JTextField phoneField = EmployeesMgmt.getTextField();
@@ -582,18 +580,16 @@ public class EmployeesMgmt extends JPanel {
 		JTextField addressField = EmployeesMgmt.getTextField();
 
 		// 반복문으로 유효성 검사를 하기 위해 생성
-		JTextField[] tfList = {nameField, birthField, phoneField, pwField, emailField, addressField};
-		
+		JTextField[] tfList = { nameField, birthField, phoneField, pwField, emailField, addressField };
+
 		JButton finishBtn = new JButton("완료");
 		finishBtn.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 18));
 		finishBtn.setBackground(new Color(87, 119, 119));
 		finishBtn.setForeground(Color.WHITE);
 		finishBtn.setFocusable(false);
-		
 
 		f.add(pwNoticeField);
-		
-		
+
 		// 직원등록 타이틀 설정
 
 		addemp.setFont(new Font("한컴 말랑말랑 Bold", Font.BOLD, 30));
@@ -601,20 +597,19 @@ public class EmployeesMgmt extends JPanel {
 		addemp.setBounds(50, 30, 150, 35);
 		addemp.setHorizontalTextPosition(JLabel.CENTER);
 		f.add(addemp);
-		
+
 		// 이름 라벨 , 텍스트필드 설정
 		f.add(name);
 		f.add(nameField);
 		name.setBounds(50, 90, 100, 30);
 		nameField.setBounds(130, 90, 150, 30);
-		
-		
+
 		// 비밀번호 라벨 , 텍스트필드 설정
 		f.add(pw);
 		f.add(pwField);
 		pw.setBounds(50, 140, 100, 30);
 		pwField.setBounds(130, 140, 150, 30);
-		
+
 		// 전화번호 라벨 , 텍스트필드 설정
 		f.add(phone);
 		f.add(phoneField);
@@ -639,7 +634,7 @@ public class EmployeesMgmt extends JPanel {
 		finishBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 				// 입력하지 않은 정보가 있으면 안내문구 출력 후 완료 버튼 무효
 				for (JTextField field : tfList) {
 					if (field.getForeground() == Color.RED) {
@@ -647,23 +642,21 @@ public class EmployeesMgmt extends JPanel {
 						return;
 					}
 				}
-				
+
 				AdminDao dao = new AdminDao();
-				AdminVO vo = new AdminVO(null,nameField.getText(), new String(pwField.getPassword()),
-						phoneField.getText(), emailField.getText(), addressField.getText(),
-						null, null); 
-				
+				AdminVO vo = new AdminVO(null, nameField.getText(), new String(pwField.getPassword()),
+						phoneField.getText(), emailField.getText(), addressField.getText(), null, null);
+
 				try {
 					dao.add(vo);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-				
+
 				JOptionPane.showMessageDialog(null, "등록이 완료되었습니다.");
-				
+
 			}
 		});
-
 
 		f.dispose();
 		f.setLayout(null);
@@ -671,24 +664,22 @@ public class EmployeesMgmt extends JPanel {
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setVisible(true);
 	}
-	
-	
+
 	public static JLabel getLabel(String text) {
 		JLabel label = new JLabel(text);
 
 		Font font = new Font("한컴 말랑말랑 Regular", Font.BOLD, 15);
-		
+
 		label.setFont(font);
 		label.setForeground(new Color(49, 82, 91));
-		
+
 		return label;
 	}
-	
-	
+
 	// 빈 칸 있으면 안내문구 띄우는 textField 생성 메서드
 	public static JTextField getTextField() {
 		JTextField tf = new JTextField();
-		
+
 		tf.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(FocusEvent e) {
@@ -707,8 +698,8 @@ public class EmployeesMgmt extends JPanel {
 				}
 			}
 		});
-		
+
 		return tf;
 	}
-	
+
 }

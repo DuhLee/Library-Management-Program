@@ -224,13 +224,41 @@ public class AdminDao extends MenuDao{
 	}
 
 
-	public ArrayList<AdminVO> get2(String phone) throws SQLException {
+	public ArrayList<AdminVO> getByPhone(String phone) throws SQLException {
 
 		String sql = "SELECT * FROM admins WHERE admin_phone LIKE ?";
 
 		Connection conn = getConnection();
 		PreparedStatement pstmt = conn.prepareStatement(sql);
 		pstmt.setString(1, "%" + phone + "%");
+		
+		ResultSet rs = pstmt.executeQuery();
+		ArrayList<AdminVO> adminList = new ArrayList<>();
+		while (rs.next()) {
+			adminList.add(new AdminVO(
+								rs.getInt("admin_num"),
+								rs.getString("admin_name"),
+								rs.getString("admin_pw"),
+								rs.getString("admin_phone"),
+								rs.getString("admin_email"),
+								rs.getString("admin_address"),
+								rs.getString("admin_registrationdate"),
+								rs.getString("admin_note")));
+		}
+		rs.close();
+		pstmt.close();
+		conn.close();
+		
+		return adminList;
+	}
+	
+	public ArrayList<AdminVO> getByEmail(String email) throws SQLException {
+
+		String sql = "SELECT * FROM admins WHERE admin_email LIKE ?";
+
+		Connection conn = getConnection();
+		PreparedStatement pstmt = conn.prepareStatement(sql);
+		pstmt.setString(1, "%" + email + "%");
 		
 		ResultSet rs = pstmt.executeQuery();
 		ArrayList<AdminVO> adminList = new ArrayList<>();
