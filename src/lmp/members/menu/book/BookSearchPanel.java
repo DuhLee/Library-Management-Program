@@ -126,7 +126,7 @@ public class BookSearchPanel extends JPanel {
 			e3.printStackTrace();
 		}
 		button.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// 검색 키워드로 검새된 결과 받아오기
@@ -199,7 +199,7 @@ public class BookSearchPanel extends JPanel {
 			}
 		});
 		
-		textF.addActionListener(new ActionListener() { // 검색버튼 클릭 시 작동기능
+		textF.addActionListener(new ActionListener() { // 텍스트 필드에서 엔터 클릭시 마우스 클릭
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				button.doClick();
@@ -223,7 +223,7 @@ public class BookSearchPanel extends JPanel {
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}
-
+		
 		model_BookMgmt.setRowCount(bookVO.size());
 		model_BookMgmt.setColumnIdentifiers(bookColumn);
 

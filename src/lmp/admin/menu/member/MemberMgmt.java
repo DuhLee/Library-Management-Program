@@ -240,12 +240,12 @@ public class MemberMgmt extends JPanel {
 				JButton cancelBtn = new JButton("취소");
 
 
-				setlabel2(join, 40, 40, 13);
+				setlabel2(j, join, 40, 40, 13);
 				j.add(join);
 
-				setlabel2(id, 18, 40, 90);
-				setField(idField, 113);
-				setBtn(idcheckBtn, 13, 80, 30);
+				setlabel2(j, id, 18, 40, 90);
+				setField(j, idField, 113);
+				setBtn(j, idcheckBtn, 13, 80, 30);
 				idcheckBtn.setLocation(350, 113);
 				checkBtn(idcheckBtn);
 				idField.setEditable(false);
@@ -253,43 +253,43 @@ public class MemberMgmt extends JPanel {
 				j.add(idField);
 				j.add(idcheckBtn);
 
-				setlabel2(name, 18, 40, 140);
-				setField(nameField, 163);
+				setlabel2(j, name, 18, 40, 140);
+				setField(j, nameField, 163);
 				j.add(name);
 				j.add(nameField);
 
-				setlabel2(birth, 18, 40, 190);
-				setField(birthField, 213);
+				setlabel2(j, birth, 18, 40, 190);
+				setField(j, birthField, 213);
 				birthField.setEditable(false);
 				j.add(birth);
 				j.add(birthField);
 
-				setlabel2(sex, 18, 40, 240);
-				setField(sexField, 263);
+				setlabel2(j, sex, 18, 40, 240);
+				setField(j, sexField, 263);
 				sexField.setEditable(false);
 				j.add(sex);
 				j.add(sexField);
 				
-				setlabel2(phone, 18, 40, 290);
-				setField(phoneField, 313);
+				setlabel2(j, phone, 18, 40, 290);
+				setField(j, phoneField, 313);
 				j.add(phone);
 				j.add(phoneField);
 
-				setlabel2(email, 18, 40, 340);
-				setField(emailField, 363);
-				setBtn(emailcheckBtn, 13, 80, 30);
+				setlabel2(j, email, 18, 40, 340);
+				setField(j, emailField, 363);
+				setBtn(j, emailcheckBtn, 13, 80, 30);
 				emailcheckBtn.setLocation(350, 363);
 				checkBtn(emailcheckBtn);
 				j.add(email);
 				j.add(emailField);
 				j.add(emailcheckBtn);
 
-				setlabel2(address, 18, 40, 390);
-				setField(addressField, 413);
+				setlabel2(j, address, 18, 40, 390);
+				setField(j, addressField, 413);
 				j.add(address);
 				j.add(addressField);
 
-				setBtn(changeBtn2, 18, 80, 40);
+				setBtn(j, changeBtn2, 18, 80, 40);
 				changeBtn2.setLocation(350, 480);
 				j.add(changeBtn2);
 				
@@ -315,7 +315,7 @@ public class MemberMgmt extends JPanel {
 								mems.addAll(mdao.get(keyword.getSelectedIndex() + 1, searchField.getText()));
 								int num = 0;
 								model.setRowCount(mems.size());
-								for (MemberVO mem : mems) {						
+								for (MemberVO mem : mems) {
 									for (int i = 0; i < mem.getList().length; i++) {
 										model.setValueAt(mem.getList()[i], num, i);
 									}
@@ -417,24 +417,24 @@ public class MemberMgmt extends JPanel {
 	}
 
 	// 라벨 생성 및 설정함수
-	public void setlabel(JLabel label , int size, int x, int y) {
+	public static void setlabel(JFrame frame, JLabel label , int size, int x, int y) {
 		Font font = new Font("한컴 말랑말랑 Bold", Font.BOLD, size);
 		label.setFont(font);
 		label.setForeground(Color.WHITE);
 		label.setBounds(x, y, 300, 30);
-		add(label);
+		frame.add(label);
 	}
 
-	public void setlabel2(JLabel label , int size, int x, int y) {
+	public static void setlabel2(JFrame frame, JLabel label , int size, int x, int y) {
 		Font font = new Font("한컴 말랑말랑 Bold", Font.BOLD, size);
 		label.setFont(font);
 		label.setForeground(new Color(49, 82, 91));
 		label.setBounds(x, y, 200, 70);
-		add(label);
+		frame.add(label);
 	}
 
 	// 버튼 생성 및 설정함수
-	public void setBtn(JButton button , int fontSize, int width, int height) {
+	public static void setBtn(JFrame frame, JButton button , int fontSize, int width, int height) {
 		Font font = new Font("한컴 말랑말랑 Bold", Font.BOLD, fontSize);
 
 		button.setFont(font);
@@ -442,20 +442,20 @@ public class MemberMgmt extends JPanel {
 		button.setForeground(Color.WHITE);
 		button.setFocusable(false);
 		button.setSize(width, height);
-		add(button);
+		frame.add(button);
 	}
 
 	// 텍스트필드 생성 및 설정함수
-	public void setField(JTextField field, int y) {
+	public static void setField(JFrame frame, JTextField field, int y) {
 		Font font = new Font("한컴 말랑말랑 Bold", Font.BOLD, 13);
 		field.setFont(font);
-		field.setBounds(130, y, 200, 30);
+		field.setBounds(135, y, 200, 30);
 		field.setBorder(new LineBorder(new Color(49, 82, 91), 2, false));
-		add(field);
+		frame.add(field);
 	}
 
 	// 중복확인 버튼 액션리스너
-	public void checkBtn(JButton button) {
+	public static void checkBtn(JButton button) {
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

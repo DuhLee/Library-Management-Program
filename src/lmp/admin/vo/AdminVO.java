@@ -53,7 +53,7 @@ public class AdminVO {
 					String	admin_phone, 
 					String	admin_email, 
 					String	admin_address, 
-					String	admin_registrationdate, 
+					String	admin_registrationdate,
 					String	admin_note
 					) {
 		
@@ -68,7 +68,6 @@ public class AdminVO {
 		this.list	 = new Object[] {
 									admin_num,
 									admin_name,
-									admin_pw,
 									admin_phone,
 									admin_email,
 									admin_address,

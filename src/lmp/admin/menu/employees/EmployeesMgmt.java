@@ -35,14 +35,16 @@ import lmp.admin.AdminFrame;
 import lmp.admin.menu.book.BookMgmt;
 import lmp.admin.menu.member.MemberMgmt;
 import lmp.admin.dao.AdminDao;
+import lmp.admin.dao.MemberDao;
 import lmp.admin.dao.MenuDao;
 import lmp.admin.vo.AdminVO;
+import lmp.admin.vo.MemberVO;
 
 
 public class EmployeesMgmt extends JPanel {
 	
 	// JTable 구성품
-	private String[] header = {"사번", "이름", "비밀번호", "전화번호", "이메일", "주소" ,"입사일", "비고"};
+	private String[] header = {"사번", "이름", "전화번호", "이메일", "주소" ,"입사일", "비고"};
 	private DefaultTableModel model = new DefaultTableModel(header, 20) {
 		public boolean isCellEditable(int row, int column) {
 			return false;
@@ -59,6 +61,7 @@ public class EmployeesMgmt extends JPanel {
 		JTextField searchField = new JTextField(); // 검색창
 		JButton searchBtn = AdminFrame.getButton("검색"); // 검색 버튼
 		JButton addBtn = BookMgmt.getButton("추가"); // 추가 버튼
+		JButton changeBtn = BookMgmt.getButton("수정"); // 수정버튼
 		JButton deleteBtn = BookMgmt.getButton("삭제"); // 삭제 버튼
 		
 		// 직원조회 타이틀 설정
@@ -109,7 +112,6 @@ public class EmployeesMgmt extends JPanel {
 				AdminDao mdao = new AdminDao();
 				try {
 					ArrayList<AdminVO> admins = new ArrayList<>();
-					System.out.println(keyword.getSelectedIndex() + 1);
 					admins.addAll(mdao.get(keyword.getSelectedIndex() + 1, searchField.getText()));
 					int num = 0;
 					model.setRowCount(admins.size());
@@ -130,7 +132,7 @@ public class EmployeesMgmt extends JPanel {
 		
 
 		// 추가버튼 설정
-		addBtn.setBounds(1320, 40, 150, 70);
+		addBtn.setBounds(1320, 15, 150, 70);
 		try {
 			BufferedImage buffer = ImageIO.read(new File("src/lmp/admin/menuButtonImages/registrationIcon.png"));
 			Image image = buffer.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
@@ -138,6 +140,7 @@ public class EmployeesMgmt extends JPanel {
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
+		
 		// 추가버튼을 누르면 새창이 뜨면서 정보입력하게..
 		addBtn.addActionListener(new ActionListener() {
 			@Override
@@ -146,9 +149,20 @@ public class EmployeesMgmt extends JPanel {
 			}
 		});
 		add(addBtn);
+		
+		// 수정버튼 설정
+		changeBtn.setBounds(1320, 175, 150, 70);
+		try {
+			BufferedImage buffer = ImageIO.read(new File("src/lmp/admin/menuButtonImages/bookModifyIconImage.png"));
+			Image image = buffer.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+			changeBtn.setIcon(new ImageIcon(image));
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
+		
 
 		// 삭제버튼 설정
-		deleteBtn.setBounds(1320, 140, 150, 70);
+		deleteBtn.setBounds(1320, 95, 150, 70);
 		try {
 			BufferedImage buffer = ImageIO.read(new File("src/lmp/admin/menuButtonImages/deleteIcon.png"));
 			Image image = buffer.getScaledInstance(60, 60, Image.SCALE_SMOOTH);
@@ -193,6 +207,179 @@ public class EmployeesMgmt extends JPanel {
 			}	
 		});		
 		add(deleteBtn);
+		
+		
+		changeBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (table.getSelectedRow() == -1 || model.getValueAt(table.getSelectedRow(), 0) == null) {
+					JOptionPane.showMessageDialog(null, "수정할 회원을 선택해주세요.");
+					return;
+				}
+				
+				JFrame j = new JFrame();
+				
+				JLabel join = new JLabel("직원 수정");
+				JLabel id = new JLabel("사번");
+				JLabel name = new JLabel("이름");
+				JLabel pw	= new JLabel("비밀번호");
+				JLabel pwCheck = new JLabel("비밀번호 확인");
+				JLabel phone = new JLabel("전화번호");
+				JLabel email = new JLabel("이메일");
+				JLabel address = new JLabel("주소");
+				JLabel note = new JLabel("비고");
+				
+
+				JTextField idField = new JTextField
+						(model.getValueAt(table.getSelectedRow() , 0).toString());
+				JTextField nameField = new JTextField
+						(model.getValueAt(table.getSelectedRow() , 1).toString());
+				JTextField pwField = new JTextField();
+				JTextField pwCheckField = new JTextField();
+				JTextField phoneField = new JTextField
+						(model.getValueAt(table.getSelectedRow() , 2).toString());
+				JTextField emailField = new JTextField
+						(model.getValueAt(table.getSelectedRow() , 3).toString());
+				JTextField addressField = new JTextField
+						(model.getValueAt(table.getSelectedRow() , 4).toString());
+				JTextField noteField = new JTextField();
+				if (model.getValueAt(table.getSelectedRow() , 6) == null) {
+					noteField.setText("");
+				} else {
+					noteField.setText(model.getValueAt(table.getSelectedRow() , 6).toString());
+				}
+				
+				JButton phonecheckBtn = new JButton("중복확인");
+				JButton emailcheckBtn = new JButton("중복확인");
+				JButton joinBtn = new JButton("가입하기");
+				JButton changeBtn2 = new JButton("수정");
+				JButton cancelBtn = new JButton("취소");
+
+
+				MemberMgmt.setlabel2(j, join, 40, 40, 13);
+				j.add(join);
+
+				MemberMgmt.setlabel2(j, id, 18, 25, 90);
+				MemberMgmt.setField(j, idField, 113);
+				idField.setEditable(false);
+				j.add(id);
+				j.add(idField);
+
+				MemberMgmt.setlabel2(j, name, 18, 25, 140);
+				MemberMgmt.setField(j, nameField, 163);
+				j.add(name);
+				j.add(nameField);
+
+				MemberMgmt.setlabel2(j, pw, 18, 25, 190);
+				MemberMgmt.setField(j, pwField, 213);
+				j.add(pw);
+				j.add(pwField);
+
+				MemberMgmt.setlabel2(j, pwCheck, 18, 25, 240);
+				MemberMgmt.setField(j, pwCheckField, 263);
+				pwCheckField.addFocusListener(new FocusAdapter() {
+					@Override
+					public void focusLost(FocusEvent e) {
+						if (!pwCheckField.getText().equals(pwField.getText())) {
+							pwCheckField.setForeground(Color.RED);
+							pwCheckField.setText("비밀번호가 일치하지 않습니다.");							
+						}
+					}
+					
+					@Override
+					public void focusGained(FocusEvent e) {
+						pwCheckField.setForeground(Color.BLACK);
+						pwCheckField.setText("");
+					}
+				});
+				j.add(pwCheck);
+				j.add(pwCheckField);
+				
+				MemberMgmt.setlabel2(j, phone, 18, 25, 290);
+				MemberMgmt.setField(j, phoneField, 313);
+				MemberMgmt.setBtn(j, phonecheckBtn, 13, 80, 30);
+				MemberMgmt.checkBtn(phonecheckBtn);
+				phonecheckBtn.setLocation(360, 313);
+				j.add(phone);
+				j.add(phoneField);
+				j.add(phonecheckBtn);
+
+				MemberMgmt.setlabel2(j, email, 18, 25, 340);
+				MemberMgmt.setField(j, emailField, 363);
+				MemberMgmt.setBtn(j, emailcheckBtn, 13, 80, 30);
+				MemberMgmt.checkBtn(emailcheckBtn);
+				emailcheckBtn.setLocation(360, 363);
+				j.add(email);
+				j.add(emailField);
+				j.add(emailcheckBtn);
+
+				MemberMgmt.setlabel2(j, address, 18, 25, 390);
+				MemberMgmt.setField(j, addressField, 413);
+				j.add(address);
+				j.add(addressField);
+				
+				MemberMgmt.setlabel2(j, note, 18, 25, 440);
+				MemberMgmt.setField(j, noteField, 463);
+				j.add(note);
+				j.add(noteField);
+				
+
+				MemberMgmt.setBtn(j, changeBtn2, 18, 80, 40);
+				changeBtn2.setLocation(360, 500);
+				j.add(changeBtn2);
+				
+				changeBtn2.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						int var = JOptionPane.showConfirmDialog
+								(null, "수정하시겠습니까?", "수정 확인",
+										JOptionPane.YES_NO_OPTION,
+										JOptionPane.INFORMATION_MESSAGE, null);
+						if (var == JOptionPane.YES_OPTION) {
+							if (!pwCheckField.getText().equals(pwField.getText())) {
+								JOptionPane.showMessageDialog(j, "비밀번호가 일치하지 않습니다.");
+								return;
+							}
+							AdminDao adao = new AdminDao();
+							AdminVO vo = new AdminVO((int)model.getValueAt(table.getSelectedRow() , 0),
+									nameField.getText(),
+									pwField.getText(),
+									phoneField.getText(),
+									emailField.getText(),
+									addressField.getText(),
+									model.getValueAt(table.getSelectedRow(), 5) + "",
+									noteField.getText()
+									);
+							try {
+								adao.update(vo);
+								ArrayList<AdminVO> admins = new ArrayList<>();
+								
+								admins.addAll(adao.get(keyword.getSelectedIndex() + 1, searchField.getText()));
+								int num = 0;
+								model.setRowCount(admins.size());
+								for (AdminVO admin : admins) {
+									for (int i = 0; i < header.length; i++) {
+										model.setValueAt(admin.getList()[i], num, i);
+									}
+									num++;
+								}
+								j.dispose();
+							} catch (SQLException e1) {
+								e1.printStackTrace();
+							}
+						}
+
+
+					}
+				});
+
+				j.setLayout(null);
+				j.setBounds(330, 130, 480, 600);
+				j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				j.setVisible(true);
+			}
+		});
+		add(changeBtn);
 
 
 		// 판넬기본설정

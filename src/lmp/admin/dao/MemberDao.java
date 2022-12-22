@@ -99,7 +99,7 @@ public class MemberDao extends MenuDao{
 		String sql =  "UPDATE"
 					+ " members"
 					+ " SET"
-					+ " mem_pw = 'A123456789!'"
+					+ " mem_pw = 'a123456789!'"
 					+ " WHERE"
 					+ " mem_num = ?";
 		PreparedStatement pstmt = conn.prepareStatement(sql);

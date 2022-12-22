@@ -156,13 +156,12 @@ public class BookMgmt extends JPanel {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-
+				
 				model_BookMgmt.setRowCount(bookVO.size());
-				model_BookMgmt.setColumnIdentifiers(bookColumn);
-
+				
 				int resetRow = 0;
 				for (BookVO book : bookVO) {
-					for (int i = 0; i < book.getList().length; ++i) {
+					for (int i = 0; i < bookColumn.length; ++i) {
 						model_BookMgmt.setValueAt(book.getList()[i], resetRow, i);
 					}
 					++resetRow;
@@ -278,7 +277,7 @@ public class BookMgmt extends JPanel {
 
 							// 삭제된 도서 제외하고 테이블 새로고침
 							bookVO = new ArrayList<>();
-
+							
 							bookVO.clear();
 							bookVO.addAll(bookDao.get(cb.getSelectedIndex() + 1, textF.getText()));
 							model_BookMgmt.setRowCount(bookVO.size());

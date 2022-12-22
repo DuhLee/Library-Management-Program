@@ -1,6 +1,6 @@
 package lmp.admin.vo;
 
-public class ReadingRoomVO {
+public class ReadingRoomVO implements Comparable<ReadingRoomVO>{
    
    /**
     * 열람실 VO
@@ -35,5 +35,10 @@ public class ReadingRoomVO {
       
       return String.format("%d,%s", this.seatNum, this.tableDivider);
    }
+
+@Override
+public int compareTo(ReadingRoomVO o) {
+	return this.getSeatNum() - o.getSeatNum();
+}
    
 }
