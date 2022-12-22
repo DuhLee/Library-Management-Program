@@ -51,6 +51,9 @@ public class BookModificationFrame extends JFrame implements MouseListener, KeyL
 	private JButton overwriteBtn, comebackBtn, saveBtn_Modify;
 	JComboBox cb_Modify = new JComboBox(BOOK_LOCATIONS);
 
+	
+	JFrame f = this;
+	
 	public BookModificationFrame(String title) {
 
 		this.setTitle(title);
@@ -218,8 +221,8 @@ public class BookModificationFrame extends JFrame implements MouseListener, KeyL
 			if (TABLE_COLUMN[i].equals("위치")) {
 				model_Modify.setValueAt(cb_Modify.getSelectedItem(), 0, i);
 				// 아무것도 없으면 아래 코드 패스
-			} else if (fields_Modify[i].getText().trim().equals("")) {
-				continue;
+//			} else if (fields_Modify[i].getText().trim().equals("")) {
+//				continue;
 			// fields에 무언가 있을 때 테이블에 있는 정보와 비교해서 다르면 정보 수정
 			} else if (TABLE_COLUMN[i].equals("편권수")) {
 				try {
@@ -233,16 +236,17 @@ public class BookModificationFrame extends JFrame implements MouseListener, KeyL
 				}
 			} else if (TABLE_COLUMN[i].equals("가격")) {
 				try {
-					if (Integer.parseInt(fields_Modify[i].getText()) <= 0) {
-						JOptionPane.showMessageDialog(null, "가격에 1이상의 수를 입력해주세요.");
+					if (Integer.parseInt(fields_Modify[i].getText()) < 0) {
+						JOptionPane.showMessageDialog(null, "가격에 0 이상의 수를 입력해주세요.");
 						return;
 					}
 				} catch (NumberFormatException e) {
 					JOptionPane.showMessageDialog(null, "가격을 숫자로 입력해주세요.");
 					return;
 				}
-			} else if (!fields_Modify[i].getText().equals(model_Modify.getValueAt(0, i)) &&
-					(!TABLE_COLUMN[i].equals("위치"))) {
+			}
+			if (!fields_Modify[i].getText().equals(model_Modify.getValueAt(0, i)) &&
+			   (!TABLE_COLUMN[i].equals("위치"))) {
 				model_Modify.setValueAt(fields_Modify[i].getText(), 0, i);
 			}
 		}
@@ -266,7 +270,8 @@ public class BookModificationFrame extends JFrame implements MouseListener, KeyL
 		BookMgmt.bookVO.get(row).setIsbn(model_Modify.getValueAt(0, 3).toString());
 		BookMgmt.bookVO.get(row).setBias(Integer.parseInt(model_Modify.getValueAt(0, 4).toString()));
 		BookMgmt.bookVO.get(row).setPrice(Integer.parseInt(model_Modify.getValueAt(0, 7).toString()));
-		BookMgmt.bookVO.get(row).setLocation(new LocationVO(model_Modify.getValueAt(0, 8).toString().substring(0, 1), model_Modify.getValueAt(0, 8).toString().substring(2)));
+		BookMgmt.bookVO.get(row).setLocation(new LocationVO(
+				model_Modify.getValueAt(0, 8).toString().substring(0, 1), model_Modify.getValueAt(0, 8).toString().substring(2)));
 		if (model_Modify.getValueAt(0, 9) != null) {
 			BookMgmt.bookVO.get(row).setNote(model_Modify.getValueAt(0, 9).toString());
 		}
@@ -277,6 +282,8 @@ public class BookModificationFrame extends JFrame implements MouseListener, KeyL
 		}
 		
 		JOptionPane.showMessageDialog(null, "수정 사항이 저장되었습니다.");
+		
+		
 		
 		// 데이터 수정후 검색 테이블 새로고침
 		BookMgmt.tableValidate();

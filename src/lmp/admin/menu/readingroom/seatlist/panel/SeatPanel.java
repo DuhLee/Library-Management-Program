@@ -9,10 +9,10 @@ import java.util.Collections;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import lmp.members.dao.ReadingRoomDao;
 import lmp.admin.menu.readingroom.seatlist.label.SeatLabel;
+import lmp.admin.dao.ReadingRoomDao;
+import lmp.admin.vo.ReadingRoomVO;
 import lmp.admin.vo.SeatUseDetailVO;
-import lmp.members.vo.ReadingRoomVO;
 
 public class SeatPanel extends JPanel {
 
@@ -45,7 +45,7 @@ public class SeatPanel extends JPanel {
 			if (rVo.get(i).getTableDivider().equals("0")) {
 				seatLabels[i - tens].setText("" + (i + 1));
 			} else {
-				seatLabels[i - tens].setText("/ " + (i + 1) + " \\");				
+				seatLabels[i - tens].setText("/ " + (i + 1) + " \\");
 			}
 			add(seatLabels[i - tens]);
 		}

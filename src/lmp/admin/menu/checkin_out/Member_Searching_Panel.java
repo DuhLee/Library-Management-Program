@@ -52,7 +52,7 @@ public class Member_Searching_Panel extends JPanel {
 	// DB에서 회원정보 뽑아서 아래 액션 리스너 내부 조건에 맞는 배열 생성
 	// 대출 자격은 대출 테이블에서 해당 회원의 기록 중 대출일만 있고 반납일이 없는 내역이 3개면 대출 불가능, 2개 이하면 대출 가능
 	// && 반납 예정일이 지났지만 반납일이 없는 경우 (연체)면 대출 불가능
-	String[] memberColumn = {"회원번호", "이름", "아이디", "비밀번호", "생년월일", "성별", "전화번호", "이메일", "주소", "가입일", "비고"};
+	String[] memberColumn = {"회원번호", "이름", "아이디", "생년월일", "성별", "전화번호", "이메일", "주소", "가입일", "비고"};
 	
 	MemberDao memberDao = new MemberDao();
 	ArrayList<MemberVO> memVoList = new ArrayList<>();
@@ -180,9 +180,9 @@ public class Member_Searching_Panel extends JPanel {
 				// 테이블 수정 안되게 세팅
 				int num = 0;
 				for (MemberVO list : memVoList) {
-					for (int i = 0; i < list.getList().length; ++i) {
+					for (int i = 0; i < memberColumn.length; ++i) {
 						// DB에서 가져온 성별 데이터 남/여로 표시
-						if (i == 5) {
+						if (memberColumn[i].equals("성별")) {
 							if (list.getSex().equals("0")) {
 								model.setValueAt("남", num, i);
 							} else {

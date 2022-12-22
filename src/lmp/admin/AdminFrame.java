@@ -208,10 +208,9 @@ public class AdminFrame extends JFrame {
 //		setResizable(false);
 		setVisible(true);
 		
-		
 	}
 	
-	// 버튼 누르기 전 초기 화면 이미지 설정
+	// 홈 화면 이미지 설정
 	public static JPanel initialLabel() {
 		JPanel initImagePanel = new JPanel();
 		JLabel label = new JLabel();

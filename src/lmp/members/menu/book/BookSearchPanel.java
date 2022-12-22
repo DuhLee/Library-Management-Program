@@ -42,25 +42,25 @@ public class BookSearchPanel extends JPanel {
 
 	static JComboBox cb = new JComboBox(category);
 
-	static JTextField textF = new JTextField(" 검색어를 입력하세요.");
+	JTextField textF = new JTextField(" 검색어를 입력하세요.");
 
 	JPanel panel = this;
 
-	public static DefaultTableModel model_BookMgmt = new DefaultTableModel(bookColumn, 30) {
+	public DefaultTableModel model_BookMgmt = new DefaultTableModel(bookColumn, 30) {
 		public boolean isCellEditable(int row, int column) {
 			return false;
 		};
 	};
-
+	
 	public DefaultTableModel getModel_BookMgmt() {
 		return model_BookMgmt;
 	}
 
-	public static BookDao bookDao = new BookDao();
-	public static ArrayList<BookVO> bookVO;
+	public BookDao bookDao = new BookDao();
+	public ArrayList<BookVO> bookVO;
 	// 도서현황 검색 창 초기화면 테이블
-	public static JTable table_BookMgmt = AdminFrame.getTable(model_BookMgmt);
-
+	public JTable table_BookMgmt = AdminFrame.getTable(model_BookMgmt);
+	
 	public static JButton getButton(String text) {
 		return new JButton() {
 			{
@@ -212,32 +212,6 @@ public class BookSearchPanel extends JPanel {
 		add(button);
 		
 	}
-
-	// 메인 검색 테이블 새로고침 메서드
-	public static void tableValidate() {
-		try {
-			bookVO = new ArrayList<>();
-
-			bookVO.clear();
-			bookVO.addAll(bookDao.get(cb.getSelectedIndex() + 1, textF.getText()));
-		} catch (SQLException e1) {
-			e1.printStackTrace();
-		}
-		
-		model_BookMgmt.setRowCount(bookVO.size());
-		model_BookMgmt.setColumnIdentifiers(bookColumn);
-
-		int resetRow = 0;
-		for (BookVO book : bookVO) {
-			for (int i = 0; i < book.getList().length; ++i) {
-				
-				model_BookMgmt.setValueAt(book.getList()[i], resetRow, i);
-			}
-			++resetRow;
-		}
-		table_BookMgmt.setModel(model_BookMgmt);
-	}
-	
 	
 	public static void main(String[] args) {
 		JFrame f = new JFrame();

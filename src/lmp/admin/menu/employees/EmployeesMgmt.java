@@ -39,6 +39,7 @@ import lmp.admin.dao.MemberDao;
 import lmp.admin.dao.MenuDao;
 import lmp.admin.vo.AdminVO;
 import lmp.admin.vo.MemberVO;
+import lmp.util.Validator;
 
 
 public class EmployeesMgmt extends JPanel {
@@ -300,6 +301,35 @@ public class EmployeesMgmt extends JPanel {
 				MemberMgmt.setBtn(j, phonecheckBtn, 13, 80, 30);
 				MemberMgmt.checkBtn(phonecheckBtn);
 				phonecheckBtn.setLocation(360, 313);
+				phonecheckBtn.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						Validator vd = new Validator();
+						AdminDao adminDao = new AdminDao();
+						  if (vd.isValidatePhone(phoneField.getText()))  {
+			                     AdminVO adminVo = null;
+			                     try {
+			                    	 adminVo = adminDao.get2(phoneField.getText()).get(0);
+			                     } catch (SQLException e1) {
+			                        JOptionPane.showMessageDialog(null, "사용가능합니다");
+			                     } catch (IndexOutOfBoundsException e2) {
+			                        JOptionPane.showMessageDialog(null, "사용가능합니다");
+			                        changeBtn2.setEnabled(true);
+			                     }
+			                     
+			                     if (adminVo != null) {
+			                        JOptionPane.showMessageDialog(null, "중복되는 전화번호 입니다.",
+			                              "경고", JOptionPane.ERROR_MESSAGE);
+			                        changeBtn2.setEnabled(false);
+			                     }
+			                  } else {
+			                     JOptionPane.showMessageDialog(null, "사용 불가한 전화번호입니다",
+			                           "경고", JOptionPane.ERROR_MESSAGE);
+			                     changeBtn2.setEnabled(false);
+			                  }
+
+					}
+				});
 				j.add(phone);
 				j.add(phoneField);
 				j.add(phonecheckBtn);
@@ -386,6 +416,125 @@ public class EmployeesMgmt extends JPanel {
 		setLayout(null);
 		setBackground(new Color(87, 119, 119));
 		//setBorder(new LineBorder(Color.WHITE, 5, false)); // 테두리
+	}
+	
+	
+	public void modifyEmployee() {
+		JFrame j = new JFrame();
+		
+		JLabel join = new JLabel("직원 수정");
+		JLabel id = new JLabel("사번");
+		JLabel name = new JLabel("이름");
+		JLabel pw	= new JLabel("비밀번호");
+		JLabel pwCheck = new JLabel("비밀번호 확인");
+		JLabel phone = new JLabel("전화번호");
+		JLabel email = new JLabel("이메일");
+		JLabel address = new JLabel("주소");
+		JLabel note = new JLabel("비고");
+		
+
+		JTextField idField = new JTextField
+				(model.getValueAt(table.getSelectedRow() , 0).toString());
+		JTextField nameField = new JTextField
+				(model.getValueAt(table.getSelectedRow() , 1).toString());
+		JTextField pwField = new JTextField();
+		JTextField pwCheckField = new JTextField();
+		JTextField phoneField = new JTextField
+				(model.getValueAt(table.getSelectedRow() , 2).toString());
+		JTextField emailField = new JTextField
+				(model.getValueAt(table.getSelectedRow() , 3).toString());
+		JTextField addressField = new JTextField
+				(model.getValueAt(table.getSelectedRow() , 4).toString());
+		JTextField noteField = new JTextField();
+		if (model.getValueAt(table.getSelectedRow() , 6) == null) {
+			noteField.setText("");
+		} else {
+			noteField.setText(model.getValueAt(table.getSelectedRow() , 6).toString());
+		}
+		
+		JButton phonecheckBtn = new JButton("중복확인");
+		JButton emailcheckBtn = new JButton("중복확인");
+		JButton joinBtn = new JButton("가입하기");
+		JButton changeBtn2 = new JButton("수정");
+		JButton cancelBtn = new JButton("취소");
+
+
+		MemberMgmt.setlabel2(j, join, 40, 40, 13);
+		j.add(join);
+
+		MemberMgmt.setlabel2(j, id, 18, 25, 90);
+		MemberMgmt.setField(j, idField, 113);
+		idField.setEditable(false);
+		j.add(id);
+		j.add(idField);
+
+		MemberMgmt.setlabel2(j, name, 18, 25, 140);
+		MemberMgmt.setField(j, nameField, 163);
+		j.add(name);
+		j.add(nameField);
+
+		MemberMgmt.setlabel2(j, pw, 18, 25, 190);
+		MemberMgmt.setField(j, pwField, 213);
+		j.add(pw);
+		j.add(pwField);
+
+		MemberMgmt.setlabel2(j, pwCheck, 18, 25, 240);
+		MemberMgmt.setField(j, pwCheckField, 263);
+		pwCheckField.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (!pwCheckField.getText().equals(pwField.getText())) {
+					pwCheckField.setForeground(Color.RED);
+					pwCheckField.setText("비밀번호가 일치하지 않습니다.");							
+				}
+			}
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				pwCheckField.setForeground(Color.BLACK);
+				pwCheckField.setText("");
+			}
+		});
+		j.add(pwCheck);
+		j.add(pwCheckField);
+		
+		MemberMgmt.setlabel2(j, phone, 18, 25, 290);
+		MemberMgmt.setField(j, phoneField, 313);
+		MemberMgmt.setBtn(j, phonecheckBtn, 13, 80, 30);
+		MemberMgmt.checkBtn(phonecheckBtn);
+		phonecheckBtn.setLocation(360, 313);
+		j.add(phone);
+		j.add(phoneField);
+		j.add(phonecheckBtn);
+
+		MemberMgmt.setlabel2(j, email, 18, 25, 340);
+		MemberMgmt.setField(j, emailField, 363);
+		MemberMgmt.setBtn(j, emailcheckBtn, 13, 80, 30);
+		MemberMgmt.checkBtn(emailcheckBtn);
+		emailcheckBtn.setLocation(360, 363);
+		j.add(email);
+		j.add(emailField);
+		j.add(emailcheckBtn);
+
+		MemberMgmt.setlabel2(j, address, 18, 25, 390);
+		MemberMgmt.setField(j, addressField, 413);
+		j.add(address);
+		j.add(addressField);
+		
+		MemberMgmt.setlabel2(j, note, 18, 25, 440);
+		MemberMgmt.setField(j, noteField, 463);
+		j.add(note);
+		j.add(noteField);
+		
+
+		MemberMgmt.setBtn(j, changeBtn2, 18, 80, 40);
+		changeBtn2.setLocation(360, 500);
+		j.add(changeBtn2);
+		
+		j.setLayout(null);
+		j.setBounds(330, 130, 480, 600);
+		j.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		j.setVisible(true);
 	}
 
 	public void addEmployee() {

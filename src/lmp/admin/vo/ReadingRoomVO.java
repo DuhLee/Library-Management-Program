@@ -36,9 +36,9 @@ public class ReadingRoomVO implements Comparable<ReadingRoomVO>{
       return String.format("%d,%s", this.seatNum, this.tableDivider);
    }
 
-@Override
-public int compareTo(ReadingRoomVO o) {
-	return this.getSeatNum() - o.getSeatNum();
-}
+	@Override
+	public int compareTo(ReadingRoomVO o) {
+		return this.getSeatNum() - o.getSeatNum();
+	}
    
 }

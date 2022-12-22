@@ -284,6 +284,14 @@ public class CheckIn_Out_Frame extends JFrame{
 							}
 						}
 						
+						// 비고에 훼손, 분실 관련 내용 있으면 대출 불가 안내문구 출력
+						if (checkOutModel.getValueAt(checkOutTable.getSelectedRow(), 10) != null &&
+							(checkOutModel.getValueAt(checkOutTable.getSelectedRow(), 10).toString().contains("훼손") ||
+							checkOutModel.getValueAt(checkOutTable.getSelectedRow(), 10).toString().contains("분실"))) {
+							JOptionPane.showMessageDialog(frame, "대출 불가 도서입니다.");
+							return;
+						}
+						
 						// 이미 대출된 도서 대출 안되게 거르기
 						try {
 							// 선택된 도서의 대여 기록 뽑아오기
