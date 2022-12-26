@@ -27,7 +27,8 @@ public class StatusPanel extends JPanel{
 	public StatusPanel(ArrayList<SeatUseDetailVO> sudVO) {
 		
 		setLayout(gridLayout);
-		setBackground(new Color(87, 119, 119));
+//		setBackground(new Color(87, 119, 119));
+		setBackground(new Color(0, 0, 0, 0));
 		
 		try {
 			readingRoomVo.addAll(readingRoomDao.get());
@@ -41,14 +42,23 @@ public class StatusPanel extends JPanel{
 		}
 		
 		LABELS[0].setText("총 자리");
+		LABELS[0].setBackground(new Color(0,0,0,0));
+		LABELS[0].setForeground(Color.WHITE);
 		LABELS[1].setText(Integer.toString(totalSeat));
+		LABELS[1].setBackground(Color.WHITE);
 		LABELS[2].setText("이용중인 자리");
+		LABELS[2].setBackground(new Color(0,0,0,0));
+		LABELS[2].setForeground(Color.WHITE);
 		LABELS[3].setText("" + sudVO.size());
+		LABELS[3].setBackground(Color.WHITE);
 		LABELS[4].setText("남은 자리");
+		LABELS[4].setBackground(new Color(0,0,0,0));
+		LABELS[4].setForeground(Color.WHITE);
 		LABELS[5].setText("" + (totalSeat - sudVO.size()));
+		LABELS[5].setBackground(Color.WHITE);
 		for (JLabel label : LABELS) {
 			label.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
-			label.setBackground(Color.WHITE);
+//			label.setBackground(Color.WHITE);
 			add(label);
 		}
 	}

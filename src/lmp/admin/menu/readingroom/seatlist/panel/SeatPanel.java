@@ -27,7 +27,8 @@ public class SeatPanel extends JPanel{
 	public SeatPanel(ArrayList<SeatUseDetailVO> sudVOs, int tensDigit) {
 		
 		this.setLayout(gridLayout);
-		this.setBackground(new Color(87, 119, 119));
+//		this.setBackground(new Color(87, 119, 119));
+		this.setBackground(new Color(0, 0, 0, 0));
 		this.tens = tensDigit * 10;
 		
 		

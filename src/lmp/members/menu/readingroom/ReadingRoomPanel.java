@@ -47,9 +47,9 @@ public class ReadingRoomPanel extends JPanel {
 		seatListPanel = new SeatListPanel(this);
 		usageListTitlePanel = new UsageListTitlePanel(this);
 		
-		
 		setBackground(theme.getSub1Color());  //--> 사이즈 수정 필요
 		setLayout(null);
+		
 		
 		JLabel label = new JLabel("|  |  :  칸막이");
 		label.setFont(myFont.getText());

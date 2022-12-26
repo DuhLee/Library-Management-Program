@@ -28,8 +28,10 @@ public class UsageListTitlePanel extends JPanel{
 	
 	public UsageListTitlePanel(ReadingRoomPanel readingRoomPanel) throws SQLException {
 		theme = readingRoomPanel.getTheme();
-		setBorder(new TitledBorder(new LineBorder(theme.getSub1Color(), 20)));
-		setBackground(theme.getSub1Color());
+//		setBorder(new TitledBorder(new LineBorder(theme.getSub1Color(), 20)));
+		setBorder(new TitledBorder(new LineBorder(new Color(0,0,0,0), 20)));
+//		setBackground(theme.getSub1Color());
+		setBackground(new Color(0,0,0,0));
 		
 		usageListCheckOutLabel = new UsageListCheckOutLabel(readingRoomPanel);
 		usageListTitleLabel = new UsageListTitleLabel();

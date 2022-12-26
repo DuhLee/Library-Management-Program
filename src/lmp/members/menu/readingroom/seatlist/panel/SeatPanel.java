@@ -18,15 +18,16 @@ import lmp.util.theme.Theme;
 
 public class SeatPanel extends JPanel{
 
-	static GridLayout gridLayout = new GridLayout(5,2,3,3);
-	static SeatLabel[] seatLabels = new SeatLabel[gridLayout.getRows() * gridLayout.getColumns()];
+	static GridLayout gridLayout = new GridLayout(5, 2, 3, 3);
+	SeatLabel[] seatLabels = new SeatLabel[gridLayout.getRows() * gridLayout.getColumns()];
 
 	ReadingRoomPanel readingRoomPanel;
 	int tens;
 	
+	
 	public SeatPanel(ReadingRoomPanel readingRoomPanel, ArrayList<ReadingRoomVO> seatList, ArrayList<SeatUseDetailVO> sudVOs,int tensDigit) throws SQLException {
 		this.setLayout(gridLayout);
-		this.setBackground(getBackground());
+		this.setBackground(new Color(0,0,0,0));
 		this.readingRoomPanel = readingRoomPanel;
 		this.tens = tensDigit * 10;
 		
