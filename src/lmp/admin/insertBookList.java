@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import lmp.admin.dao.BookDao;
-import lmp.admin.dao.MenuDao;
-import lmp.admin.vo.BookVO;
+import lmp.admin.db.dao.BookDao;
+import lmp.admin.db.dao.MenuDao;
+import lmp.admin.db.vo.BookVO;
+
+
 
 public class insertBookList {
 	

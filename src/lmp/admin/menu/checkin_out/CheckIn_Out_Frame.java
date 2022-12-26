@@ -2,21 +2,13 @@ package lmp.admin.menu.checkin_out;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,12 +20,13 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import lmp.admin.AdminFrame;
-import lmp.admin.dao.BookDao;
-import lmp.admin.dao.CheckOutDao;
+import lmp.admin.adminframe.frame.AdminFrame;
+import lmp.admin.db.dao.BookDao;
+import lmp.admin.db.dao.CheckOutDao;
+import lmp.admin.db.vo.BookVO;
+import lmp.admin.db.vo.CheckOutVO;
 import lmp.admin.menu.book.BookMgmt;
-import lmp.admin.vo.BookVO;
-import lmp.admin.vo.CheckOutVO;
+import lmp.util.ImageConvert;
 
 public class CheckIn_Out_Frame extends JFrame{
 
@@ -79,6 +72,8 @@ public class CheckIn_Out_Frame extends JFrame{
 	ArrayList<CheckOutVO> checkedOutRecord = new ArrayList<>();
 	ArrayList<BookVO> bookList = new ArrayList<>();
 	
+	ImageConvert img = new ImageConvert();
+	
 	public CheckIn_Out_Frame(String memberNum) {
 		setTitle("회원 대출 관리");
 		
@@ -106,31 +101,10 @@ public class CheckIn_Out_Frame extends JFrame{
 		
 		
 		checkInButton = AdminFrame.getButton("반납");
-		checkInButton.setBounds(850, 168, 100, 30);
-		checkInButton.setForeground(Color.WHITE);
-		checkInButton.setBackground(Color.LIGHT_GRAY);
-		checkInButton.setFocusPainted(false);
-		checkInButton.setContentAreaFilled(false);
-		checkInButton.setFont(new Font("한컴 말랑말랑 Regular",Font.BOLD, 15));
-		checkInButton.setVerticalTextPosition(JButton.CENTER);
 		checkInButton.setHorizontalTextPosition(JButton.RIGHT);
-		checkInButton.addMouseListener(new MouseAdapter() {
-			// 버튼에 마우스 올리면 배경색 변경
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// setFocusPainted(true);
-				checkInButton.setContentAreaFilled(true);
-			}
-
-			// 버튼에서 마우스 떼면 배경색 투명
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// setFocusPainted(false);
-				checkInButton.setContentAreaFilled(false);
-			}
-		});
-		
-		
+		checkInButton.setVerticalTextPosition(JButton.CENTER);
+		checkInButton.setIcon(img.scaledMgmtImage("checkIn"));
+		checkInButton.setBounds(820, 172, 150, 70);
 		
 		// 반납 버튼을 누르면 DB에 존재하는 해당 등록번호의 도서 정보 업데이트
 		checkInButton.addActionListener(new ActionListener() {
@@ -193,56 +167,16 @@ public class CheckIn_Out_Frame extends JFrame{
 		
 		
 		keyword = new JComboBox(keywordList);
-		keyword.setFont(new Font(null, Font.PLAIN, 12));
-		keyword.setBounds(280, 250, 100, 30);
+		keyword.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
+		keyword.setBounds(130, 250, 120, 30);
 		
 		searchbutton = AdminFrame.getButton("검색");
-		searchbutton.setBounds(720, 250, 100, 30);
-		searchbutton.setForeground(Color.WHITE);
-		searchbutton.setBackground(Color.LIGHT_GRAY);
-		searchbutton.setFocusPainted(false);
-		searchbutton.setContentAreaFilled(false);
-		searchbutton.setFont(new Font("한컴 말랑말랑 Regular",Font.BOLD, 15));
-		searchbutton.setVerticalTextPosition(JButton.CENTER);
-		searchbutton.setHorizontalTextPosition(JButton.RIGHT);
-		searchbutton.addMouseListener(new MouseAdapter() {
-			// 버튼에 마우스 올리면 배경색 변경
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// setFocusPainted(true);
-				searchbutton.setContentAreaFilled(true);
-			}
-
-			// 버튼에서 마우스 떼면 배경색 투명
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// setFocusPainted(false);
-				searchbutton.setContentAreaFilled(false);
-			}
-		});
-		
-//		try {
-//			BufferedImage buffer = ImageIO.read(new File("src/lmp/admin/menuButtonImages/searchButtonIcon.png"));
-//			Image image = buffer.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-//			searchbutton.setIcon(new ImageIcon(image));
-//		} catch (IOException e2) {
-//			e2.printStackTrace();
-//		}
-		
+		searchbutton.setIcon(img.scaledSmallImage("search"));
+		searchbutton.setBounds(690, 230, 70, 70);
 		
 		// 텍스트 필드에서 엔터 누르면 버튼 클릭되도록 액션 추가 (검색 버튼 눌러도 되고 텍스트 필드에서 엔터 눌러도 검색됨)
 		searchField = new JTextField();
-		searchField.setText("검색어를 입력하세요");
-		searchField.setBorder(null);
-		searchField.setForeground(Color.LIGHT_GRAY);
-		searchField.setBounds(400, 250, 300, 30);
-		searchField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				searchField.setText("");
-			}
-		});
-		// 텍스트 필드에서 엔터 누르면 버튼 클릭되도록 액션 추가 (검색 버튼 눌러도 되고 텍스트 필드에서 엔터 눌러도 검색됨)
+		searchField.setBounds(310, 250, 350, 30);
 		searchField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -250,62 +184,12 @@ public class CheckIn_Out_Frame extends JFrame{
 			}
 		});		
 		
-		
-		
-		searchbutton = AdminFrame.getButton("검색");
-		searchbutton.setBounds(720, 250, 100, 30);
-		searchbutton.setForeground(Color.WHITE);
-		searchbutton.setBackground(Color.LIGHT_GRAY);
-		searchbutton.setFocusPainted(false);
-		searchbutton.setContentAreaFilled(false);
-		searchbutton.setFont(new Font("한컴 말랑말랑 Regular",Font.BOLD, 15));
-		searchbutton.setVerticalTextPosition(JButton.CENTER);
-		searchbutton.setHorizontalTextPosition(JButton.RIGHT);
-		searchbutton.addMouseListener(new MouseAdapter() {
-			// 버튼에 마우스 올리면 배경색 변경
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// setFocusPainted(true);
-				searchbutton.setContentAreaFilled(true);
-			}
-
-			// 버튼에서 마우스 떼면 배경색 투명
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// setFocusPainted(false);
-				searchbutton.setContentAreaFilled(false);
-			}
-		});
-		
-		
-		
 		checkOutButton = AdminFrame.getButton("대출");
-		checkOutButton.setForeground(Color.WHITE);
-		checkOutButton.setBackground(Color.LIGHT_GRAY);
-		checkOutButton.setFocusPainted(false);
-		checkOutButton.setContentAreaFilled(false);
-		checkOutButton.setFont(new Font("한컴 말랑말랑 Regular",Font.BOLD, 15));
-		checkOutButton.setVerticalTextPosition(JButton.CENTER);
 		checkOutButton.setHorizontalTextPosition(JButton.RIGHT);
-		checkOutButton.setBounds(850, 490, 100, 30);
-		
-		checkOutButton.addMouseListener(new MouseAdapter() {
-			// 버튼에 마우스 올리면 배경색 변경
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// setFocusPainted(true);
-				checkOutButton.setContentAreaFilled(true);
-			}
-
-			// 버튼에서 마우스 떼면 배경색 투명
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// setFocusPainted(false);
-				checkOutButton.setContentAreaFilled(false);
-			}
-		});
-		
+		checkOutButton.setVerticalTextPosition(JButton.CENTER);
+		checkOutButton.setIcon(img.scaledMgmtImage("checkout"));
 		// 버튼을 누르면 VO에 들어있는 현재 회원의 정보, 해당 도서의 정보 업데이트
+		checkOutButton.setBounds(820, 490, 150, 70);
 		
 		searchbutton.addActionListener(new ActionListener() {
 			@Override
@@ -375,6 +259,14 @@ public class CheckIn_Out_Frame extends JFrame{
 							}
 						}
 						
+						Object book_note = checkOutModel.getValueAt(checkOutTable.getSelectedRow(), 10);
+						if (book_note != null) {
+							if (book_note.toString().contains("훼손") || book_note.toString().contains("분실")) {
+								JOptionPane.showMessageDialog(frame, "대출 불가능 도서입니다.");
+								return;
+							}
+						}
+						
 						// 이미 대출된 도서 대출 안되게 거르기
 						try {
 							// 선택된 도서의 대여 기록 뽑아오기
@@ -392,7 +284,7 @@ public class CheckIn_Out_Frame extends JFrame{
 						
 						// 대출내역 정보가 3건 이상이면 풀대출 안내문구 출력
 						if (checkedOutList.size() == 3) {
-							JOptionPane.showMessageDialog(frame, "대출 불가능 (풀대출)");
+							JOptionPane.showMessageDialog(frame, "대출 불가능 (대출 권수 확인)");
 							return;
 						}
 						
@@ -437,7 +329,7 @@ public class CheckIn_Out_Frame extends JFrame{
 		checkPanel.add(searchbutton);
 		checkPanel.add(checkOutButton);
 		checkPanel.add(checkOutPane);
-		checkPanel.setBackground(Color.GRAY);
+		checkPanel.setBackground(new Color(49, 82, 91));
 		
 
 		add(checkPanel);

@@ -1,9 +1,12 @@
 package lmp.members.menu.book;
-
+/*
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,9 +32,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import lmp.admin.AdminFrame;
-import lmp.admin.dao.BookDao;
+import lmp.db.dao.BookDao;
+import lmp.db.vo.BookVO;
 
-public class BookSearchFrame extends JPanel {
+public class BookSearchFrame extends JFrame {
 
 	JLabel label;
 	JComboBox keyword;
@@ -58,8 +62,9 @@ public class BookSearchFrame extends JPanel {
 		
 		setLayout(null);
 		
-		setBounds(0, 0, 1185, 761);
-		setLayout(null);
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 1185, 761);
+		panel.setLayout(null);
 		
 		table = new JTable(model);
 		// 테이블 컬럼 이동 안되게 설정
@@ -68,7 +73,7 @@ public class BookSearchFrame extends JPanel {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		result = new JScrollPane(table);
-		result.setBounds(0, 150, 1151, 450);
+		result.setBounds(0, 300, 1185, 462);
 		
 		
 		BufferedImage buffer = null;
@@ -79,7 +84,7 @@ public class BookSearchFrame extends JPanel {
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}
-		label.setFont(new Font(null, Font.BOLD, 20));
+		label.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 20));
 		label.setBounds(530, 20, 150, 150);
 		label.setText("도서 검색");
 		label.setForeground(Color.WHITE);
@@ -88,7 +93,7 @@ public class BookSearchFrame extends JPanel {
 		
 		
 		keyword = new JComboBox(keywordList);
-		keyword.setFont(new Font(null, Font.BOLD, 15));
+		keyword.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
 		keyword.setBounds(220, 200, 150, 30);
 		keyword.setBackground(new Color(126, 151, 148));
 		
@@ -141,12 +146,12 @@ public class BookSearchFrame extends JPanel {
 			}
 		});
 		
-		add(label);
-		add(keyword);
-		add(searchField);
-		add(button);
-		add(result);
-		setBackground(new Color(126, 151, 148));
+		panel.add(label);
+		panel.add(keyword);
+		panel.add(searchField);
+		panel.add(button);
+		panel.add(result);
+		panel.setBackground(new Color(49, 82, 91));
 		
 		// 검색 버튼 눌렀을 때 해당 키워드에 맞는 정보 있으면 출력
 		button.addActionListener(new ActionListener() {
@@ -185,15 +190,17 @@ public class BookSearchFrame extends JPanel {
 			}
 		});
 		
+		add(panel);
 		
-//		setResizable(false);
-//		setBounds(400, 150, 1200, 800);
-//		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//		setVisible(true);
+		setResizable(false);
+		setBounds(400, 150, 1200, 800);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setVisible(true);
 		
 	}
 	
-//	public static void main(String[] args) {
-//		new BookSearchFrame();
-//	}
+	public static void main(String[] args) {
+		new BookSearchFrame();
+	}
 }
+*/

@@ -1,9 +1,13 @@
 package lmp.admin.menu.checkin_out;
 
 import java.awt.Color;
-
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -24,11 +29,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import lmp.admin.AdminFrame;
-import lmp.admin.dao.MemberDao;
-import lmp.admin.vo.MemberVO;
+import lmp.admin.adminframe.frame.AdminFrame;
+import lmp.admin.db.dao.MemberDao;
+import lmp.admin.db.vo.MemberVO;
+import lmp.util.ImageConvert;
 
 public class Member_Searching_Panel extends JPanel {
 
@@ -45,7 +53,7 @@ public class Member_Searching_Panel extends JPanel {
 	// DB에서 회원정보 뽑아서 아래 액션 리스너 내부 조건에 맞는 배열 생성
 	// 대출 자격은 대출 테이블에서 해당 회원의 기록 중 대출일만 있고 반납일이 없는 내역이 3개면 대출 불가능, 2개 이하면 대출 가능
 	// && 반납 예정일이 지났지만 반납일이 없는 경우 (연체)면 대출 불가능
-	String[] memberColumn = {"회원번호", "이름", "아이디", "비밀번호", "생년월일", "성별", "전화번호", "이메일", "주소", "가입일", "비고"};
+	String[] memberColumn = {"회원번호", "이름", "아이디", "생년월일", "성별", "전화번호", "이메일", "주소", "가입일", "비고"};
 	
 	MemberDao memberDao = new MemberDao();
 	ArrayList<MemberVO> memVoList = new ArrayList<>();
@@ -66,104 +74,60 @@ public class Member_Searching_Panel extends JPanel {
 		return memVoList;
 	}
 	
+	ImageConvert img = new ImageConvert();
+	
 	
 	public Member_Searching_Panel() {
 		
 		setLayout(null);
-		setBackground(new Color(126, 151, 148));
+		setBackground(new Color(87, 119, 119));
 		
 		table = AdminFrame.getTable(model);
 		
 		result = new JScrollPane(table);
-		result.setBounds(0, 150, 1151, 450);
+		result.setBounds(0, 250, 1500, 500);
 		
 		
 		label = new JLabel("회원 검색");
-		label.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 30));
+		label.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 40));
 		label.setForeground(Color.WHITE);
 		label.setHorizontalAlignment(JLabel.CENTER);
-		label.setBounds(460, 25, 200, 50);
+		label.setBounds(600, 30, 300, 50);
 		
 		
 		keyword = new JComboBox(keywordList);
-		keyword.setFont(new Font(null, Font.PLAIN, 12));
-		keyword.setBounds(270, 80, 100, 30);
+		keyword.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
+		keyword.setBounds(330, 130, 150, 35);
 		
-		searchButton = AdminFrame.getButton("검색");
-		searchButton.setBounds(800, 80, 100, 30);
-		searchButton.setBackground(Color.GRAY);
-		searchButton.setBorderPainted(false);
-		searchButton.setFocusPainted(false);
-		searchButton.setContentAreaFilled(false);
-		searchButton.setFont(new Font("한컴 말랑말랑 Regular",Font.BOLD, 15));
-		searchButton.setForeground(Color.WHITE);
-		searchButton.setVerticalTextPosition(JButton.CENTER);
-		searchButton.setHorizontalTextPosition(JButton.RIGHT);
-		searchButton.addMouseListener(new MouseAdapter() {
-			// 버튼에 마우스 올리면 배경색 변경
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// setFocusPainted(true);
-				searchButton.setContentAreaFilled(true);
-			}
-
-			// 버튼에서 마우스 떼면 배경색 투명
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// setFocusPainted(false);
-				searchButton.setContentAreaFilled(false);
-			}
-		});
-			
+//		searchButton = AdminFrame.getButton("검색");
+//		try {
+//			BufferedImage buffer = ImageIO.read(new File("src/lmp/admin/menuButtonImages/searchButtonIcon.png"));
+//			Image image = buffer.getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+//			searchButton.setIcon(new ImageIcon(image));
+//		} catch (IOException e1) {
+//			e1.printStackTrace();
+//		}
+//		searchButton.setBounds(1010, 100, 120, 100);
 		
 		// 텍스트 필드에서 엔터 누르면 버튼 클릭되도록 액션 추가 (검색 버튼 눌러도 되고 텍스트 필드에서 엔터 눌러도 검색됨)
 		searchField = new JTextField();
-		searchField.setText("검색어를 입력하세요");
-		searchField.setBounds(390, 80, 400, 30);
-		searchField.setBorder(null);
-		searchField.setForeground(Color.LIGHT_GRAY);
-		searchField.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				searchField.setText("");
-			}
-		});
-
-		// 텍스트 필드에서 엔터 누르면 버튼 클릭되도록 액션 추가 (검색 버튼 눌러도 되고 텍스트 필드에서 엔터 눌러도 검색됨)
+		searchField.setBounds(530, 130, 450, 35);
 		searchField.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				searchButton.doClick();
 			}
 		});
-
 		
-		mgmtButton = AdminFrame.getButton("대출/반납");
-		mgmtButton.setBounds(1000, 80, 100, 30);
-		mgmtButton.setBackground(Color.GRAY);
-		mgmtButton.setBorderPainted(false);
-		mgmtButton.setFocusPainted(false);
-		mgmtButton.setContentAreaFilled(false);
-		mgmtButton.setFont(new Font("한컴 말랑말랑 Regular",Font.BOLD, 15));
-		mgmtButton.setForeground(Color.WHITE);
-		mgmtButton.setVerticalTextPosition(JButton.CENTER);
-		mgmtButton.setHorizontalTextPosition(JButton.RIGHT);
-		mgmtButton.addMouseListener(new MouseAdapter() {
-			// 버튼에 마우스 올리면 배경색 변경
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// setFocusPainted(true);
-				mgmtButton.setContentAreaFilled(true);
-			}
-
-			// 버튼에서 마우스 떼면 배경색 투명
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// setFocusPainted(false);
-				mgmtButton.setContentAreaFilled(false);
-			}
-		});
 		
+		searchButton = AdminFrame.getButton("검색");
+		searchButton.setIcon(img.scaledMgmtImage("search"));
+		searchButton.setBounds(1010, 100, 120, 100);
+		
+		
+		mgmtButton = AdminFrame.getButton("대출/반납 관리");
+		mgmtButton.setIcon(img.scaledMgmtImage("checkinout"));
+		mgmtButton.setBounds(1320, 90, 150, 100);
 		mgmtButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -218,8 +182,17 @@ public class Member_Searching_Panel extends JPanel {
 				// 테이블 수정 안되게 세팅
 				int num = 0;
 				for (MemberVO list : memVoList) {
-					for (int i = 0; i < list.getList().length; ++i) {
-						model.setValueAt(list.getList()[i], num, i);
+					for (int i = 0; i < memberColumn.length; ++i) {
+						// DB에서 가져온 성별 데이터 남/여로 표시
+						if (memberColumn[i].equals("성별")) {
+							if (list.getSex().equals("0")) {
+								model.setValueAt("남", num, i);
+							} else {
+								model.setValueAt("여", num, i);
+							}
+						} else {
+							model.setValueAt(list.getList()[i], num, i);
+						}
 					}
 					++num;
 				}

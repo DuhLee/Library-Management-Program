@@ -11,8 +11,8 @@ public class SearchKeywordComboBox extends JComboBox{
 	public SearchKeywordComboBox() {
 		
 		super(category);
-		this.setBounds(270, 80, 100, 30);
-		this.setFont(new Font(null, Font.PLAIN, 12));
+		this.setBounds(230, 80, 110, 30);
+		this.setFont(new Font(null, Font.BOLD, 15));
 	}
 
 }

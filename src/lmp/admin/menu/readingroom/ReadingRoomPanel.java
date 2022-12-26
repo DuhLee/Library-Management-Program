@@ -7,11 +7,11 @@ import java.sql.SQLException;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import lmp.admin.db.dao.SeatUseDetailDao;
 import lmp.admin.menu.readingroom.seatlist.SeatListPanel;
 import lmp.admin.menu.readingroom.usagelist.UsageListPanel;
 import lmp.admin.menu.readingroom.usagelist.panel.UsageListTitlePanel;
 import lmp.admin.menu.readingroom.usagelist.scrollpane.UsageListScrollPane;
-import lmp.admin.dao.SeatUseDetailDao;
 
 public class ReadingRoomPanel extends JPanel {
 	
@@ -27,7 +27,7 @@ public class ReadingRoomPanel extends JPanel {
 	
 	public ReadingRoomPanel() {
 		
-		setBackground(new Color(126, 151, 148));
+		setBackground(new Color(87, 119, 119));
 		
 		seatListPanel = new SeatListPanel();
 		usageListPanel = new UsageListPanel();
@@ -40,14 +40,10 @@ public class ReadingRoomPanel extends JPanel {
 		
 		
 		usageListPanel.add(usageListTitlePanel, "North");
+		usageListPanel.setBackground(new Color(87, 119, 119));
 		usageListPanel.add(usageListScrollPane, "Center");
-			
 		
-		seatListPanel.setBackground(new Color(126, 151, 148));
-		usageListScrollPane.setBackground(new Color(126, 151, 148));
-		usageListTitlePanel.setBackground(new Color(126, 151, 148));
-		usageListPanel.setBackground(new Color(126, 151, 148));
-		
+		seatListPanel.setBorder(new LineBorder(new Color(87, 119, 119), 10));
 		setLayout(gridLayout);
 		add(usageListPanel);
 		add(seatListPanel);

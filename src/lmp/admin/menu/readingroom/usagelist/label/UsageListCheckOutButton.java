@@ -3,44 +3,35 @@ package lmp.admin.menu.readingroom.usagelist.label;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import lmp.admin.AdminFrame;
+import lmp.admin.adminframe.frame.AdminFrame;
+import lmp.admin.db.dao.ReadingRoomDao;
+import lmp.admin.db.dao.SeatUseDetailDao;
+import lmp.admin.db.vo.SeatUseDetailVO;
 import lmp.admin.menu.readingroom.ReadingRoomPanel;
 import lmp.admin.menu.readingroom.seatlist.SeatListPanel;
-import lmp.admin.menu.readingroom.seatlist.panel.SeatPanel;
-import lmp.admin.menu.readingroom.seatlist.panel.StatusPanel;
 import lmp.admin.menu.readingroom.usagelist.UsageListPanel;
-import lmp.admin.menu.readingroom.usagelist.scrollpane.UsageListScrollPane;
 import lmp.admin.menu.readingroom.usagelist.scrollpane.table.UsageListTable;
-import lmp.admin.dao.ReadingRoomDao;
-import lmp.admin.dao.SeatUseDetailDao;
-import lmp.admin.vo.SeatUseDetailVO;
+import lmp.util.ImageConvert;
 
 public class UsageListCheckOutButton extends JPanel {
 	
 	SeatUseDetailDao sudDao = new SeatUseDetailDao();
 	ReadingRoomDao roomDao = new ReadingRoomDao();
 	ArrayList<SeatUseDetailVO> sudList =  new ArrayList<>();
+	
+	ImageConvert img = new ImageConvert();
 	
 	// 강제퇴실, 새로고침 버튼 패널
 	public UsageListCheckOutButton(ReadingRoomPanel readingRoomPanel) {
@@ -53,13 +44,7 @@ public class UsageListCheckOutButton extends JPanel {
 		UsageListTable usageListTable = readingRoomPanel.getUsageListScrollPane().getUsageListTable();
 		
 		JButton refreshButton = AdminFrame.getButton("");
-		try {
-			BufferedImage buffer = ImageIO.read(new File("src/lmp/admin/menuButtonImages/refreshIcon.png"));
-			Image image = buffer.getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-			refreshButton.setIcon(new ImageIcon(image));
-		} catch (IOException e3) {
-			e3.printStackTrace();
-		}
+		refreshButton.setIcon(img.scaledSmallImage("refresh"));
 		refreshButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -103,14 +88,11 @@ public class UsageListCheckOutButton extends JPanel {
 		});
 		
 		JButton checkOutButton = new JButton("강제퇴실");
-		checkOutButton.setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
-		checkOutButton.setBorderPainted(false); // 버튼외곽선 가리기
-		checkOutButton.setFocusPainted(false); // 버튼 선택시 외곽선 없애기 
-		checkOutButton.setBackground(Color.GRAY);
-		checkOutButton.setForeground(Color.RED);
+		checkOutButton.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15));
+		checkOutButton.setBackground(new Color(227, 94, 79));
+		checkOutButton.setForeground(Color.WHITE);
 		
 		checkOutButton.addMouseListener(new MouseAdapter() {
-			
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				

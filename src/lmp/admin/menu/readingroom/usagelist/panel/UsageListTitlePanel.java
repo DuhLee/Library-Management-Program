@@ -18,12 +18,13 @@ public class UsageListTitlePanel extends JPanel{
 	
 	// 타이틀, 버튼 부모 패널
 	public UsageListTitlePanel(ReadingRoomPanel readingRoomPanel) {
-		System.out.println("titlePanel");
+		
 		usageListCheckOutButton = new UsageListCheckOutButton(readingRoomPanel);
 		usageListTitleLabel = new UsageListTitleLabel();
 		this.setLayout(borderLayout);
-		this.add(usageListTitleLabel, "South");
+		this.add(usageListTitleLabel, "North");
 		this.add(usageListCheckOutButton, "East");
+		this.setBackground(new Color(87, 119, 119));
 		
 	}
 }

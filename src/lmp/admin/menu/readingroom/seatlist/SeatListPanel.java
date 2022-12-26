@@ -6,18 +6,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 
+import lmp.admin.db.dao.SeatUseDetailDao;
+import lmp.admin.db.vo.SeatUseDetailVO;
 import lmp.admin.menu.readingroom.seatlist.panel.SeatPanel;
 import lmp.admin.menu.readingroom.seatlist.panel.StatusPanel;
-import lmp.admin.dao.SeatUseDetailDao;
-import lmp.admin.vo.SeatUseDetailVO;
 
 
 public class SeatListPanel extends JPanel{
 	
-	GridLayout gridLayout = new GridLayout(1, 5, 30, 0);
+	GridLayout gridLayout = new GridLayout(1, 7, 30, 0);
 
 	StatusPanel statusPanel;
 	SeatPanel[]	seatPanels = new SeatPanel[gridLayout.getColumns() - 1];
@@ -30,8 +28,8 @@ public class SeatListPanel extends JPanel{
 	public SeatListPanel() {
 		
 		setLayout(gridLayout);
-		setBorder(new TitledBorder(new LineBorder(new Color(126, 151, 148), 20)));
-		setBackground(new Color(126, 151, 148));
+//		setBorder(new TitledBorder(new LineBorder(new Color(49, 82, 91), 30)));
+		setBackground(new Color(87, 119, 119));
 	
 		try {
 			sudVO = sudDao.get();

@@ -10,14 +10,14 @@ import javax.swing.border.LineBorder;
 public class SeatLabel extends JLabel{
 
 	// 열람실 각 좌석
-	public SeatLabel(int seatNum) {
+	public SeatLabel(String seatNum) {
 		
-		setText(Integer.toString(seatNum));
+		setText(seatNum);
 		setOpaque(true);
 		setFont(new Font("한컴 말랑말랑 Regular", Font.BOLD, 15));
-		setForeground(Color.GRAY);
+		setForeground(Color.BLACK);
 		setBackground(Color.WHITE);
-		setBorder(new LineBorder(Color.GRAY));
+		setBorder(new LineBorder(Color.BLACK));
 		setHorizontalAlignment(JLabel.CENTER);
 		
 	}

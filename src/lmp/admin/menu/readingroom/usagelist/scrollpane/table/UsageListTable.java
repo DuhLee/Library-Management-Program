@@ -21,7 +21,7 @@ public class UsageListTable extends JTable{
 		this.getTableHeader().setResizingAllowed(false); // 테이블 컬럼 사이즈 변경 불가
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION); // 한개의 행만 선택 가능
 		this.setRowHeight(30);
-//		this.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15));
+		this.setFont(new Font("한컴 말랑말랑 Regular", Font.PLAIN, 15));
 		
 
 		// 컬럼내 데이터 가운데정렬

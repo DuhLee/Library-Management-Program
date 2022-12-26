@@ -17,7 +17,7 @@ public class BookRegisterButton extends BookButton {
 	public BookRegisterButton() {
 		
 		this.setText("등록");
-		this.setBounds(1020, 20, 100, 30);
+		this.setBounds(1020, 10, 120, 40);
 		
 		this.addActionListener(new ActionListener() {
 			

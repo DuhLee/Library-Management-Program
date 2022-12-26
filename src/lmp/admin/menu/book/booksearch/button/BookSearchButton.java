@@ -12,6 +12,6 @@ public class BookSearchButton extends BookButton{
 	public BookSearchButton(BookSearchListTable bookSearchListTable) {
 		this.setText("검색");
 		this.bookSearchListTable = bookSearchListTable;
-		this.setBounds(800, 80, 100, 30);
+		this.setBounds(840, 80, 100, 30);
 	}
 }
